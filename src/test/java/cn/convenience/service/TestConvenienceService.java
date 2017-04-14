@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.WechatUserInfoBean;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,27 +32,106 @@ public class TestConvenienceService {
 		int id = convenienceService.insertWechatUserInfo(bean);
 		Assert.assertTrue(id > 0);
 	}
-
-	/**
-	 * 测试getWechatUserInfoById
-	 */
+	
+	//设置报障
 	@Test
-	public void testGetWechatUserInfoById() {
-		WechatUserInfoBean result = null;
-		result = convenienceService.getWechatUserInfoById(1);
-		Assert.assertTrue(result != null);
+	public void testEquipmentDamageReport(){
+		ConvenienceBean bean = new ConvenienceBean();
+		//bean.setUserId("123");  //用户id
+		bean.setUserName("测试-张三");    //用户姓名
+		bean.setMobilephone("15920071829");   //用户手机
+		bean.setDetailAddress("科发路大冲城市花园111"); //详细地址
+		bean.setEmergency("普通");		//紧急程度  紧急、普通
+		bean.setSelectTypeId("10");     //申诉类型id
+		bean.setSelectType("交通信号灯");	//申诉类型描述
+		bean.setSubTypeId("101");       //子类型id
+		bean.setSubType("手控坏");		//子类型描述
+		bean.setDescription("现场描述");	//现场描述
+		bean.setSceneImg(""); 			//现场照片
+		bean.setAddressRegion("区域");   //区域
+		bean.setAddressStreet("街道");	//街道
+		bean.setAddressSite("站点");	    //站点
+		bean.setIdentityCard("2222222222222222");  //身份证号
+		
+		convenienceService.equipmentDamageReport(bean);
 	}
-
-	/**
-	 * 
-	 */
+	
+	//安全隐患
 	@Test
-	public void testAllWechatUserInfoBeanList() {
-		WechatUserInfoBean result = null;
-		List<WechatUserInfoBean> list = convenienceService.getAllWechatUserInfoBeanList();
-		System.out.println(list.size());
-		Assert.assertTrue(list != null);
+	public void testSafeHiddenDanger(){
+		ConvenienceBean bean = new ConvenienceBean();
+//		bean.setUserId("123");  //用户id
+		bean.setUserName("测试-张三");    //用户姓名
+		bean.setMobilephone("15920071829");   //用户手机
+		bean.setDetailAddress("科发路大冲城市花园B1"); //详细地址
+		bean.setEmergency("普通");		//紧急程度  紧急、普通
+		bean.setSelectTypeId("10");     //申诉类型id
+		bean.setSelectType("交通信号灯");	//申诉类型描述
+		bean.setSubTypeId("101");       //子类型id
+		bean.setSubType("手控坏");		//子类型描述
+		bean.setDescription("现场描述");	//现场描述
+		bean.setSceneImg(""); 			//现场照片
+		bean.setAddressRegion("区域");   //区域
+		bean.setAddressStreet("街道");	//街道
+		bean.setAddressSite("站点");	    //站点
+		bean.setIdentityCard("2222222222222222");  //身份证号
+		
+		convenienceService.safeHiddenDanger(bean);
 	}
+	
+	//交通拥堵
+	@Test
+	public void testTrafficCongestion(){
+		ConvenienceBean bean = new ConvenienceBean();
+		bean.setIdentityCard("2222222222222222");  //身份证号
+		bean.setMobilephone("15920071829");   //用户手机
+		bean.setIp("127.0.0.1");    //ip
+		bean.setStartTime("04:00"); //时间段
+		bean.setEndTiem("04:30");  //时间段
+		bean.setDirection("北");   //拥堵方向
+		bean.setCongestionType("偶发性拥堵	"); //拥堵类型
+		bean.setCongestionGrade("缓行"); 	//拥堵等级
+		bean.setRoadServiceLevel("排队起终点");    //道路服务水平
+		bean.setCongestionReason("车流过饱和"); 		//拥堵成因
+		bean.setImproveAdvice("改善建议1111");  	//改善建议
+		bean.setAddress("福田区彩田路");			//主题地点描述
+		bean.setAddressCode("102.234234,24.2342342");  // 经纬度  主题地点代码
+		
+		convenienceService.trafficCongestion(bean);
+	}
+	
+	//秩序混乱
+	@Test
+	public void testSequenceChaos(){
+		ConvenienceBean bean = new ConvenienceBean();
+		bean.setIdentityCard("2222222222222222");  //身份证号
+		bean.setMobilephone("15920071829");   //用户手机
+		bean.setIp("127.0.0.1");    //ip
+		bean.setStartTime("01:00"); //时间段
+		bean.setEndTiem("01:30");  //时间段
+		bean.setImproveAdvice("改善建议1111");  	//改善建议
+		bean.setCongestionCode("001");  //拥堵类型代码
+		bean.setCongestionType("机动车违法停放");  //机动车违法停放
+		bean.setAddress("福田区彩田路");			//主题地点描述
+		bean.setAddressCode("102.234234,24.2342342");  // 经纬度  主题地点代码
+		
+		convenienceService.sequenceChaos(bean);
+	}
+	
+	//一键挪车
+	@Test
+	public void testOneKeyDodgen(){
+		ConvenienceBean bean = new ConvenienceBean();
+		bean.setIdentityCard("420881198302280017");  //身份证号
+		bean.setNumberPlate("B6F7M1");   //车牌号
+		bean.setAbbreviation("粤");		//车牌简称
+		bean.setCarType("02");		//车类型
+		bean.setDoodgenAddress("深南大道8888号");
+		
+		convenienceService.oneKeyDodgen(bean);
+	}
+	
+
 
 	// // 获取用户信息
 	// @Test

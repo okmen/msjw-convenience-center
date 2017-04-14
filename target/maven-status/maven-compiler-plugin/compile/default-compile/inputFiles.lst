@@ -1,0 +1,14 @@
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/utils/TokenGenerater.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/cached/impl/IConvenienceCachedImpl.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/config/IConfig.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/utils/RandomUtils.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/dao/IConvenienceDao.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/dao/impl/IConvenienceDaoImpl.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/orm/WechatUserInfoORM.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/cached/IConvenienceCached.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/orm/DeviceORM.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/cached/ICacheKey.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/service/impl/IConvenienceServiceImpl.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/main/Provider.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/dao/mapper/ConvenienceMapper.java
+/Users/Jeff.yang/gitsource/convenience-center/src/main/java/cn/convenience/orm/UsernameORM.java

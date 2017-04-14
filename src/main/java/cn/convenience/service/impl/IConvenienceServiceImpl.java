@@ -1,30 +1,20 @@
 package cn.convenience.service.impl;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.convenience.bean.DeviceBean;
-import cn.convenience.bean.Token;
-import cn.convenience.bean.UserOpenidBean;
-import cn.convenience.bean.UserRegInfo;
+import com.alibaba.fastjson.JSONObject;
+
+import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
-import cn.convenience.config.IConfig;
 import cn.convenience.dao.IConvenienceDao;
-import cn.convenience.orm.DeviceORM;
-import cn.convenience.orm.UsernameORM;
 import cn.convenience.service.IConvenienceService;
-import cn.convenience.utils.RandomUtils;
-import cn.convenience.utils.TokenGenerater;
-import cn.sdk.util.StringUtil;
-
-import com.alibaba.dubbo.common.utils.StringUtils;
+import cn.sdk.bean.BaseBean;
+import cn.sdk.webservice.WebServiceClient;
 
 @Service("convenienceService")
 public class IConvenienceServiceImpl implements IConvenienceService {
@@ -50,293 +40,278 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		
 		return result;
 	}
-
-
+	
+	/**
+	 * @Title: equipmentDamageReport 
+	 * @Description: TODO(设备损坏通报) 
+	 * @param @param convenienceBean
+	 * @param @return 设定文件 
+	 * @return BaseBean 返回类型 
+	 * @throws
+	 */
 	@Override
-	public WechatUserInfoBean getWechatUserInfoById(int id) {
-		WechatUserInfoBean result = null;
+	public BaseBean equipmentDamageReport(ConvenienceBean convenienceBean) {
+		logger.info("【民意云】设备损坏通报信息采集webService...");
+		
+		String interfaceNumber = "HM1002";  //接口编号
+		BaseBean refBean = new BaseBean();  //创建返回信息
+		
+		//拼装xml数据
+		StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<fxrxm>").append(convenienceBean.getUserName()).append("</fxrxm>")     //发现人姓名
+			.append("<fxrdh>").append(convenienceBean.getMobilephone()).append("</fxrdh>")  //发现人电话
+			.append("<fxsj>").append(new Date()).append("</fxsj>")    //发现时间
+			.append("<dz_qu>").append(convenienceBean.getAddressRegion()).append("</dz_qu>")    //区域
+			.append("<dz_jd>").append(convenienceBean.getAddressStreet()).append("</dz_jd>")    //街道
+			.append("<dz_zd>").append(convenienceBean.getAddressSite()).append("</dz_zd>")    //站点
+			.append("<dz_xxdz>").append(convenienceBean.getDetailAddress()).append("</dz_xxdz>")    //详细地址
+			.append("<jjcd>").append(convenienceBean.getEmergency()).append("</jjcd>")    //紧急程度
+			.append("<yhgzlx>").append("2").append("</yhgzlx>")    					//故障报障
+			.append("<sslx1>").append(convenienceBean.getSelectTypeId()).append("</sslx1>")    //申诉类型 例如（142）
+			.append("<sslxms1>").append(convenienceBean.getSelectType()).append("</sslxms1>")    //申诉类型描述 例如（交通信号灯）
+			.append("<sslx2>").append(convenienceBean.getSubTypeId()).append("</sslx2>")    //申诉类型子级
+			.append("<sslxms2>").append(convenienceBean.getSubType()).append("</sslxms2>")    //申诉类型子级描述 
+			.append("<xxms>").append(convenienceBean.getDescription()).append("</xxms>")    //故障现象描述
+			.append("<zp>").append(convenienceBean.getSceneImg()).append("</zp>")    //现场照片 （base64）
+			.append("<ssly>").append("C").append("</ssly>")    //申诉来源  A移动APP C微信Z支付宝E邮政
+//			.append("<xjyhid>").append(convenienceBean.getUserId()).append("</xjyhid>")    //星级用户id  可不传
+			.append("<sfzmhm>").append(convenienceBean.getIdentityCard()).append("</sfzmhm>")    //星际用户身份证号码
+			.append("</request>");
 		
 		try {
-			logger.debug("debug");
-			logger.info("info");
-			logger.error("error");
-			result = convenienceDao.getWechatUserInfoById(id);
-		} catch(Exception e) {
-			logger.error("获取wechatUserInfoById失败， 错误 ＝ ", e);
-			throw e;
+			@SuppressWarnings("static-access")
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
+					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			
+			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
+			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
+			
+			logger.info("【民意云】设备损坏通报信息采集结果:"+respStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("【民意云】设备损坏通报信息采集失败...ERROR:"+e);
+			
+			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setMsg("服务器繁忙！");	  //返回消息描述
 		}
-		return result;
+		return refBean;
 	}
-	
-	@Override
-	public List<WechatUserInfoBean> getAllWechatUserInfoBeanList(){
-		List<WechatUserInfoBean> list = null;
-		logger.debug("debug");
-		logger.info("info");
-		logger.error("error");
-        try {
-        	list = convenienceDao.getAllWechatUserInfoBeanList();
-        } catch (Exception e) {
-        	logger.error("获取列表失败, 错误  = ", e);
-            throw e;
-        }
-        return list;
-	};
 
 	
-//	@Override
-//	public UserRegInfo addNewUser(UserRegInfo userRegInfo) {
-//		long addSuccess = 0;
-//		try {
-//		    UsernameORM usernameORM = convenienceDao.createUsername();
-//		    String username = usernameORM.getId() + "";
-//			userRegInfo.setNickname(this.creatNickName());
-//			userRegInfo.setUsername(username);
-//			addSuccess = convenienceDao.addNewUser(userRegInfo);
-//		} catch (Exception e) {
-//			logger.error("添加注册新用户失败，用户 手机号码 = " + userRegInfo.getMobilePhone(), e);
-//			throw e;
-//		}
-//		if (addSuccess > 0) {
-//			return userRegInfo;
-//		} else {
-//			return null;
-//		}	
-//	}
-//
-//	public String creatNickName() {
-//		String headStr = IConfig.Nickname_Head_List[(int) (Math.random() * IConfig.Nickname_Head_List.length)];
-//		String endStr = IConfig.Nickname_End_List[(int) (Math.random() * IConfig.Nickname_End_List.length)];
-//		return headStr + endStr;
-//	}
-//	
-//	public String getAccessTokenByUserId(long userId) {
-//        Token token = convenienceCache.getToken(userId + "");
-//        String accessToken = token.getAccessToken();
-//        if (StringUtils.isBlank(accessToken)) {
-//            logger.error("getAccessTokenByUserId,userId=" + userId + ",accessToken is null");
-//        }
-//        return accessToken;
-//    }
-//
-//    public String getAccessTokenFromEncypt(String encyptAccessToken) {
-//        return convenienceCache.getAccessTokenFromEncypt(encyptAccessToken);
-//    }
-//
-//    public void insertEncyptAccessToken(String encyptAccessToken, String accessToken) {
-//        convenienceCache.insertEncyptAccessToken(encyptAccessToken, accessToken);
-//    }
-//    
-//    public Token getAccessToken(long userId) {
-//        String userIdStr = userId + "";
-//        Token token = new Token();
-//        String accessToken = TokenGenerater.generateAccessToken(userIdStr);
-//        token.setAccessToken(accessToken);
-//        String refreshToken = TokenGenerater.generateRefreshToken(userIdStr);
-//        token.setRefreshToken(refreshToken);
-//        token.setUserId(userIdStr);
-//        if (isUserHasLogin(userId)) {
-//            token.setIsLogin("true");
-//            logger.warn(userId + "二次登陆" + "accessToken" + "-" + accessToken);
-//        } else {
-//            token.setIsLogin("false");
-//        }
-//        convenienceCache.insertToken(token);
-//        return token;
-//    }
-//    
-//    private boolean isUserHasLogin(long userId) {
-//        boolean result = false;
-//        Token token = convenienceCache.getToken(Long.toString(userId));
-//        if (token.getAccessToken() != null) {
-//            result = true;
-//        }
-//        return result;
-//    }
-//    
-//    /**
-//     * 检查accessToken是否过期
-//     */
-//    public boolean isAccessTokenValidate(String accessToken, String userId) {
-//        if (StringUtils.isBlank(accessToken) || StringUtils.isBlank(userId)) {
-//            return false;
-//        }
-//        boolean result = true;
-//        Token token = convenienceCache.getToken(userId);
-//        if (!accessToken.equals(token.getAccessToken())) {
-//            logger.error("accessToken验证失败----isAccessTokenValidate----" + "accessToken:" + accessToken + "---" + "userId:" + userId);
-//            result = false;
-//        } else {
-//            if(RandomUtils.isNeedExpire()){
-//                convenienceCache.updateAllToken(userId);
-//            }
-//        }
-//        return result;
-//    }
-//    
-//    /**
-//     * 通过refreshToken获取accessToken
-//     */
-//    public Map<String, String> getAccessTokenByRefreshToken(String userId, String refreshToken) {
-//        Map<String, String> resultMap = new HashMap<String, String>();
-//        Token token = convenienceCache.getToken(userId);
-//        if (token.getRefreshToken() == null || !token.getRefreshToken().equals(refreshToken)) {
-//            logger.error("refreshToken失效----getAccessTokenByRefreshToken----" + "refreshToken:" + refreshToken + "userId:" + userId);
-//            resultMap.put("ERR", IConfig.ERR_REFRESH_TOKEN_INVALIDATE);
-//        } else {
-//            String accessToken = TokenGenerater.generateAccessToken(userId);
-//            convenienceCache.updateAccessToken(userId, accessToken);
-//            convenienceCache.updateRefreshToken(userId, refreshToken);
-//            resultMap.put("accessToken", accessToken);
-//        }
-//        return resultMap;
-//    }
-//
-//    /**
-//     * 绑定微信
-//     * @param userOpenidBean
-//     * @author shengfenglai
-//     * @return long
-//     */
-//    @Override
-//    public long addBindOpenid(UserOpenidBean userOpenidBean) {
-//        long addSuccess = 0;
-//        if(userOpenidBean == null) {
-//            logger.error("addBindOpenid接收参数有误");
-//            return addSuccess;
-//        }
-//        try {
-//            userOpenidBean.setStatus(1);
-//            addSuccess = convenienceDao.addBindOpenid(userOpenidBean);
-//        } catch (Exception e) {
-//            logger.error("addBindOpenid插入数据失败，addSuccess=" + addSuccess);
-//            throw e;
-//        }
-//        return addSuccess;
-//    }
-//
-//    /**
-//     * 取消绑定微信
-//     * @param userOpenidBean
-//     * @author shengfenglai
-//     * @return long 
-//     */
-//    @Override
-//    public long cancelBindOpenid(UserOpenidBean userOpenidBean) {
-//        long cancelSuccess = 0;
-//        if(userOpenidBean == null) {
-//            logger.error("cancelBindOpenid接收参数有误");
-//            return cancelSuccess;
-//        }
-//        try {
-//            userOpenidBean.setStatus(2);
-//            cancelSuccess = convenienceDao.updateBindOpenidStatus(userOpenidBean);
-//        } catch (Exception e) {
-//            logger.error("更新绑定状态失败，cancelSuccess = " + cancelSuccess);
-//            throw e;
-//        }
-//        return cancelSuccess;
-//    }
-//
-//    /**
-//     * 通过openid拿到userId
-//     * @param openid
-//     * @return userId
-//     * @author shengfenglai
-//     */
-//    @Override
-//    public long getUserIdByOpenid(String openid) {
-//        Long userId = 0L;
-//        if(StringUtil.isBlank(openid)) {
-//            logger.error("getUserIdByOpenid接收参数为空 ，openid=" + openid);
-//            return userId.longValue();
-//        } 
-//        try {
-//            userId = convenienceDao.getUserIdByOpenid(openid);
-//        } catch (Exception e) {
-//            logger.error("通过openid获取userId失败",e);
-//            throw e;
-//        }
-//        return userId == null ? 0 : userId.longValue();
-//    }
-//
-//    @Override
-//    public String getOpenidByUserId(long userId) {
-//        
-//        String openid = null;
-//        if(userId < 0) {
-//            logger.error("getOpenidByUserId接收到的userId不对,userId=" + userId);
-//            return "";
-//        }
-//        
-//        try {
-//            openid = convenienceDao.getOpenidByUserId(userId);
-//        } catch (Exception e) {
-//            logger.error("通过userId获取openid失败",e);
-//            throw e;
-//        }
-//        
-//        return openid == null ? "" : openid;
-//    }
-//
-//    @Override
-//    public DeviceBean getDevice(String deviceUuid, int osType) {
-//        
-//        if(StringUtils.isBlank(deviceUuid) || osType < 0) {
-//            logger.error("getDevice：获取的参数不正确 ,deviceUuid:{},osType:{}",deviceUuid,osType);
-//            return null;
-//        }
-//        
-//        DeviceBean deviceBean = new DeviceBean();
-//        try {
-//            DeviceORM deviceORM = convenienceDao.getDevice(deviceUuid, osType);
-//            if(deviceORM == null) {
-//                deviceBean = null;
-//            } else {
-//                BeanUtils.copyProperties(deviceORM, deviceBean);
-//            }
-//        } catch (Exception e) {
-//            logger.error("获取device信息失败",e);
-//            throw e;
-//        }
-//        
-//        return deviceBean;
-//    }
-//
-//    @Override
-//    public void addDevice(String deviceUuid, int osType, long userId) {
-//        
-//        if(StringUtils.isBlank(deviceUuid) || osType < 0 || userId < 0) {
-//            logger.error("addDevice：获取的参数不正确 ,deviceUuid:{},osType:{}",deviceUuid,osType);
-//            return ;
-//        }
-//        
-//        try {
-//            long addTime = System.currentTimeMillis() / 1000;//系统当前时间，单位:秒
-//            convenienceDao.addDevice(deviceUuid, osType, userId, addTime);
-//        } catch (Exception e) {
-//            logger.error("添加设备号失败",e);
-//            throw e;
-//        }
-//    }
-//
-//    
-//    @Override
-//    public boolean updateDevice(String deviceUuid,int osType,long userId) {
-//        
-//        if(StringUtils.isBlank(deviceUuid) || osType < 0 || userId < 0) {
-//            logger.error("addDevice：获取的参数不正确 ,deviceUuid:{},osType:{}",deviceUuid,osType);
-//            return false;
-//        }
-//        
-//        boolean updateSuccess = false;
-//        try {
-//            updateSuccess = convenienceDao.updateDevice(deviceUuid, osType, userId);
-//        } catch (Exception e) {
-//            logger.error("更新device失败",e);
-//            throw e;
-//        }
-//        return updateSuccess;
-//    }
+	/**
+	 * @Title: safeHiddenDanger 
+	 * @Description: TODO(安全隐患通报) 
+	 * @param @param convenienceBean
+	 * @param @return 设定文件 
+	 * @return BaseBean 返回类型 
+	 * @throws
+	 */
+	@Override
+	public BaseBean safeHiddenDanger(ConvenienceBean convenienceBean) {
+		logger.info("【民意云】安全隐患通报信息采集webService...");
+		
+		String interfaceNumber = "HM1001";  //接口编号
+		BaseBean refBean = new BaseBean();  //创建返回信息
+		
+		//拼装xml数据
+		StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<fxrxm>").append(convenienceBean.getUserName()).append("</fxrxm>")     //发现人姓名
+			.append("<fxrdh>").append(convenienceBean.getMobilephone()).append("</fxrdh>")  //发现人电话
+			.append("<fxsj>").append(new Date()).append("</fxsj>")    //发现时间
+			.append("<dz_qu>").append(convenienceBean.getAddressRegion()).append("</dz_qu>")    //区域
+			.append("<dz_jd>").append(convenienceBean.getAddressStreet()).append("</dz_jd>")    //街道
+			.append("<dz_zd>").append(convenienceBean.getAddressSite()).append("</dz_zd>")    //站点
+			.append("<dz_xxdz>").append(convenienceBean.getDetailAddress()).append("</dz_xxdz>")    //详细地址
+			.append("<jjcd>").append(convenienceBean.getEmergency()).append("</jjcd>")    //紧急程度
+			.append("<yhgzlx>").append("1").append("</yhgzlx>")    					//隐患意见
+			.append("<sslx1>").append(convenienceBean.getSelectTypeId()).append("</sslx1>")    //申诉类型 例如（142）
+			.append("<sslxms1>").append(convenienceBean.getSelectType()).append("</sslxms1>")    //申诉类型描述 例如（交通信号灯）
+			.append("<sslx2>").append(convenienceBean.getSubTypeId()).append("</sslx2>")    //申诉类型子级
+			.append("<sslxms2>").append(convenienceBean.getSubType()).append("</sslxms2>")    //申诉类型子级描述 
+			.append("<xxms>").append(convenienceBean.getDescription()).append("</xxms>")    //隐患现象描述
+			.append("<zp>").append(convenienceBean.getSceneImg()).append("</zp>")    //现场照片 （base64）
+			.append("<ssly>").append("C").append("</ssly>")    //采集来源  A移动APP C微信Z支付宝E邮政
+//			.append("<xjyhid>").append(convenienceBean.getUserId()).append("</xjyhid>")    //星级用户id  可不传
+			.append("<sfzmhm>").append(convenienceBean.getIdentityCard()).append("</sfzmhm>")    //星际用户身份证号码
+			.append("</request>");
+		
+		try {
+			@SuppressWarnings("static-access")
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
+					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			
+			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
+			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
+			
+			logger.info("【民意云】安全隐患通报信息采集结果:"+respStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("【民意云】安全隐患通报信息采集失败...ERROR:"+e);
+			
+			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+		}
+		return refBean;
+	}
+
+	
+	/**
+	 * @Title: trafficCongestion 
+	 * @Description: TODO(交通拥堵通报) 
+	 * @param @param convenienceBean
+	 * @param @return 设定文件 
+	 * @return BaseBean 返回类型 
+	 * @throws
+	 */
+	@Override
+	public BaseBean trafficCongestion(ConvenienceBean convenienceBean) {
+		logger.info("【民意云】交通拥堵通报信息采集webService...");
+		
+		String interfaceNumber = "myzdtp";  //接口编号
+		BaseBean refBean = new BaseBean();  //创建返回信息
+		
+		//拼装xml数据
+		StringBuffer sbf = new StringBuffer();
+			sbf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request><head>")
+			 .append("<sfzmhm>").append(convenienceBean.getIdentityCard()).append("</sfzmhm>")  //身份证
+			 //.append("<xm>").append("张三").append("</xm>")
+			 .append("<sjhm>").append(convenienceBean.getMobilephone()).append("</sjhm>")		//手机号码
+			 .append("<ip>").append(convenienceBean.getIp()).append("</ip>")		 //ip地址
+			 .append("<yhly>C</yhly>")											//用户来源  微信
+			 .append("<ztxh>").append("02").append("</ztxh>")					 //主题序号
+			 .append("<ztnr>").append("互联网+民意治堵投票").append("</ztnr>")		 //主题内容
+			 .append("<zt_time>").append(convenienceBean.getStartTime()+"-"+convenienceBean.getEndTiem()).append("</zt_time>")//主题时间段 00：00  00：30
+			 .append("<zt_address>").append(convenienceBean.getAddressCode()).append("</zt_address>")		//主题地点代码  经纬度
+			 .append("<zt_address_ms>").append(convenienceBean.getAddress()).append("</zt_address_ms>")		//主题地点描述  
+			 .append("<fx>").append(convenienceBean.getDirection()).append("</fx>")		//拥堵 方向
+			 .append("<jtfs>").append("").append("</jtfs>")				//交通方式  默认为空
+			 .append("<sfcycxfs>").append("").append("</sfcycxfs>")		//是否为常用出行方式  默认为空
+			 .append("<ydlx>").append(convenienceBean.getCongestionType()).append("</ydlx>")  //拥堵类型
+			 .append("<yddj>").append(convenienceBean.getCongestionGrade()).append("</yddj>")	 //拥堵等级
+			 .append("<ldfwsp>").append(convenienceBean.getRoadServiceLevel()).append("</ldfwsp>")  //路段服务水平
+			 .append("<ydyy>").append(convenienceBean.getCongestionReason()).append("</ydyy>")		//拥堵成因
+			 .append("<jygsfx>").append(convenienceBean.getImproveAdvice()).append("</jygsfx>")		//建议改善方向
+			 .append("</head></request>");
+				
+			
+			try {
+			@SuppressWarnings("static-access")
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
+					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			
+			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
+			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
+			
+			logger.info("【民意云】交通拥堵通报信息采集结果:"+respStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("【民意云】交通拥堵通报信息采集失败...ERROR:"+e);
+			
+			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+		}
+		return refBean;
+	}
+
+	
+	/**
+	 * @Title: sequenceChaos 
+	 * @Description: TODO(秩序混乱通报) 
+	 * @param @param convenienceBean
+	 * @param @return 设定文件 
+	 * @return BaseBean 返回类型 
+	 * @throws
+	 */
+	@Override
+	public BaseBean sequenceChaos(ConvenienceBean convenienceBean) {
+		logger.info("【民意云】秩序混乱通报信息采集webService...");
+		
+		String interfaceNumber = "jtztp";  //接口编号
+		BaseBean refBean = new BaseBean();  //创建返回信息
+			
+		//拼装xml数据
+		StringBuffer sbf = new StringBuffer();
+			sbf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request><head>")
+			 .append("<sfzmhm>").append(convenienceBean.getIdentityCard()).append("</sfzmhm>")  //身份证
+			 .append("<sjhm>").append(convenienceBean.getMobilephone()).append("</sjhm>")		//手机号码
+			 .append("<ip>").append(convenienceBean.getIp()).append("</ip>")		 //ip地址
+			 .append("<yhly>C</yhly>")											//用户来源  微信
+			 .append("<ztxh>").append("01").append("</ztxh>")					 //主题序号
+			 .append("<ztnr>").append("互联网+交通整治投票").append("</ztnr>")		 //主题内容
+			 .append("<zt_time>").append(convenienceBean.getStartTime()+"-"+convenienceBean.getEndTiem()).append("</zt_time>")//主题时间段 00：00  00：30
+			 .append("<zt_address>").append(convenienceBean.getAddressCode()).append("</zt_address>")		//主题地点代码
+			 .append("<zt_address_ms>").append(convenienceBean.getAddress()).append("</zt_address_ms>")		//主题地点描述
+			 .append("<zt_wfxw>").append(convenienceBean.getCongestionCode()).append("</zt_wfxw>")    //主题违法行为代码  拥堵类型id
+			 .append("<zt_wfxw_ms>").append(convenienceBean.getCongestionType()).append("</zt_wfxw_ms>")    //主题违法行为描述   拥堵类型描述
+			 .append("<jygsfx>").append(convenienceBean.getImproveAdvice()).append("</jygsfx>")		//建议改善方向
+			 .append("</head></request>");
+				
+		try {
+			@SuppressWarnings("static-access")
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
+					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			
+			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
+			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
+			
+			logger.info("【民意云】秩序混乱通报信息采集结果:"+respStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("【民意云】秩序混乱通报信息采集失败...ERROR:"+e);
+			
+			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+		}
+		return refBean;
+	}
+
+	
+	/**
+	 * @Title: oneKeyDodgen 
+	 * @Description: TODO(一键挪车) 
+	 * @param @param convenienceBean
+	 * @param @return 设定文件 
+	 * @return BaseBean 返回类型 
+	 * @throws
+	 */
+	@Override
+	public BaseBean oneKeyDodgen(ConvenienceBean convenienceBean) {
+		logger.info("【民意云】一键挪车信息采集webService...");
+		
+		String interfaceNumber = "HM1004";  //接口编号
+		BaseBean refBean = new BaseBean();  //创建返回信息
+			
+		//拼装xml数据
+		StringBuffer sbf = new StringBuffer();
+			sbf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<hphm>").append(convenienceBean.getAbbreviation()+""+convenienceBean.getNumberPlate()).append("</hphm>")   //号牌号码
+			.append("<hpzl>").append(convenienceBean.getCarType()).append("</hpzl>")  		//号牌种类
+			.append("<qqly>").append("C").append("</qqly>") 							    //请求来源
+			.append("<qqrsfzmhm>").append(convenienceBean.getIdentityCard()).append("</qqrsfzmhm>")  //请求人身份证明号码
+			.append("<lcdz>").append(convenienceBean.getDoodgenAddress()).append("</lcdz>")		//挪车地址
+			.append("</request>");
+			
+				
+		try {
+			@SuppressWarnings("static-access")
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
+					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			
+			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
+			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
+			
+			logger.info("【民意云】一键挪车信息采集结果:"+respStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("【民意云】一键挪车信息采集失败...ERROR:"+e);
+			
+			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+		}
+		return refBean;
+	}
+
 
 }
