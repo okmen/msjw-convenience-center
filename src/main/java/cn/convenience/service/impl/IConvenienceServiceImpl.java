@@ -14,6 +14,7 @@ import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IConvenienceDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.util.MsgCode;
 import cn.sdk.webservice.WebServiceClient;
 
 @Service("convenienceService")
@@ -89,10 +90,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			
 			logger.info("【民意云】设备损坏通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("【民意云】设备损坏通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】设备损坏通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 			refBean.setMsg("服务器繁忙！");	  //返回消息描述
 		}
 		return refBean;
@@ -147,11 +147,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			
 			logger.info("【民意云】安全隐患通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("【民意云】安全隐患通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
-
+			logger.error("【民意云】安全隐患通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 			refBean.setMsg("服务器繁忙！");	  //返回消息描述
 		}
 		return refBean;
@@ -207,10 +205,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			
 			logger.info("【民意云】交通拥堵通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("【民意云】交通拥堵通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】交通拥堵通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 			refBean.setMsg("服务器繁忙！");	  //返回消息描述
 		}
 		return refBean;
@@ -259,10 +256,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			
 			logger.info("【民意云】秩序混乱通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("【民意云】秩序混乱通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】秩序混乱通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 			refBean.setMsg("服务器繁忙！");	  //返回消息描述
 		}
 		return refBean;
@@ -305,10 +301,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			
 			logger.info("【民意云】一键挪车信息采集结果:"+respStr);
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("【民意云】一键挪车信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】一键挪车信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode("5001");  //返回状态码  系统返回错误
+			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 			refBean.setMsg("服务器繁忙！");	  //返回消息描述
 		}
 		return refBean;
