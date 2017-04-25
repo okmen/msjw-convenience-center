@@ -62,7 +62,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
 			.append("<fxrxm>").append(convenienceBean.getUserName()).append("</fxrxm>")     //发现人姓名
 			.append("<fxrdh>").append(convenienceBean.getMobilephone()).append("</fxrdh>")  //发现人电话
-			.append("<fxsj>").append(new Date()).append("</fxsj>")    //发现时间
+			.append("<fxsj>").append(convenienceBean.getStartTime()).append("</fxsj>")    //发现时间
 			.append("<dz_qu>").append(convenienceBean.getAddressRegion()).append("</dz_qu>")    //区域
 			.append("<dz_jd>").append(convenienceBean.getAddressStreet()).append("</dz_jd>")    //街道
 			.append("<dz_zd>").append(convenienceBean.getAddressSite()).append("</dz_zd>")    //站点
@@ -119,7 +119,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
 			.append("<fxrxm>").append(convenienceBean.getUserName()).append("</fxrxm>")     //发现人姓名
 			.append("<fxrdh>").append(convenienceBean.getMobilephone()).append("</fxrdh>")  //发现人电话
-			.append("<fxsj>").append(new Date()).append("</fxsj>")    //发现时间
+			.append("<fxsj>").append(convenienceBean.getStartTime()).append("</fxsj>")    //发现时间
 			.append("<dz_qu>").append(convenienceBean.getAddressRegion()).append("</dz_qu>")    //区域
 			.append("<dz_jd>").append(convenienceBean.getAddressStreet()).append("</dz_jd>")    //街道
 			.append("<dz_zd>").append(convenienceBean.getAddressSite()).append("</dz_zd>")    //站点
