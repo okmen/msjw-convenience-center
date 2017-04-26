@@ -130,7 +130,7 @@
 				
 				<dubbo.registry.url><![CDATA[192.168.1.120:2181]]></dubbo.registry.url>
 				<dubbo.provider.port><![CDATA[30300]]></dubbo.provider.port>
-				<dubbo.provider.timeout><![CDATA[5000]]></dubbo.provider.timeout>
+				<dubbo.provider.timeout><![CDATA[60000]]></dubbo.provider.timeout>
 				<dubbo.monitor.address><![CDATA[192.168.1.120:7070]]></dubbo.monitor.address>
 
 				<mysql.convenience.read.url><![CDATA[jdbc:mysql://192.168.1.121:3306/service?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8]]></mysql.convenience.read.url>
@@ -239,7 +239,7 @@
 				<convenience.center.api.version>1.0.0</convenience.center.api.version>
 				<dubbo.registry.url><![CDATA[zookeeper.choumei.cn:2181]]></dubbo.registry.url>
 				<dubbo.provider.port><![CDATA[30300]]></dubbo.provider.port>
-				<dubbo.provider.timeout><![CDATA[5000]]></dubbo.provider.timeout>
+				<dubbo.provider.timeout><![CDATA[60000]]></dubbo.provider.timeout>
 				<dubbo.monitor.address><![CDATA[monitor.choumei.cn:7070]]></dubbo.monitor.address>
 
 				<mysql.convenience.read.url><![CDATA[jdbc:mysql://cmdb.choumei.cn:4306/cm_choumeionline?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8]]></mysql.convenience.read.url>
