@@ -13,7 +13,6 @@ import cn.convenience.dao.IConvenienceDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.MsgCode;
-import cn.sdk.util.StringUtil;
 import cn.sdk.webservice.WebServiceClient;
 
 @Service("convenienceService")
@@ -55,12 +54,6 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		
 		String interfaceNumber = "HM1002";  //接口编号
 		BaseBean refBean = new BaseBean();  //创建返回信息
-		
-		//打印图片大小
-		if (StringUtil.isBlank(convenienceBean.getSceneImg())) {
-			int str = convenienceBean.getSceneImg().length()-(convenienceBean.getSceneImg().length()/8)*2;
-			logger.info("图片字节大小："+str+"\t\tKB="+str/1024);
-		}
 		
 		//拼装xml数据
 		StringBuffer sb = new StringBuffer();
@@ -119,12 +112,6 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		String interfaceNumber = "HM1001";  //接口编号
 		BaseBean refBean = new BaseBean();  //创建返回信息
 		
-		//打印图片大小
-		if (StringUtil.isBlank(convenienceBean.getSceneImg())) {
-			int str = convenienceBean.getSceneImg().length()-(convenienceBean.getSceneImg().length()/8)*2;
-			logger.info("图片字节大小："+str+"\t\tKB="+str/1024);
-		}
-				
 		//拼装xml数据
 		StringBuffer sb = new StringBuffer();
 			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
