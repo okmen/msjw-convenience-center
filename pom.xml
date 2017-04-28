@@ -246,9 +246,10 @@
 				<mysql.convenience.read.username><![CDATA[root]]></mysql.convenience.read.username>
 				<mysql.convenience.write.url><![CDATA[jdbc:mysql://db.szjj.me:3306/service?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8]]></mysql.convenience.write.url>
 				<mysql.convenience.write.username><![CDATA[root]]></mysql.convenience.write.username>
-
+                <mysql.convenience.write.password><![CDATA[123456]]></mysql.convenience.write.password>
+				
 				<mysql.convenience.password.config><![CDATA[config.file=/workspace/druid/choumei-password_online.properties;secretkey.file=/workspace/druid/key_online]]></mysql.convenience.password.config>
-				<mysql.account.read.password><![CDATA[123456]]></mysql.account.read.password>
+			    <mysql.convenience.read.password><![CDATA[123456]]></mysql.convenience.read.password>
 				
                 <redis.user-center.configstr><![CDATA[user-center1:redis.szjj.me:6379]]></redis.user-center.configstr>
 				<redis.user-center.password><![CDATA[123456]]></redis.user-center.password>
