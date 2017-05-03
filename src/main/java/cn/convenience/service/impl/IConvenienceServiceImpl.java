@@ -49,7 +49,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 * @throws
 	 */
 	@Override
-	public BaseBean equipmentDamageReport(ConvenienceBean convenienceBean) {
+	public BaseBean equipmentDamageReport(ConvenienceBean convenienceBean) throws Exception{
 		logger.info("【民意云】设备损坏通报信息采集webService...");
 		
 		String interfaceNumber = "HM1002";  //接口编号
@@ -90,8 +90,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		} catch (Exception e) {
 			logger.error("【民意云】设备损坏通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
-			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+//			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
+//			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+			throw e;
 		}
 		return refBean;
 	}
@@ -106,7 +107,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 * @throws
 	 */
 	@Override
-	public BaseBean safeHiddenDanger(ConvenienceBean convenienceBean) {
+	public BaseBean safeHiddenDanger(ConvenienceBean convenienceBean) throws Exception{
 		logger.info("【民意云】安全隐患通报信息采集webService...");
 		
 		String interfaceNumber = "HM1001";  //接口编号
@@ -147,8 +148,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		} catch (Exception e) {
 			logger.error("【民意云】安全隐患通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
-			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+//			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
+//			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+			throw e;
 		}
 		return refBean;
 	}
@@ -163,7 +165,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 * @throws
 	 */
 	@Override
-	public BaseBean trafficCongestion(ConvenienceBean convenienceBean) {
+	public BaseBean trafficCongestion(ConvenienceBean convenienceBean) throws Exception{
 		logger.info("【民意云】交通拥堵通报信息采集webService...");
 		
 		String interfaceNumber = "myzdtp";  //接口编号
@@ -205,8 +207,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		} catch (Exception e) {
 			logger.error("【民意云】交通拥堵通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
-			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+//			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
+//			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+			throw e;
 		}
 		return refBean;
 	}
@@ -221,7 +224,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 * @throws
 	 */
 	@Override
-	public BaseBean sequenceChaos(ConvenienceBean convenienceBean) {
+	public BaseBean sequenceChaos(ConvenienceBean convenienceBean) throws Exception{
 		logger.info("【民意云】秩序混乱通报信息采集webService...");
 		
 		String interfaceNumber = "jtztp";  //接口编号
@@ -256,8 +259,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		} catch (Exception e) {
 			logger.error("【民意云】秩序混乱通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
 			
-			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
-			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+//			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
+//			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+			throw e;
 		}
 		return refBean;
 	}
@@ -272,7 +276,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 * @throws
 	 */
 	@Override
-	public BaseBean oneKeyDodgen(ConvenienceBean convenienceBean) {
+	public BaseBean oneKeyDodgen(ConvenienceBean convenienceBean) throws Exception{
 		logger.info("【民意云】一键挪车信息采集webService...");
 		
 		String interfaceNumber = "HM1004";  //接口编号
@@ -300,9 +304,10 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			logger.info("【民意云】一键挪车信息采集结果:"+respStr);
 		} catch (Exception e) {
 			logger.error("【民意云】一键挪车信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
-			
-			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
-			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+//			
+//			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
+//			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+			throw e;
 		}
 		return refBean;
 	}
