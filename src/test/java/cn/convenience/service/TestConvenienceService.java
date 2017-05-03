@@ -53,7 +53,12 @@ public class TestConvenienceService {
 		bean.setAddressSite("站点");	    //站点
 		bean.setIdentityCard("2222222222222222");  //身份证号
 		
-		convenienceService.equipmentDamageReport(bean);
+		try {
+			convenienceService.equipmentDamageReport(bean);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//安全隐患
@@ -76,7 +81,12 @@ public class TestConvenienceService {
 		bean.setAddressSite("站点");	    //站点
 		bean.setIdentityCard("2222222222222222");  //身份证号
 		
-		convenienceService.safeHiddenDanger(bean);
+		try {
+			convenienceService.safeHiddenDanger(bean);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//交通拥堵
@@ -97,7 +107,12 @@ public class TestConvenienceService {
 		bean.setAddress("福田区彩田路");			//主题地点描述
 		bean.setAddressCode("102.234234,24.2342342");  // 经纬度  主题地点代码
 		
-		convenienceService.trafficCongestion(bean);
+		try {
+			convenienceService.trafficCongestion(bean);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//秩序混乱
@@ -115,7 +130,12 @@ public class TestConvenienceService {
 		bean.setAddress("福田区彩田路");			//主题地点描述
 		bean.setAddressCode("102.234234,24.2342342");  // 经纬度  主题地点代码
 		
-		convenienceService.sequenceChaos(bean);
+		try {
+			convenienceService.sequenceChaos(bean);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//一键挪车
@@ -128,7 +148,12 @@ public class TestConvenienceService {
 		bean.setCarType("02");		//车类型
 		bean.setDoodgenAddress("深南大道8888号");
 		
-		convenienceService.oneKeyDodgen(bean);
+		try {
+			convenienceService.oneKeyDodgen(bean);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 
