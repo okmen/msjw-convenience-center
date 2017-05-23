@@ -1,12 +1,18 @@
 package cn.convenience.service.impl;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.convenience.bean.ConvenienceBean;
+import cn.convenience.bean.FeedbackResultBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IConvenienceDao;
@@ -14,7 +20,7 @@ import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.MsgCode;
 import cn.sdk.webservice.WebServiceClient;
-
+@SuppressWarnings(value="all")
 @Service("convenienceService")
 public class IConvenienceServiceImpl implements IConvenienceService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -311,4 +317,44 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		}
 		return refBean;
 	}
+
+	/**
+	 * @Title: getAllResourcesAbsoluteUrl 
+	 * @Description: TODO(加载所有资源绝对路径) 
+	 * @param 无
+	 * @return BaseBean 返回类型 
+	 * @throws
+	 */
+	@Override
+	public List getAllResourcesAbsoluteUrl() throws Exception {
+		logger.info("【民意云】办理情况通报信息采集数据库...");
+		
+		// TODO 调用dao获取数据List集合
+		List list;
+		try {
+			list = new ArrayList<>();
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十四期办理情况通报（2017年5月8日至2017年5月14日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十四期办理情况通报（2017年5月8日至2017年5月14日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十三期办理情况通报（2017年5月1日至2017年5月7日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十三期办理情况通报（2017年5月1日至2017年5月7日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十二期办理情况通报（2017年4月24日至2017年4月30日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十二期办理情况通报（2017年4月24日至2017年4月30日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十一期办理情况通报（2017年4月17日至2017年4月23日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第第十一期办理情况通报（2017年4月17日至2017年4月23日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十期办理情况通报（2017年4月10日至2017年4月16日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十期办理情况通报（2017年4月10日至2017年4月16日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第九期办理情况通报（2017年4月3日至2017年4月9日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第九期办理情况通报（2017年4月3日至2017年4月9日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第八期办理情况通报（2017年3月27日至2017年4月2日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第八期办理情况通报（2017年3月27日至2017年4月2日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第七期办理情况通报（2017年3月20日至2017年3月26日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第七期办理情况通报（2017年3月20日至2017年3月26日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第六期办理情况通报（2017年3月13日至2017年3月19日）","http://szjj.u-road.com/szjjpro/assets/doc/20170313-20170319.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第五期办理情况通报（2017年3月6日至2017年3月12日）","http://szjj.u-road.com/szjjpro/assets/doc/20170306-20170312.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第四期办理情况通报（2017年2月20日至2017年2月26日）","http://szjj.u-road.com/szjjpro/assets/doc/20170220-20170226.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第三期办理情况通报（2017年2月14日至2017年2月19日）","http://szjj.u-road.com/szjjpro/assets/doc/20170214-20170219.docx"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第二期办理情况通报（2017年2月3日至2017年2月13日）","http://szjj.u-road.com/szjjpro/assets/doc/20170203-20170213.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第一期办理情况通报（2017年1月13日至2017年2月5日）","http://szjj.u-road.com/szjjpro/assets/doc/20170113-20170205.docx"));
+			
+			logger.info("【民意云】办理情况通报信息采集结果::"+JSON.toJSONString(list));
+		} catch (Exception e) {
+			logger.error("【民意云】办理请款通报信息采集失败！",e);
+			throw e;
+		}
+		
+		return list;
+	}
+	
 }
