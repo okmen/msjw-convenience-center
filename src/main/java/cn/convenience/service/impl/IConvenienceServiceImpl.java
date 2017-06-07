@@ -114,7 +114,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 */
 	@Override
 	public BaseBean safeHiddenDanger(ConvenienceBean convenienceBean) throws Exception{
-		logger.info("【民意云】安全隐患通报信息采集webService...");
+		logger.info("【民意云】安全隐患通报信息采集webService..." + convenienceBean);
 		
 		String interfaceNumber = "HM1001";  //接口编号
 		BaseBean refBean = new BaseBean();  //创建返回信息
