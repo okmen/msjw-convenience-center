@@ -79,7 +79,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			.append("<sslxms2>").append(convenienceBean.getSubType()).append("</sslxms2>")    //申诉类型子级描述 
 			.append("<xxms>").append(convenienceBean.getDescription()).append("</xxms>")    //故障现象描述
 			.append("<zp>").append(convenienceBean.getSceneImg()).append("</zp>")    //现场照片 （base64）
-			.append("<ssly>").append("C").append("</ssly>")    //申诉来源  A移动APP C微信Z支付宝E邮政
+			.append("<ssly>").append(convenienceBean.getSourceOfCertification()).append("</ssly>")    //申诉来源  A移动APP C微信Z支付宝E邮政
 //			.append("<xjyhid>").append(convenienceBean.getUserId()).append("</xjyhid>")    //星级用户id  可不传
 			.append("<sfzmhm>").append(convenienceBean.getIdentityCard()).append("</sfzmhm>")    //星际用户身份证号码
 			.append("</request>");
@@ -137,7 +137,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			.append("<sslxms2>").append(convenienceBean.getSubType()).append("</sslxms2>")    //申诉类型子级描述 
 			.append("<xxms>").append(convenienceBean.getDescription()).append("</xxms>")    //隐患现象描述
 			.append("<zp>").append(convenienceBean.getSceneImg()).append("</zp>")    //现场照片 （base64）
-			.append("<ssly>").append("C").append("</ssly>")    //采集来源  A移动APP C微信Z支付宝E邮政
+			.append("<ssly>").append(convenienceBean.getSourceOfCertification()).append("</ssly>")    //采集来源  A移动APP C微信Z支付宝E邮政
 //			.append("<xjyhid>").append(convenienceBean.getUserId()).append("</xjyhid>")    //星级用户id  可不传
 			.append("<sfzmhm>").append(convenienceBean.getIdentityCard()).append("</sfzmhm>")    //星际用户身份证号码
 			.append("</request>");
@@ -184,7 +184,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			 //.append("<xm>").append("张三").append("</xm>")
 			 .append("<sjhm>").append(convenienceBean.getMobilephone()).append("</sjhm>")		//手机号码
 			 .append("<ip>").append(convenienceBean.getIp()).append("</ip>")		 //ip地址
-			 .append("<yhly>C</yhly>")											//用户来源  微信
+//			 .append("<yhly>C</yhly>")											//用户来源  微信
+			 .append("<yhly>").append(convenienceBean.getSourceOfCertification()).append("</yhly>")    //用户来源  A移动APP C微信Z支付宝E邮政
 			 .append("<ztxh>").append("02").append("</ztxh>")					 //主题序号
 			 .append("<ztnr>").append("互联网+民意治堵投票").append("</ztnr>")		 //主题内容
 			 .append("<zt_time>").append(convenienceBean.getStartTime()+"-"+convenienceBean.getEndTiem()).append("</zt_time>")//主题时间段 00：00  00：30
@@ -242,7 +243,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			 .append("<sfzmhm>").append(convenienceBean.getIdentityCard()).append("</sfzmhm>")  //身份证
 			 .append("<sjhm>").append(convenienceBean.getMobilephone()).append("</sjhm>")		//手机号码
 			 .append("<ip>").append(convenienceBean.getIp()).append("</ip>")		 //ip地址
-			 .append("<yhly>C</yhly>")											//用户来源  微信
+//			 .append("<yhly>C</yhly>")											//用户来源  微信
+			 .append("<yhly>").append(convenienceBean.getSourceOfCertification()).append("</yhly>")    //用户来源  A移动APP C微信Z支付宝E邮政
 			 .append("<ztxh>").append("01").append("</ztxh>")					 //主题序号
 			 .append("<ztnr>").append("互联网+交通整治投票").append("</ztnr>")		 //主题内容
 			 .append("<zt_time>").append(convenienceBean.getStartTime()+"-"+convenienceBean.getEndTiem()).append("</zt_time>")//主题时间段 00：00  00：30
@@ -293,7 +295,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			sbf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
 			.append("<hphm>").append(convenienceBean.getAbbreviation()+""+convenienceBean.getNumberPlate()).append("</hphm>")   //号牌号码
 			.append("<hpzl>").append(convenienceBean.getCarType()).append("</hpzl>")  		//号牌种类
-			.append("<qqly>").append("C").append("</qqly>") 							    //请求来源
+			.append("<qqly>").append(convenienceBean.getSourceOfCertification()).append("</qqly>") 							    //请求来源
 			.append("<qqrsfzmhm>").append(convenienceBean.getIdentityCard()).append("</qqrsfzmhm>")  //请求人身份证明号码
 			.append("<lcdz>").append(convenienceBean.getDoodgenAddress()).append("</lcdz>")		//挪车地址
 			.append("</request>");
