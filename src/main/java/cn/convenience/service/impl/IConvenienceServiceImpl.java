@@ -1,6 +1,5 @@
 package cn.convenience.service.impl;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,7 +17,6 @@ import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IConvenienceDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
-import cn.sdk.util.MsgCode;
 import cn.sdk.webservice.WebServiceClient;
 @SuppressWarnings(value="all")
 @Service("convenienceService")
@@ -88,13 +86,13 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			logger.info("监控参数==================："+sb.toString());
+
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
 			
 			logger.info("【民意云】设备损坏通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			logger.error("【民意云】设备损坏通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】设备损坏通报信息采集失败！convenienceBean="+convenienceBean.toString(),e);
 			
 //			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 //			refBean.setMsg("服务器繁忙！");	  //返回消息描述
@@ -114,7 +112,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 */
 	@Override
 	public BaseBean safeHiddenDanger(ConvenienceBean convenienceBean) throws Exception{
-		logger.info("【民意云】安全隐患通报信息采集webService..." + convenienceBean);
+		logger.info("【民意云】安全隐患通报信息采集webService...");
 		
 		String interfaceNumber = "HM1001";  //接口编号
 		BaseBean refBean = new BaseBean();  //创建返回信息
@@ -146,13 +144,13 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			logger.info("监控参数==================："+sb.toString());
+
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
 			
 			logger.info("【民意云】安全隐患通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			logger.error("【民意云】安全隐患通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】安全隐患通报信息采集失败！convenienceBean="+convenienceBean.toString(),e);
 			
 //			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 //			refBean.setMsg("服务器繁忙！");	  //返回消息描述
@@ -206,13 +204,13 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			logger.info("监控参数==================："+sbf.toString());
+
 			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
 			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
 			
 			logger.info("【民意云】交通拥堵通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			logger.error("【民意云】交通拥堵通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】交通拥堵通报信息采集失败！convenienceBean="+convenienceBean.toString(),e);
 			
 //			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 //			refBean.setMsg("服务器繁忙！");	  //返回消息描述
@@ -259,13 +257,13 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			logger.info("监控参数==================："+sbf.toString());
+
 			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
 			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
 			
 			logger.info("【民意云】秩序混乱通报信息采集结果:"+respStr);
 		} catch (Exception e) {
-			logger.error("【民意云】秩序混乱通报信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】秩序混乱通报信息采集失败！convenienceBean="+convenienceBean.toString(),e);
 			
 //			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 //			refBean.setMsg("服务器繁忙！");	  //返回消息描述
@@ -305,13 +303,13 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			logger.info("监控参数==================："+sbf.toString());
+
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
 			
 			logger.info("【民意云】一键挪车信息采集结果:"+respStr);
 		} catch (Exception e) {
-			logger.error("【民意云】一键挪车信息采集失败！convenienceBean="+net.sf.json.JSONObject.fromObject(convenienceBean),e);
+			logger.error("【民意云】一键挪车信息采集失败！convenienceBean="+convenienceBean.toString(),e);
 //			
 //			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
 //			refBean.setMsg("服务器繁忙！");	  //返回消息描述
