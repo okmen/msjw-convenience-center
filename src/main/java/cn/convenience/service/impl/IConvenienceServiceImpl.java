@@ -88,7 +88,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			
+			logger.info("监控参数==================："+sb.toString());
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
 			
@@ -146,7 +146,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			
+			logger.info("监控参数==================："+sb.toString());
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
 			
@@ -206,7 +206,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			
+			logger.info("监控参数==================："+sb.toString());
 			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
 			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
 			
@@ -259,7 +259,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			
+			logger.info("监控参数==================："+sbf.toString());
 			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
 			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
 			
@@ -305,7 +305,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			
+			logger.info("监控参数==================："+sbf.toString());
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
 			
