@@ -206,7 +206,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
 					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
-			logger.info("监控参数==================："+sb.toString());
+			logger.info("监控参数==================："+sbf.toString());
 			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
 			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
 			
