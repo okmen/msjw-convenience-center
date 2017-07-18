@@ -1,7 +1,10 @@
 package cn.convenience.service.impl;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +14,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.convenience.bean.ConvenienceBean;
+import cn.convenience.bean.EbikeInfoBean;
 import cn.convenience.bean.FeedbackResultBean;
+import cn.convenience.bean.UserInfoBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IConvenienceDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.util.DateUtil;
+import cn.sdk.util.HttpClientUtil;
+import cn.sdk.util.MsgCode;
 import cn.sdk.webservice.WebServiceClient;
-@SuppressWarnings(value="all")
+
 @Service("convenienceService")
 public class IConvenienceServiceImpl implements IConvenienceService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -319,20 +327,24 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	}
 
 	/**
-	 * @Title: getAllResourcesAbsoluteUrl 
-	 * @Description: TODO(加载所有资源绝对路径) 
-	 * @param 无
-	 * @return BaseBean 返回类型 
+	 * @Title: historyNotice
+	 * @Description: TODO(历史通报)
+	 * @return List 返回类型
 	 * @throws
 	 */
 	@Override
-	public List getAllResourcesAbsoluteUrl() throws Exception {
-		logger.info("【民意云】办理情况通报信息采集数据库...");
+	public List<FeedbackResultBean> getAllResourcesAbsoluteUrl() throws Exception {
+		logger.info("【民意云】办理情况通报信息采集本地...");
 		
-		// TODO 调用dao获取数据List集合
-		List list;
+		List<FeedbackResultBean> list;
 		try {
 			list = new ArrayList<>();
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第二十期办理情况通报（2017年6月19日至2017年6月25日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第二十期办理情况通报（2017年6月19日至2017年6月25日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十九期办理情况通报（2017年6月12日至2017年6月18日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十九期办理情况通报（2017年6月12日至2017年6月18日）.docx"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十八期办理情况通报（2017年6月5日至2017年6月11日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十八期办理情况通报（2017年6月5日至2017年6月11日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十七期办理情况通报（2017年5月29日至2017年6月4日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十七期办理情况通报（2017年5月29日至2017年6月4日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十六期办理情况通报（2017年5月22日至2017年5月28日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十六期办理情况通报（2017年5月22日至2017年5月28日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第十五期办理情况通报（2017年5月15日至2017年5月21日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十五期办理情况通报（2017年5月15日至2017年5月21日）.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第十四期办理情况通报（2017年5月8日至2017年5月14日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十四期办理情况通报（2017年5月8日至2017年5月14日）.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第十三期办理情况通报（2017年5月1日至2017年5月7日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十三期办理情况通报（2017年5月1日至2017年5月7日）.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第十二期办理情况通报（2017年4月24日至2017年4月30日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第十二期办理情况通报（2017年4月24日至2017年4月30日）.doc"));
@@ -348,13 +360,101 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第二期办理情况通报（2017年2月3日至2017年2月13日）","http://szjj.u-road.com/szjjpro/assets/doc/20170203-20170213.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第一期办理情况通报（2017年1月13日至2017年2月5日）","http://szjj.u-road.com/szjjpro/assets/doc/20170113-20170205.docx"));
 			
-			logger.info("【民意云】办理情况通报信息采集结果::"+JSON.toJSONString(list));
+			logger.info("【民意云】办理情况通报信息采集结果:"+JSON.toJSONString(list));
 		} catch (Exception e) {
 			logger.error("【民意云】办理请款通报信息采集失败！",e);
 			throw e;
 		}
 		
 		return list;
+	}
+
+	/**
+	 * 根据档案编号查询电动车档案信息
+	 * @Description: TODO(根据档案编号查询电动车档案信息)
+	 * @param fileNo 档案编号
+	 * @throws Exception
+	 */
+	public BaseBean getEbikeInfoByFileNo(String fileNo) throws Exception {
+		logger.info("根据档案编号查询电动车档案信息采集电动车系统...");
+		
+		BaseBean baseBean = new BaseBean();  //创建返回信息
+		
+		try {
+			String respStr = HttpClientUtil.get("http://green.stc.gov.cn:8088/ebike/appAction/getEbikeInfoByDabh?dabh=" + fileNo);
+			JSONObject jsonObj = JSON.parseObject(respStr);
+			
+			boolean isSuccess = jsonObj.getBooleanValue("isSuccess");
+			
+			if(isSuccess){
+				Map<String, Object> map = new HashMap<>();
+				EbikeInfoBean ebikeInfo = new EbikeInfoBean();
+				JSONObject data = jsonObj.getJSONObject("data");
+				
+				addDataToEbikeInfo(map, ebikeInfo, data);
+				
+				baseBean.setCode(MsgCode.success);
+				baseBean.setData(map);
+			}else{
+				baseBean.setCode(MsgCode.paramsError);
+			}
+			baseBean.setMsg(jsonObj.getString("message"));
+			
+			logger.info("根据档案编号查询电动车档案信息采集结果:" + JSON.toJSONString(jsonObj));
+		} catch (Exception e) {
+			logger.error("根据档案编号查询电动车档案信息采集失败！", e);
+			throw e;
+		}
+		
+		return baseBean;
+	}
+	
+	/**
+	 * 封装数据到电动车信息
+	 * @param ebikeInfo
+	 * @param data
+	 */
+	private void addDataToEbikeInfo(Map<String, Object> map, EbikeInfoBean ebikeInfo, JSONObject data) {
+		ebikeInfo.setEbikeImgUrl(data.getString("vcShowEbikeImg"));	//电动车照片资源路径
+		ebikeInfo.setPlateNo(data.getString("cphm"));      			//车辆号牌
+		ebikeInfo.setVehicleStatus(data.getString("ztName"));		//车辆状态	已备案,已注销
+		ebikeInfo.setFileNo(data.getString("dabh"));       			//档案编号
+		ebikeInfo.setEngineNo(data.getString("djh"));				//电机号码
+		ebikeInfo.setDrivingArea(data.getString("xsqyName"));  		//行驶区域
+		ebikeInfo.setBrandType(data.getString("ppxh"));    			//品牌型号
+		ebikeInfo.setFootDevice(data.getString("jtzz"));   			//脚踏装置	0-有,1-无
+		ebikeInfo.setColor(data.getString("cysyName"));        		//车身颜色
+		ebikeInfo.setAssocName(data.getString("hyxhzhName"));    	//协会名称
+		map.put("ebikeInfo", ebikeInfo);
+		
+		int number = 1;
+		List<UserInfoBean> userInfoList = new ArrayList<>();
+		while(data.getString("jsrxm" + number) != null){
+			UserInfoBean userInfo = new UserInfoBean();
+			userInfo.setUserImgUrl(data.getString("vcShowUser" + number + "Img"));	//使用人照片资源路径
+			userInfo.setDriverName(data.getString("jsrxm" + number));   			//驾驶人姓名
+			userInfo.setGender(data.getString("xb" + number));       				//性别	0-男,1-女
+			userInfo.setAge(getAgeByID(data.getString("sfzmhm" + number)));			//年龄  
+			userInfo.setIdentityNo(data.getString("sfzmhm" + number)); 				//身份证号
+			userInfo.setMobilephone(data.getString("lxdh" + number));  				//联系电话
+			userInfo.setCompanyName(data.getString("ssdwName"));  					//所属单位名称
+			
+			userInfoList.add(userInfo);
+			number++;
+		}
+		map.put("userInfoList", userInfoList);
+	}
+	
+	/**
+	 * 根据身份证号码计算年龄
+	 */
+	public String getAgeByID(String id){
+		if(StringUtils.isNotBlank(id) && id.length() == 18){ //18位身份证号  440301199002101119
+			int bornYear = Integer.parseInt(id.substring(6, 10));
+			int currYear = DateUtil.getNowYear();
+			return String.valueOf(currYear - bornYear);
+		}
+		return "";
 	}
 	
 }
