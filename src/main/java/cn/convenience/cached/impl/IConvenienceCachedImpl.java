@@ -47,6 +47,11 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
      */
     @Value("${key}")
     private String key;
+    /**
+     * 模板消息URL
+     */
+    @Value("${templateSendUrl}")
+    private String templateSendUrl;
     
     @Value("${refreshTokenTime}")
     private int refreshTokenTime;
@@ -211,5 +216,15 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 		this.key = key;
 	}
 
+
+	public String getTemplateSendUrl() {
+		return templateSendUrl;
+	}
+
+
+	public void setTemplateSendUrl(String templateSendUrl) {
+		this.templateSendUrl = templateSendUrl;
+	}
+    
     
 }

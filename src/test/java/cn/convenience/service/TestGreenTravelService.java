@@ -28,7 +28,7 @@ public class TestGreenTravelService {
 		greenTravelBean.setHphm("粤B701NR");   //车牌号码(带’粤’)
 		greenTravelBean.setHpzl("02");    //号牌种类
 		greenTravelBean.setSfzmhm("440301199002101119");   //身份证明号码
-		greenTravelBean.setMonth("201707");    //月份
+		greenTravelBean.setMonth("201704");    //月份
 		try {
 			BaseBean baseBean=greentravelService.applyDownDate(greenTravelBean);
 			System.out.println(baseBean.getCode());
@@ -66,7 +66,7 @@ public class TestGreenTravelService {
 		GreenTravelBean greenTravelBean=new GreenTravelBean();
 		greenTravelBean.setHphm("粤B701NR");   //车牌号码(带’粤’)
 		greenTravelBean.setHpzl("02");    //号牌号码
-		greenTravelBean.setSqrq("20170724");
+		greenTravelBean.setSqrq("20170728");
 		try {
 			BaseBean baseBean=greentravelService.applyrunningQuery(greenTravelBean);
 			System.out.println(baseBean.getCode());

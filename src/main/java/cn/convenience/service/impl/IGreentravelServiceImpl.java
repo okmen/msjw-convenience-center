@@ -24,6 +24,17 @@ public class IGreentravelServiceImpl implements IGreentravelService{
 	
 	@Autowired
 	private IConvenienceCachedImpl convenienceCache;
+	
+	/**
+	 * 获取发送模板消息的域名地址
+	 */
+	@Override
+	public String getTemplateSendUrl() {
+		String url = convenienceCache.getTemplateSendUrl();
+		logger.info("获取到的域名地址是：" + url);
+		return url;
+	}
+	
 	 /**
 		 * 
 		 *  @Title: applyDownDate 
