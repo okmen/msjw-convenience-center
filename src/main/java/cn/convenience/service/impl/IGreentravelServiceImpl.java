@@ -142,7 +142,7 @@ public class IGreentravelServiceImpl implements IGreentravelService{
 	@Override
 	public BaseBean applyrunningQuery(GreenTravelBean greenTravelBean)
 			throws Exception {
-		 logger.info("【警示通】webService...");
+		     logger.info("【警示通】webService...");
 			
 			String interfaceNumber = "xjlscx1003";  //接口编号
 			BaseBean refBean = new BaseBean();  //创建返回信息
@@ -163,6 +163,45 @@ public class IGreentravelServiceImpl implements IGreentravelService{
 				refBean.setMsg(respStr.get("msg").toString());	  //返回消息描述
 				if("0000".equals(respStr.get("code").toString())){
 					refBean.setData(respStr.get("body"));
+				}
+				logger.info("【警示通】申请流水查询结果:"+respStr);
+			} catch (Exception e) {
+				logger.error("【警示通】申请流水查询结果失败！greenTravelBean="+greenTravelBean.toString(),e);
+				throw e;
+			}
+			return refBean;
+	}
+	/**
+	 * 
+	  @Title: applyTotalQuery 
+	 * @Description: TODO(车辆停驶情况查询)
+	 * @param @param greenTravelBean
+	 * @param @return 设定文件 
+	 * @return BaseBean 返回类型 
+	 * @throws
+	 */
+	@Override
+	public BaseBean applyTotalQuery(GreenTravelBean greenTravelBean)
+			throws Exception {
+		      logger.info("【警示通】webService...");
+			String interfaceNumber = "xjlscx1004";  //接口编号
+			BaseBean refBean = new BaseBean();  //创建返回信息
+			//拼装xml数据
+			StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><request>")
+			.append("<hphm>").append(greenTravelBean.getHphm()).append("</hphm>")     //车牌号码(带’粤’)
+			.append("<hpzl>").append(greenTravelBean.getHpzl()).append("</hpzl>")  //号牌种类
+			.append("</request>");
+			logger.info("请求参数报文:"+sb.toString());
+			try {
+				@SuppressWarnings("static-access")
+				JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
+						interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+                 
+				refBean.setCode(respStr.get("code").toString());  //返回状态码
+				refBean.setMsg(respStr.get("msg").toString());	  //返回消息描述
+				if("0000".equals(respStr.get("code").toString())){
+					refBean.setData(respStr);
 				}
 				logger.info("【警示通】申请流水查询结果:"+respStr);
 			} catch (Exception e) {

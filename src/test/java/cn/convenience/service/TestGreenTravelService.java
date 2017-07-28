@@ -74,5 +74,16 @@ public class TestGreenTravelService {
 			e.printStackTrace();
 		}
 	}
-
+	@Test
+	public void testapplyTotalQuery(){
+		GreenTravelBean greenTravelBean=new GreenTravelBean();
+		greenTravelBean.setHphm("粤B701NR");   //车牌号码(带’粤’)
+		greenTravelBean.setHpzl("02");    //号牌号码
+		try {
+			BaseBean baseBean=greentravelService.applyTotalQuery(greenTravelBean);
+			System.out.println(baseBean.getCode());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
