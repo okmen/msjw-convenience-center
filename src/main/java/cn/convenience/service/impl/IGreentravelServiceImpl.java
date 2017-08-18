@@ -60,9 +60,10 @@ public class IGreentravelServiceImpl implements IGreentravelService{
 		.append("</request>");
 		logger.info("请求参数:"+sb.toString());
 		try {
+			String string = "";
 			@SuppressWarnings("static-access")
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(string), convenienceCache.getMethod(string), 
+					interfaceNumber,sb.toString(),convenienceCache.getUserid(string),convenienceCache.getUserpwd(string),convenienceCache.getKey(string));
 
 			refBean.setCode(respStr.get("code").toString());  //返回状态码
 			refBean.setMsg(respStr.get("msg").toString());	  //返回消息描述
@@ -115,9 +116,10 @@ public class IGreentravelServiceImpl implements IGreentravelService{
 		sb.append("</body></request>");
 		logger.info("请求参数报文:"+sb.toString());
 		try {
+			String string = "";
 			@SuppressWarnings("static-access")
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(string), convenienceCache.getMethod(string), 
+					interfaceNumber,sb.toString(),convenienceCache.getUserid(string),convenienceCache.getUserpwd(string),convenienceCache.getKey(string));
 
 			refBean.setCode(respStr.get("code").toString());  //返回状态码
 			refBean.setMsg(respStr.get("msg").toString());	  //返回消息描述
@@ -155,9 +157,10 @@ public class IGreentravelServiceImpl implements IGreentravelService{
 			.append("</request>");
 			logger.info("请求参数报文:"+sb.toString());
 			try {
+				String string = "";
 				@SuppressWarnings("static-access")
-				JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-						interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+				JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(string), convenienceCache.getMethod(string), 
+						interfaceNumber,sb.toString(),convenienceCache.getUserid(string),convenienceCache.getUserpwd(string),convenienceCache.getKey(string));
                  
 				refBean.setCode(respStr.get("code").toString());  //返回状态码
 				refBean.setMsg(respStr.get("msg").toString());	  //返回消息描述
@@ -194,9 +197,10 @@ public class IGreentravelServiceImpl implements IGreentravelService{
 			.append("</request>");
 			logger.info("请求参数报文:"+sb.toString());
 			try {
+				String string = "";
 				@SuppressWarnings("static-access")
-				JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-						interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+				JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(string), convenienceCache.getMethod(string), 
+						interfaceNumber,sb.toString(),convenienceCache.getUserid(string),convenienceCache.getUserpwd(string),convenienceCache.getKey(string));
                  
 				refBean.setCode(respStr.get("code").toString());  //返回状态码
 				refBean.setMsg(respStr.get("msg").toString());	  //返回消息描述
