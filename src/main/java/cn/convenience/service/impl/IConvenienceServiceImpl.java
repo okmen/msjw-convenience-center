@@ -92,8 +92,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		
 		try {
 			@SuppressWarnings("static-access")
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(convenienceBean.getSourceOfCertification()), convenienceCache.getMethod(convenienceBean.getSourceOfCertification()), 
+					interfaceNumber,sb.toString(),convenienceCache.getUserid(convenienceBean.getSourceOfCertification()),convenienceCache.getUserpwd(convenienceBean.getSourceOfCertification()),convenienceCache.getKey(convenienceBean.getSourceOfCertification()));
 
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
@@ -150,8 +150,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		
 		try {
 			@SuppressWarnings("static-access")
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-					interfaceNumber,sb.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(convenienceBean.getSourceOfCertification()), convenienceCache.getMethod(convenienceBean.getSourceOfCertification()), 
+					interfaceNumber,sb.toString(),convenienceCache.getUserid(convenienceBean.getSourceOfCertification()),convenienceCache.getUserpwd(convenienceBean.getSourceOfCertification()),convenienceCache.getKey(convenienceBean.getSourceOfCertification()));
 
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
@@ -210,8 +210,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			
 			try {
 			@SuppressWarnings("static-access")
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(convenienceBean.getSourceOfCertification()), convenienceCache.getMethod(convenienceBean.getSourceOfCertification()), 
+					interfaceNumber,sbf.toString(),convenienceCache.getUserid(convenienceBean.getSourceOfCertification()),convenienceCache.getUserpwd(convenienceBean.getSourceOfCertification()),convenienceCache.getKey(convenienceBean.getSourceOfCertification()));
 
 			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
 			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
@@ -263,8 +263,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 				
 		try {
 			@SuppressWarnings("static-access")
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(convenienceBean.getSourceOfCertification()), convenienceCache.getMethod(convenienceBean.getSourceOfCertification()), 
+					interfaceNumber,sbf.toString(),convenienceCache.getUserid(convenienceBean.getSourceOfCertification()),convenienceCache.getUserpwd(convenienceBean.getSourceOfCertification()),convenienceCache.getKey(convenienceBean.getSourceOfCertification()));
 
 			refBean.setCode(respStr.getJSONObject("head").get("fhz").toString());  //返回状态码
 			refBean.setMsg(respStr.getJSONObject("head").get("fhz-msg").toString());	  //返回消息描述
@@ -309,8 +309,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 				
 		try {
 			@SuppressWarnings("static-access")
-			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(), convenienceCache.getMethod(), 
-					interfaceNumber,sbf.toString(),convenienceCache.getUserid(),convenienceCache.getUserpwd(),convenienceCache.getKey());
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(convenienceBean.getSourceOfCertification()), convenienceCache.getMethod(convenienceBean.getSourceOfCertification()), 
+					interfaceNumber,sbf.toString(),convenienceCache.getUserid(convenienceBean.getSourceOfCertification()),convenienceCache.getUserpwd(convenienceBean.getSourceOfCertification()),convenienceCache.getKey(convenienceBean.getSourceOfCertification()));
 
 			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
 			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述

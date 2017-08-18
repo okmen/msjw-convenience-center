@@ -53,6 +53,23 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
     @Value("${templateSendUrl}")
     private String templateSendUrl;
     
+    @Value("${useridAlipay}")
+    private String useridAlipay;
+    
+    @Value("${userpwdAlipay}")
+    private String userpwdAlipay;
+    
+    @Value("${urlAlipay}")
+    private String urlAlipay;
+    
+    @Value("${methodAlipay}")
+    private String methodAlipay;
+    
+    @Value("${keyAlipay}")
+    private String keyAlipay;
+    
+    
+    
     @Value("${refreshTokenTime}")
     private int refreshTokenTime;
     
@@ -167,8 +184,16 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
     }
 
 
-	public String getUserid() {
-		return userid;
+	public String getUserid(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = userid;
+		}else if("Z".equals(sourceOfCertification)){
+			string = useridAlipay;
+		}else {
+			string = userid;
+		}
+		return string;
 	}
 
 
@@ -177,8 +202,16 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	}
 
 
-	public String getUserpwd() {
-		return userpwd;
+	public String getUserpwd(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = userpwd;
+		}else if("Z".equals(sourceOfCertification)){
+			string = userpwdAlipay;
+		}else {
+			string = userpwd;
+		}
+		return string;
 	}
 
 
@@ -187,8 +220,16 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	}
 
 
-	public String getUrl() {
-		return url;
+	public String getUrl(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = url;
+		}else if("Z".equals(sourceOfCertification)){
+			string = urlAlipay;
+		}else {
+			string = url;
+		}
+		return string;
 	}
 
 
@@ -197,8 +238,16 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	}
 
 
-	public String getMethod() {
-		return method;
+	public String getMethod(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = method;
+		}else  if("Z".equals(sourceOfCertification)){
+			string = methodAlipay;
+		}else {
+			string = method;
+		}
+		return string;
 	}
 
 
@@ -207,8 +256,16 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	}
 
 
-	public String getKey() {
-		return key;
+	public String getKey(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = key;
+		}else if("Z".equals(sourceOfCertification)){
+			string = keyAlipay;
+		}else {
+			string = key;
+		}
+		return string;
 	}
 
 
