@@ -177,8 +177,7 @@
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
 				
 				<!-- 电动车内网API地址 -->
-				<ebike.url>http://192.168.2.197:8088/ebike/appAction/</ebike.url>
-				
+				<ebike.url>http://green.stc.gov.cn:8088/ebike/appAction/</ebike.url>
 			</properties>
 		</profile>
 
@@ -243,6 +242,7 @@
 				<jiaojing.method.alipay>xxptSchuding</jiaojing.method.alipay>
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
 				
+				<ebike.url>http://green.stc.gov.cn:8088/ebike/appAction/</ebike.url>
 			</properties>
 		</profile>
 		
@@ -308,6 +308,8 @@
 				<jiaojing.url.alipay>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice</jiaojing.url.alipay>
 				<jiaojing.method.alipay>xxptSchuding</jiaojing.method.alipay>
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
+				
+				<ebike.url>http://192.168.2.197:8088/ebike/appAction/</ebike.url>
 			</properties>
 		</profile>
 	</profiles>
