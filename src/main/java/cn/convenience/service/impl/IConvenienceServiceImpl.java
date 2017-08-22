@@ -381,7 +381,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		BaseBean baseBean = new BaseBean();  //创建返回信息
 		
 		try {
-			String respStr = HttpClientUtil.get("http://green.stc.gov.cn:8088/ebike/appAction/getEbikeInfoByDabh?dabh=" + fileNo);
+			//String respStr = HttpClientUtil.get("http://green.stc.gov.cn:8088/ebike/appAction/getEbikeInfoByDabh?dabh=" + fileNo);
+			String respStr = HttpClientUtil.get("http://192.168.2.197:8088/ebike/appAction/getEbikeInfoByDabh?dabh=" + fileNo);
 			JSONObject jsonObj = JSON.parseObject(respStr);
 			
 			boolean isSuccess = jsonObj.getBooleanValue("isSuccess");
