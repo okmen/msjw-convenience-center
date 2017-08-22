@@ -422,5 +422,10 @@ public class TestConvenienceService {
 	// System.out.println(flag);
 	// Assert.assertTrue(flag);
 	// }
+	
+	@Test
+	public void testGetEbikeInfoByFileNo() throws Exception{
+		System.out.println(convenienceService.getEbikeInfoByFileNo("440300000004"));
+	}
 
 }

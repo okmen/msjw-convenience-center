@@ -68,9 +68,18 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
     @Value("${keyAlipay}")
     private String keyAlipay;
     
+    @Value("${urlEbike}")
+    private String urlEbike;
     
-    
-    @Value("${refreshTokenTime}")
+    public String getUrlEbike() {
+		return urlEbike;
+	}
+	public void setUrlEbike(String urlEbike) {
+		this.urlEbike = urlEbike;
+	}
+
+
+	@Value("${refreshTokenTime}")
     private int refreshTokenTime;
     
     @Value("${encyptAccessTokenTime}")

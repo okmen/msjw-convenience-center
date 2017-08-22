@@ -22,6 +22,7 @@ import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IConvenienceDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.exception.WebServiceException;
 import cn.sdk.util.DateUtil;
 import cn.sdk.util.HttpClientUtil;
 import cn.sdk.util.MsgCode;
@@ -376,17 +377,18 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 * @throws Exception
 	 */
 	public BaseBean getEbikeInfoByFileNo(String fileNo) throws Exception {
-		logger.info("根据档案编号查询电动车档案信息采集电动车系统...");
+		logger.info("【电动车】根据档案编号查询电动车档案信息采集电动车系统...");
 		
 		BaseBean baseBean = new BaseBean();  //创建返回信息
 		
 		try {
+			String urlEbike = convenienceCache.getUrlEbike();//电动车内网API地址
 			//String respStr = HttpClientUtil.get("http://green.stc.gov.cn:8088/ebike/appAction/getEbikeInfoByDabh?dabh=" + fileNo);
-			String respStr = HttpClientUtil.get("http://192.168.2.197:8088/ebike/appAction/getEbikeInfoByDabh?dabh=" + fileNo);
+			//String respStr = HttpClientUtil.get("http://192.168.2.197:8088/ebike/appAction/getEbikeInfoByDabh?dabh=" + fileNo);
+			String respStr = HttpClientUtil.get(urlEbike + "getEbikeInfoByDabh?dabh=" + fileNo);
+            
 			JSONObject jsonObj = JSON.parseObject(respStr);
-			
 			boolean isSuccess = jsonObj.getBooleanValue("isSuccess");
-			
 			if(isSuccess){
 				Map<String, Object> map = new HashMap<>();
 				EbikeInfoBean ebikeInfo = new EbikeInfoBean();
@@ -401,9 +403,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			}
 			baseBean.setMsg(jsonObj.getString("message"));
 			
-			logger.info("根据档案编号查询电动车档案信息采集结果:" + JSON.toJSONString(jsonObj));
+			logger.info("【电动车】根据档案编号查询电动车档案信息采集结果:" + JSON.toJSONString(jsonObj));
 		} catch (Exception e) {
-			logger.error("根据档案编号查询电动车档案信息采集失败！", e);
+			logger.error("【电动车】根据档案编号查询电动车档案信息采集失败！", e);
 			throw e;
 		}
 		
