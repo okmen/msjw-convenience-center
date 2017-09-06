@@ -20,5 +20,7 @@
 	<dubbo:service interface="cn.convenience.service.IConvenienceService" ref="convenienceService" />
 	<!-- 绿色出行暴露接口 -->
 	<dubbo:service interface="cn.convenience.service.IGreentravelService" ref="greentravelService" />
-
+    
+    <!-- 微信刷脸获取用户基本信息接口 -->
+	<dubbo:service interface="cn.convenience.service.IFaceautonymService" ref="faceautonymService" />
 </beans>

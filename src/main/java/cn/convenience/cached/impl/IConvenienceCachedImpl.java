@@ -53,6 +53,26 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
     @Value("${templateSendUrl}")
     private String templateSendUrl;
     
+    
+    /**
+     * 微信刷脸验证解密秘钥
+     */
+    @Value("${secretkey}")
+    private String secretkey;
+    
+    /**
+     * 微信刷脸验证AES解密秘钥
+     */
+    @Value("${aeskey}")
+    private String aeskey;
+    
+    /**
+     * 微信刷脸验获取用户URL
+     */
+    @Value("${infoUrl}")
+    private String infoUrl;
+    
+    
     @Value("${useridAlipay}")
     private String useridAlipay;
     
@@ -290,6 +310,24 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 
 	public void setTemplateSendUrl(String templateSendUrl) {
 		this.templateSendUrl = templateSendUrl;
+	}
+	public String getSecretkey() {
+		return secretkey;
+	}
+	public void setSecretkey(String secretkey) {
+		this.secretkey = secretkey;
+	}
+	public String getAeskey() {
+		return aeskey;
+	}
+	public void setAeskey(String aeskey) {
+		this.aeskey = aeskey;
+	}
+	public String getInfoUrl() {
+		return infoUrl;
+	}
+	public void setInfoUrl(String infoUrl) {
+		this.infoUrl = infoUrl;
 	}
     
     

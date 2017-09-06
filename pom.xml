@@ -178,6 +178,11 @@
 				
 				<!-- 电动车内网API地址 -->
 				<ebike.url>http://green.stc.gov.cn:8088/ebike/appAction/</ebike.url>
+				
+				<!--微信刷脸参数配置-->
+				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
+				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
+				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
 			</properties>
 		</profile>
 
@@ -243,6 +248,11 @@
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
 				
 				<ebike.url>http://green.stc.gov.cn:8088/ebike/appAction/</ebike.url>
+				
+				<!--微信刷脸参数配置-->
+				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
+				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
+				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
 			</properties>
 		</profile>
 		
@@ -310,6 +320,11 @@
 				<jiaojing.key.alipay>HyjjsQEU7RKMUL71ziH7Pni5</jiaojing.key.alipay>
 				
 				<ebike.url>http://192.168.2.197:8088/ebike/appAction/</ebike.url>
+				
+				<!--微信刷脸参数配置-->
+				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
+				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
+				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
 			</properties>
 		</profile>
 	</profiles>
@@ -470,6 +485,12 @@
 			<groupId>cn.chudaokeji.services</groupId>
 			<artifactId>convenience-center-api</artifactId>
 			<version>${convenience.center.api.version}</version>
+		</dependency>
+		<!-- 微信刷脸 -->
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk15on</artifactId>
+		    <version>1.57</version>
 		</dependency>
 	</dependencies>
 </project>
