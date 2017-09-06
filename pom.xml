@@ -324,7 +324,7 @@
 				<!--微信刷脸参数配置-->
 				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
 				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
-				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
+				<infoUrl>https://iauth.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
 			</properties>
 		</profile>
 	</profiles>
