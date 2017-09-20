@@ -42,13 +42,12 @@ private final Logger logger = LoggerFactory.getLogger(getClass());
 	public BaseBean getdetectinfo(String appid, String token) throws Exception {
 		BaseBean baen=new BaseBean();
 		String plainText = "a="+appid+"&m=getdetectinfo&t="+Util.getCurrentTime()+"&e="+600;
+		logger.info("请求参数:"+plainText);
 		String url=convenienceCache.getInfoUrl();
 		String secretkey=convenienceCache.getSecretkey();
 		String sig = Util.getSig(new String[]{token,appid});
 		String signature = Util.getSignature(secretkey, plainText);
-		//System.out.println("key:"+secretkey);
 		String ret = HttpRequest.sendPost(url, "token="+token+"&appid="+appid+"&sig="+sig,signature,"application/x-www-form-urlencoded");
-		//logger.info("获取用户得到响应:"+ret);
 		if(StringUtil.isBlank(ret)){
 		     baen.setCode(MsgCode.businessError);
 		     baen.setMsg("获取用户基本信息失败");
@@ -59,8 +58,8 @@ private final Logger logger = LoggerFactory.getLogger(getClass());
 			 String data=respStr.get("data").toString();
 			 byte[] by=AES.decrypt(Base64.decodeBase64(data),convenienceCache.getAeskey().getBytes("UTF-8"));
 			 String str=new String(by, "UTF-8");
-			 //logger.info("data解密数据:"+str);
 			 JSONObject json=JSONObject.fromObject(str);
+			 logger.info("获取用户信息:"+json.getString("ID")+":"+json.getString("name"));
 			 baen.setCode(MsgCode.success);
 			 baen.setMsg(respStr.getString("errormsg"));
 			 baen.setData(json);
