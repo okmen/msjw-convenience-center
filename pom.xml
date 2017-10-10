@@ -180,13 +180,10 @@
 				<ebike.url>http://green.stc.gov.cn:8088/ebike/appAction/</ebike.url>
 				
 				<!--微信刷脸参数配置-->
-				<!-- <secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
+				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
 				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
-				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl> -->
-				<!-- 主建局项目测试使用 -->
-				<secretkey>eff91ab3b61167f468a2478c94019885</secretkey>
-				<aeskey>c165db065206659ca3b343829dc4d261</aeskey>
-				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
+				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl> 
+				
 			</properties>
 		</profile>
 
@@ -254,8 +251,12 @@
 				<ebike.url>http://green.stc.gov.cn:8088/ebike/appAction/</ebike.url>
 				
 				<!--微信刷脸参数配置-->
-				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
+				<!-- <secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
 				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
+				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl> -->
+				<!-- 主建局项目测试使用 -->
+				<secretkey>eff91ab3b61167f468a2478c94019885</secretkey>
+				<aeskey>c165db065206659ca3b343829dc4d261</aeskey>
 				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
 			</properties>
 		</profile>
@@ -300,7 +301,7 @@
 				<env.url_prefix><![CDATA[]]>
 				</env.url_prefix>
 				<log4j.rootLogger><![CDATA[INFO,socket,R,stdout]]></log4j.rootLogger>
-				<log4j.logLevel><![CDATA[ERROR]]></log4j.logLevel>
+				<log4j.logLevel><![CDATA[INFO]]></log4j.logLevel>
 				<log4j.R.file><![CDATA[/workspace/logs/convenience-center.log]]></log4j.R.file>
 				<isOnline>0</isOnline>
 				<log4j.socket.host><![CDATA[logserver.choumei.cn]]></log4j.socket.host>
