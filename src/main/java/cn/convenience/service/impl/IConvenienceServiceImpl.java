@@ -340,6 +340,14 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		List<FeedbackResultBean> list;
 		try {
 			list = new ArrayList<>();
+			
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第三十四期办理情况通报（2017年10月2日至2017年10月8日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第三十四期办理情况通报（2017年10月2日至2017年10月8日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第三十三期办理情况通报（2017年9月18日至2017年9月24日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第三十三期办理情况通报（2017年9月18日至2017年9月24日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第三十二期办理情况通报（2017年9月11日至2017年9月17日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第三十二期办理情况通报（2017年9月11日至2017年9月17日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第三十一期办理情况通报（2017年9月4日至2017年9月10日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第三十一期办理情况通报（2017年9月4日至2017年9月10日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第三十期办理情况通报 （2017年8月28日至2017年9月3日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第三十期办理情况通报 （2017年8月28日至2017年9月3日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第二十九期办理情况通报（2017年8月21日至2017年8月27日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第二十九期办理情况通报（2017年8月21日至2017年8月27日）.doc"));
+			list.add(new FeedbackResultBean("深圳交警民意云2017年第二十八期办理情况通报（2017年8月14日至2017年8月20日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第二十八期办理情况通报（2017年8月14日至2017年8月20日）.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第二十七期办理情况通报 （2017年8月7日至2017年8月13日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第二十七期办理情况通报 （2017年8月7日至2017年8月13日）.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第二十六期办理情况通报（2017年7月31日至2017年8月6日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第二十六期办理情况通报（2017年7月31日至2017年8月6日）.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第二十五期办理情况通报（2017年7月24日至2017年7月30日）","http://szjj.u-road.com/fileserver/file/深圳交警民意云2017年第二十五期办理情况通报（2017年7月24日至2017年7月30日）.doc"));
