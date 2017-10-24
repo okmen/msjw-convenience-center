@@ -182,8 +182,19 @@
 				<!--微信刷脸参数配置-->
 				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
 				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
+<<<<<<< Updated upstream
 				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl> 
 				
+=======
+				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
+				
+				<!-- 警司通参数-APP -->
+				<jiaojing.userid.app>YD02</jiaojing.userid.app>
+				<jiaojing.userpwd.app>YD02</jiaojing.userpwd.app>
+				<jiaojing.url.app>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.app>
+				<jiaojing.method.app>xxptSchuding</jiaojing.method.app>
+				<jiaojing.key.app>VUCr6YKOFdaPpQcOtLgRETCV</jiaojing.key.app>
+>>>>>>> Stashed changes
 			</properties>
 		</profile>
 
@@ -258,6 +269,13 @@
 				<secretkey>eff91ab3b61167f468a2478c94019885</secretkey>
 				<aeskey>c165db065206659ca3b343829dc4d261</aeskey>
 				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
+				
+				<!-- 警司通参数-APP -->
+				<jiaojing.userid.app>YD02</jiaojing.userid.app>
+				<jiaojing.userpwd.app>YD02</jiaojing.userpwd.app>
+				<jiaojing.url.app>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.app>
+				<jiaojing.method.app>xxptSchuding</jiaojing.method.app>
+				<jiaojing.key.app>VUCr6YKOFdaPpQcOtLgRETCV</jiaojing.key.app>
 			</properties>
 		</profile>
 		
@@ -330,6 +348,13 @@
 				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
 				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
 				<infoUrl>https://iauth.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
+				
+				<!-- 警司通参数-APP -->
+				<jiaojing.userid.app>YD02</jiaojing.userid.app>
+				<jiaojing.userpwd.app>YD02</jiaojing.userpwd.app>
+				<jiaojing.url.app>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice</jiaojing.url.app>
+				<jiaojing.method.app>xxptSchuding</jiaojing.method.app>
+				<jiaojing.key.app>VUCr6YKOFdaPpQcOtLgRETCV</jiaojing.key.app>
 			</properties>
 		</profile>
 	</profiles>

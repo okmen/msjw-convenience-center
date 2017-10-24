@@ -21,7 +21,31 @@ import cn.sdk.serialization.ISerializeManager;
 @Service
 public class IConvenienceCachedImpl implements IConvenienceCached{
 	protected Logger log = Logger.getLogger(this.getClass());
-	
+	/**
+	 * 用户id
+	 */
+	@Value("${useridApp}")
+    private String useridApp;
+	/**
+	 * 用户密码
+	 */
+    @Value("${userpwdApp}")
+    private String userpwdApp;
+    /**
+     * 请求地址
+     */
+    @Value("${urlApp}")
+    private String urlApp;
+    /**
+     * 方法
+     */
+    @Value("${methodApp}")
+    private String methodApp;
+    /**
+     * 秘钥
+     */
+    @Value("${keyApp}")
+    private String keyApp;
 	/**
 	 * 用户id
 	 */
@@ -212,15 +236,75 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
         }
     }
 
-
-	public String getUserid(String sourceOfCertification) {
+    public String getUserid(String sourceOfCertification) {
 		String string = "";
 		if("C".equals(sourceOfCertification)){
 			string = userid;
 		}else if("Z".equals(sourceOfCertification)){
 			string = useridAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = useridApp;
 		}else {
 			string = userid;
+		}
+		return string;
+	}
+
+
+	public String getUserpwd(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = userpwd;
+		}else if("Z".equals(sourceOfCertification)){
+			string = userpwdAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = userpwdApp;
+		}else {
+			string = userpwd;
+		}
+		return string;
+	}
+
+
+	public String getUrl(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = url;
+		}else if("Z".equals(sourceOfCertification)){
+			string = urlAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = urlApp;
+		}else {
+			string = url;
+		}
+		return string;
+	}
+
+	public String getMethod(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = method;
+		}else  if("Z".equals(sourceOfCertification)){
+			string = methodAlipay;
+		}else  if("A".equals(sourceOfCertification)){
+			string = methodApp;
+		}else {
+			string = method;
+		}
+		return string;
+	}
+
+
+	public String getKey(String sourceOfCertification) {
+		String string = "";
+		if("C".equals(sourceOfCertification)){
+			string = key;
+		}else if("Z".equals(sourceOfCertification)){
+			string = keyAlipay;
+		}else if("A".equals(sourceOfCertification)){
+			string = keyApp;
+		}else {
+			string = key;
 		}
 		return string;
 	}
@@ -231,72 +315,17 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	}
 
 
-	public String getUserpwd(String sourceOfCertification) {
-		String string = "";
-		if("C".equals(sourceOfCertification)){
-			string = userpwd;
-		}else if("Z".equals(sourceOfCertification)){
-			string = userpwdAlipay;
-		}else {
-			string = userpwd;
-		}
-		return string;
-	}
-
-
 	public void setUserpwd(String userpwd) {
 		this.userpwd = userpwd;
 	}
-
-
-	public String getUrl(String sourceOfCertification) {
-		String string = "";
-		if("C".equals(sourceOfCertification)){
-			string = url;
-		}else if("Z".equals(sourceOfCertification)){
-			string = urlAlipay;
-		}else {
-			string = url;
-		}
-		return string;
-	}
-
 
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
-
-	public String getMethod(String sourceOfCertification) {
-		String string = "";
-		if("C".equals(sourceOfCertification)){
-			string = method;
-		}else  if("Z".equals(sourceOfCertification)){
-			string = methodAlipay;
-		}else {
-			string = method;
-		}
-		return string;
-	}
-
-
 	public void setMethod(String method) {
 		this.method = method;
 	}
-
-
-	public String getKey(String sourceOfCertification) {
-		String string = "";
-		if("C".equals(sourceOfCertification)){
-			string = key;
-		}else if("Z".equals(sourceOfCertification)){
-			string = keyAlipay;
-		}else {
-			string = key;
-		}
-		return string;
-	}
-
 
 	public void setKey(String key) {
 		this.key = key;

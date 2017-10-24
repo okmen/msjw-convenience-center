@@ -52,7 +52,7 @@ public class TestConvenienceService {
 		bean.setAddressStreet("街道");	//街道
 		bean.setAddressSite("站点");	    //站点
 		bean.setIdentityCard("2222222222222222");  //身份证号
-		
+		bean.setSourceOfCertification("A");
 		try {
 			convenienceService.equipmentDamageReport(bean);
 		} catch (Exception e) {
@@ -80,7 +80,7 @@ public class TestConvenienceService {
 		bean.setAddressStreet("街道");	//街道
 		bean.setAddressSite("站点");	    //站点
 		bean.setIdentityCard("2222222222222222");  //身份证号
-		
+		bean.setSourceOfCertification("A");
 		try {
 			convenienceService.safeHiddenDanger(bean);
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class TestConvenienceService {
 		bean.setImproveAdvice("改善建议1111");  	//改善建议
 		bean.setAddress("福田区彩田路");			//主题地点描述
 		bean.setAddressCode("102.234234,24.2342342");  // 经纬度  主题地点代码
-		
+		bean.setSourceOfCertification("A");
 		try {
 			convenienceService.trafficCongestion(bean);
 		} catch (Exception e) {
@@ -129,7 +129,7 @@ public class TestConvenienceService {
 		bean.setCongestionType("机动车违法停放");  //机动车违法停放
 		bean.setAddress("福田区彩田路");			//主题地点描述
 		bean.setAddressCode("102.234234,24.2342342");  // 经纬度  主题地点代码
-		
+		bean.setSourceOfCertification("A");
 		try {
 			convenienceService.sequenceChaos(bean);
 		} catch (Exception e) {
@@ -147,7 +147,7 @@ public class TestConvenienceService {
 		bean.setAbbreviation("粤");		//车牌简称
 		bean.setCarType("02");		//车类型
 		bean.setDoodgenAddress("深南大道8888号");
-		
+		bean.setSourceOfCertification("A");
 		try {
 			convenienceService.oneKeyDodgen(bean);
 		} catch (Exception e) {
