@@ -181,11 +181,7 @@
 				
 				<!--微信刷脸参数配置-->
 				<secretkey>9828577231bdc6d01754e292023cdbb8</secretkey>
-				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>
-<<<<<<< Updated upstream
-				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl> 
-				
-=======
+				<aeskey>26cb3f325891d42bec10efdeec9a4f95</aeskey>	
 				<infoUrl>https://iauth-sandbox.wecity.qq.com/new/cgi-bin/getdetectinfo.php</infoUrl>
 				
 				<!-- 警司通参数-APP -->
@@ -194,7 +190,7 @@
 				<jiaojing.url.app>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.app>
 				<jiaojing.method.app>xxptSchuding</jiaojing.method.app>
 				<jiaojing.key.app>VUCr6YKOFdaPpQcOtLgRETCV</jiaojing.key.app>
->>>>>>> Stashed changes
+
 			</properties>
 		</profile>
 
