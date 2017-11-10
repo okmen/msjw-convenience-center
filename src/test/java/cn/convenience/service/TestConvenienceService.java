@@ -23,7 +23,10 @@ public class TestConvenienceService {
 	@Autowired
 	@Qualifier("convenienceService")
 	private IConvenienceService convenienceService;
-
+	/**
+	 * 平安好车主
+	 * @throws Exception
+	 */
 	@Test
 	public void testPAGoodOwner() throws Exception{
 		ApplyForPAGoodCarOwners pa = new ApplyForPAGoodCarOwners();
