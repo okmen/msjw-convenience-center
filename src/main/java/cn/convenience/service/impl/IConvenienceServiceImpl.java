@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.EbikeInfoBean;
 import cn.convenience.bean.FeedbackResultBean;
@@ -473,6 +474,45 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			return String.valueOf(currYear - bornYear);
 		}
 		return "";
+	}
+
+	@Override
+	public BaseBean applyForPAGoodCarOwners(ApplyForPAGoodCarOwners applyForPAGoodCarOwners) throws Exception {
+	logger.info("平安好车主评选采集webService...");
+		
+		String interfaceNumber = "pahcz01";  //接口编号
+		BaseBean refBean = new BaseBean();  //创建返回信息
+		
+		//拼装xml数据
+		StringBuffer sb = new StringBuffer();
+			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST>")
+			.append("<CZXM>").append(applyForPAGoodCarOwners.getOwnerName()).append("</CZXM>")     
+			.append("<JSZH>").append(applyForPAGoodCarOwners.getDriverLicense()).append("</JSZH>")  
+			.append("<HPHM>").append(applyForPAGoodCarOwners.getLicenseNumber()).append("</HPHM>")    
+			.append("<HPZL>").append(applyForPAGoodCarOwners.getNumberPlate()).append("</HPZL>")   
+			.append("<SJHM>").append(applyForPAGoodCarOwners.getMobile()).append("</SJHM>")  
+			.append("<AQXY>").append(applyForPAGoodCarOwners.getSecurityDeclaration()).append("</AQXY>")   
+			.append("<RZZP>").append(applyForPAGoodCarOwners.getRZZP()).append("</RZZP>")   
+			.append("<SQLY>").append(applyForPAGoodCarOwners.getSourceOfCertification()).append("</SQLY>")    
+			.append("</REQUEST>");
+		
+		try {
+			@SuppressWarnings("static-access")
+			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(applyForPAGoodCarOwners.getSourceOfCertification()), convenienceCache.getMethod(applyForPAGoodCarOwners.getSourceOfCertification()), 
+					interfaceNumber,sb.toString(),convenienceCache.getUserid(applyForPAGoodCarOwners.getSourceOfCertification()),convenienceCache.getUserpwd(applyForPAGoodCarOwners.getSourceOfCertification()),convenienceCache.getKey(applyForPAGoodCarOwners.getSourceOfCertification()));
+
+			refBean.setCode(respStr.get("CODE").toString());  //返回状态码
+			refBean.setMsg(respStr.get("MSG").toString());	  //返回消息描述
+			
+			logger.info("【平安好车主评选信息采集结果:"+respStr);
+		} catch (Exception e) {
+			logger.error("平安好车主评选信息采集失败！applyForPAGoodCarOwners="+applyForPAGoodCarOwners.toString(),e);
+			
+//			refBean.setCode(MsgCode.exception);  //返回状态码  系统返回错误
+//			refBean.setMsg("服务器繁忙！");	  //返回消息描述
+			throw e;
+		}
+		return refBean;
 	}
 	
 }
