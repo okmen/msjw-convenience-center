@@ -168,6 +168,7 @@
 				
 				<!-- 域名地址 -->
 				<templateSendUrl>http://testh5.chudaokeji.com/h5/#/submitSuccess?</templateSendUrl>
+				<templateSendUrl2>http://testh5.chudaokeji.com/h5/#/goodOwners/submitSuccess?</templateSendUrl2>
 
 				<!-- 警司通参数-支付宝 -->
 				<jiaojing.userid.alipay>zfb</jiaojing.userid.alipay>
@@ -248,6 +249,7 @@
 				
 				<!-- 域名地址 -->
 				<templateSendUrl>http://testh5.chudaokeji.com/h5/#/submitSuccess?</templateSendUrl>
+				<templateSendUrl2>http://testh5.chudaokeji.com/h5/#/goodOwners/submitSuccess?</templateSendUrl2>
 				<!-- 警司通参数-支付宝 -->
 				<jiaojing.userid.alipay>zfb</jiaojing.userid.alipay>
 				<jiaojing.userpwd.alipay>zfb!201506</jiaojing.userpwd.alipay>
@@ -331,6 +333,7 @@
 				
 				<!-- 域名地址 -->
 				<templateSendUrl>http://szjj.u-road.com/h5/#/submitSuccess?</templateSendUrl>
+				<templateSendUrl2>http://szjj.u-road.com/h5/#/goodOwners/submitSuccess?</templateSendUrl2>
 				<!-- 警司通参数-支付宝 -->
 				<jiaojing.userid.alipay>zfb</jiaojing.userid.alipay>
 				<jiaojing.userpwd.alipay>zfb!201506</jiaojing.userpwd.alipay>

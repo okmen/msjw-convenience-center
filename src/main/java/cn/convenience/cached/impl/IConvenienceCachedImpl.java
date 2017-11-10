@@ -76,6 +76,11 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
      */
     @Value("${templateSendUrl}")
     private String templateSendUrl;
+    /**
+     * 模板消息URL
+     */
+    @Value("${templateSendUrl2}")
+    private String templateSendUrl2;
     
     
     /**
@@ -357,6 +362,12 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	}
 	public void setInfoUrl(String infoUrl) {
 		this.infoUrl = infoUrl;
+	}
+	public String getTemplateSendUrl2() {
+		return templateSendUrl2;
+	}
+	public void setTemplateSendUrl2(String templateSendUrl2) {
+		this.templateSendUrl2 = templateSendUrl2;
 	}
     
     

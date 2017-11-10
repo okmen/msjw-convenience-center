@@ -43,8 +43,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	 * 获取发送模板消息的域名地址
 	 */
 	@Override
-	public String getTemplateSendUrl() {
-		String url = convenienceCache.getTemplateSendUrl();
+	public String getTemplateSendUrl2() {
+		String url = convenienceCache.getTemplateSendUrl2();
 		logger.info("获取到的域名地址是：" + url);
 		return url;
 	}
