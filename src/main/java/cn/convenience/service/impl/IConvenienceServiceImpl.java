@@ -503,7 +503,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			.append("<RZZP>").append(applyForPAGoodCarOwners.getRZZP()).append("</RZZP>")   
 			.append("<SQLY>").append(applyForPAGoodCarOwners.getSourceOfCertification()).append("</SQLY>")    
 			.append("</REQUEST>");
-		logger.info("【平安好车主】xml=" + sb);
+		//logger.info("【平安好车主】xml=" + sb);
 		try {
 			@SuppressWarnings("static-access")
 			JSONObject respStr = WebServiceClient.getInstance().requestWebService(convenienceCache.getUrl(applyForPAGoodCarOwners.getSourceOfCertification()), convenienceCache.getMethod(applyForPAGoodCarOwners.getSourceOfCertification()), 
