@@ -369,6 +369,16 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	public void setTemplateSendUrl2(String templateSendUrl2) {
 		this.templateSendUrl2 = templateSendUrl2;
 	}
+	public void setKey(String key, Object value) {
+		objectcacheManger.set(key, value);
+	}
+	public void expire(String key, int seconds) {
+		objectcacheManger.expire(key, seconds);
+		
+	}
+	public boolean exists(String key) {
+		return objectcacheManger.exists(key);
+	}
     
     
 }

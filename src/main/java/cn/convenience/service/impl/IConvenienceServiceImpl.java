@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.convenience.bean.ActivityVote;
 import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.EbikeInfoBean;
@@ -20,10 +21,12 @@ import cn.convenience.bean.FeedbackResultBean;
 import cn.convenience.bean.UserInfoBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
+import cn.convenience.dao.IActivityVoteDao;
 import cn.convenience.dao.IConvenienceDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.exception.WebServiceException;
+import cn.sdk.util.Constants;
 import cn.sdk.util.DateUtil;
 import cn.sdk.util.HttpClientUtil;
 import cn.sdk.util.MsgCode;
@@ -35,6 +38,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 
 	@Autowired
 	private IConvenienceDao convenienceDao;
+	
+	@Autowired
+	private IActivityVoteDao activityVoteDao;
 
 	@Autowired
 	private IConvenienceCachedImpl convenienceCache;
@@ -526,6 +532,43 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			throw e;
 		}
 		return refBean;*/
+	}
+	@Override
+	public int deleteById(Integer id) throws Exception {
+		return activityVoteDao.deleteById(id);
+	}
+	@Override
+	public int insert(ActivityVote record) throws Exception {
+		return activityVoteDao.insert(record);
+	}
+	@Override
+	public ActivityVote selectById(Integer id) throws Exception {
+		return activityVoteDao.selectById(id);
+	}
+	@Override
+	public List<ActivityVote> getVoteByPage(Integer page ,Integer pageSize) throws Exception {
+		return activityVoteDao.getVoteByPage(page ,pageSize);
+	}
+	@Override
+	public int updateById(ActivityVote record) throws Exception {
+		return activityVoteDao.updateById(record);
+	}
+	@Override
+	public int queryCount() throws Exception {
+		return activityVoteDao.queryCount();
+	}
+	@Override
+	public void setKey(String key,int seconds) {
+		convenienceCache.setKey(Constants.VOTE_LOCK_KEY_+key, true);
+		convenienceCache.expire(Constants.VOTE_LOCK_KEY_+key, seconds);
+	}
+	@Override
+	public boolean exists(String key) {
+		return convenienceCache.exists(Constants.VOTE_LOCK_KEY_+key);
+	}
+	@Override
+	public List<ActivityVote> getFrontVote(Integer total) throws Exception {
+		return activityVoteDao.getFrontVote(total);
 	}
 	
 }
