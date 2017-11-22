@@ -491,7 +491,12 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		String interfaceNumber = "pahcz01";  //接口编号
 		BaseBean refBean = new BaseBean();  //创建返回信息
 		
-		//拼装xml数据
+		//活动结束提醒
+		refBean.setCode("0002");
+		refBean.setMsg("报名活动已结束，感谢您的参与！");
+		return refBean;
+		
+		/*//拼装xml数据
 		StringBuffer sb = new StringBuffer();
 			sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST>")
 			.append("<CZXM>").append(applyForPAGoodCarOwners.getOwnerName()).append("</CZXM>")     
@@ -520,7 +525,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 //			refBean.setMsg("服务器繁忙！");	  //返回消息描述
 			throw e;
 		}
-		return refBean;
+		return refBean;*/
 	}
 	
 }
