@@ -61,7 +61,7 @@
     )AS obj_
     where obj_.id = #{id}
   </select>
-  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByName"  resultMap="BaseResultMap">
     select 
    	  obj_.id,
 	  obj_.name,
@@ -93,7 +93,8 @@
             ) AS obj,
             ( SELECT @rownum := 0) r
     )AS obj_
-    where obj_.name like CONCAT('%', #{Name}, '%')
+    where obj_.name like CONCAT('%', #{name}, '%')
+    limit #{page},#{pageSize}
   </select>
   <select id="getVoteByPage" resultMap="BaseResultMap">
   select 
