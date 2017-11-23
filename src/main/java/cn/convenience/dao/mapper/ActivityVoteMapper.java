@@ -23,5 +23,5 @@ public interface ActivityVoteMapper {
     
     int queryCountSum() throws Exception;
     
-    List<ActivityVote> selectByName(String name) throws Exception;
+    List<ActivityVote> selectByName(@Param("name")String name,@Param("page")int page ,@Param("pageSize")int pageSize) throws Exception;
 }

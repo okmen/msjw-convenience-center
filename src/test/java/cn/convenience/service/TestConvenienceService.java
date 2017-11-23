@@ -62,7 +62,7 @@ public class TestConvenienceService {
 	
 	@Test
 	public void testselectByName()throws Exception{
-		List<ActivityVote> selectByName = convenienceService.selectByName("小");
+		List<ActivityVote> selectByName = convenienceService.selectByName("小",0,10);
 		for (ActivityVote activityVote : selectByName) {
 			System.out.println(activityVote.getName()+"的票数是"+activityVote.getCount()+"排名是第"+activityVote.getRank()+"名");
 		}

@@ -21,5 +21,5 @@ public interface IActivityVoteDao {
     
     int queryCountSum() throws Exception;
     
-    List<ActivityVote> selectByName(String name) throws Exception;
+    List<ActivityVote> selectByName(String name,int page ,int pageSize) throws Exception;
 }

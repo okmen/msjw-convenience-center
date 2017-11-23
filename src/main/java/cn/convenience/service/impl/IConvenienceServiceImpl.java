@@ -603,8 +603,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		return activityVoteDao.queryCountSum();
 	}
 	@Override
-	public List<ActivityVote> selectByName(String name) throws Exception {
-		return activityVoteDao.selectByName(name);
+	public List<ActivityVote> selectByName(String name,int page ,int pageSize) throws Exception {
+		return activityVoteDao.selectByName(name,page,pageSize);
 	}
 	
 }
