@@ -610,6 +610,14 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	public int selectRank(int count) throws Exception {
 		return activityVoteDao.selectRank(count);
 	}
+	@Override
+	public void setFront15(Object list) {
+		convenienceCache.setFront15(list);
+	}
+	@Override
+	public Object getFront15() {
+		return convenienceCache.getFront15();
+	}
 
 	
 }

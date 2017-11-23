@@ -379,6 +379,10 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	public boolean exists(String key) {
 		return objectcacheManger.exists(key);
 	}
-    
-    
+    public Object getFront15(){
+    	return objectcacheManger.get(RANK15_VOTE_LIST_KEY);
+    }
+    public void setFront15(Object list){
+    	objectcacheManger.set(RANK15_VOTE_LIST_KEY, list, 60);
+    }
 }
