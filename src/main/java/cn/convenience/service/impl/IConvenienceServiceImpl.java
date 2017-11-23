@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.convenience.bean.ActivityVote;
+import cn.convenience.bean.ActivityVoteRecord;
 import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.EbikeInfoBean;
@@ -22,10 +23,10 @@ import cn.convenience.bean.UserInfoBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IActivityVoteDao;
+import cn.convenience.dao.IActivityVoteRecordDao;
 import cn.convenience.dao.IConvenienceDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
-import cn.sdk.exception.WebServiceException;
 import cn.sdk.util.Constants;
 import cn.sdk.util.DateUtil;
 import cn.sdk.util.HttpClientUtil;
@@ -41,6 +42,8 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	
 	@Autowired
 	private IActivityVoteDao activityVoteDao;
+	@Autowired
+	private IActivityVoteRecordDao activityVoteRecordDao;
 
 	@Autowired
 	private IConvenienceCachedImpl convenienceCache;
@@ -569,6 +572,31 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	@Override
 	public List<ActivityVote> getFrontVote(Integer total) throws Exception {
 		return activityVoteDao.getFrontVote(total);
+	}
+	
+	
+	@Override
+	public void GoodCarOwnerWechat() throws Exception {
+		//dubbo监控统计投票页面浏览量
+	}
+	@Override
+	public void GoodCarOwnerAlipay() throws Exception {
+		//dubbo监控统计投票页面浏览量
+	}
+	@Override
+	public void GoodCarOwnerPingan() throws Exception {
+		//dubbo监控统计投票页面浏览量
+	}
+	@Override
+	public int addVoteRecord(ActivityVoteRecord record) {
+		int count = 0;
+		try {
+			count = activityVoteRecordDao.addVoteRecord(record);
+		} catch (Exception e) {
+			logger.error("addVoteRecord 错误", e);
+			throw e;
+		}
+		return count;
 	}
 	
 }

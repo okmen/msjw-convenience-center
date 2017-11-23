@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.convenience.bean.ActivityVote;
+import cn.convenience.bean.ActivityVoteRecord;
 import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.WechatUserInfoBean;
@@ -71,6 +72,16 @@ public class TestConvenienceService {
 		record.setCount(2);
 		int updateById = convenienceService.updateById(record);
 		System.out.println(updateById);
+	}
+	
+	@Test
+	public void testaddVoteRecord() throws Exception{
+		ActivityVoteRecord record = new ActivityVoteRecord();
+		record.setUniqueId("openid");
+		record.setVoteDate(new Date());
+		record.setSource("C");
+		int count = convenienceService.addVoteRecord(record);
+		System.out.println(count);
 	}
 	
 	/**

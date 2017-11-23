@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.convenience.dao.mapper.ActivityVoteRecordMapper">
+
+	<insert id="addVoteRecord" parameterType="cn.convenience.bean.ActivityVoteRecord" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+			`activity_vote_record` (`unique_id`, `vote_date`, `source`) 
+		VALUES 
+			(#{uniqueId}, #{voteDate}, #{source});
+	</insert>
+	
+</mapper>
