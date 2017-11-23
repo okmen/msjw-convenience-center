@@ -61,6 +61,11 @@ public class TestConvenienceService {
 	}
 	
 	@Test
+	public void testqueryCountSum()throws Exception{
+		int count = convenienceService.queryCountSum();
+		System.out.println(count);
+	}
+	@Test
 	public void testqueryCount()throws Exception{
 		int count = convenienceService.queryCount();
 		System.out.println(count);

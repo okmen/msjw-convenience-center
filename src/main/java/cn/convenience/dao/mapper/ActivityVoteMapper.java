@@ -20,4 +20,6 @@ public interface ActivityVoteMapper {
     int queryCount() throws Exception;
     
     List<ActivityVote> getFrontVote(Integer total) throws Exception;
+    
+    int queryCountSum() throws Exception;
 }

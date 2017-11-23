@@ -46,5 +46,10 @@ public class IActivityDaoImpl implements IActivityVoteDao{
 	public List<ActivityVote> getFrontVote(Integer total) throws Exception {
 		return activityVoteMapper.getFrontVote(total);
 	}
+
+	@Override
+	public int queryCountSum() throws Exception {
+		return activityVoteMapper.queryCountSum();
+	}
 	
 }

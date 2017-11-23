@@ -125,4 +125,8 @@
     select count(id)
     from activity_vote
   </select>
+  <select id="queryCountSum" resultType="java.lang.Integer">
+    select sum(count)
+    from activity_vote
+  </select>
 </mapper>

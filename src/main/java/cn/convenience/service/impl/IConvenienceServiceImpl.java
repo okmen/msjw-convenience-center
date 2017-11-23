@@ -598,5 +598,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		}
 		return count;
 	}
+	@Override
+	public int queryCountSum() throws Exception {
+		return activityVoteDao.queryCountSum();
+	}
 	
 }
