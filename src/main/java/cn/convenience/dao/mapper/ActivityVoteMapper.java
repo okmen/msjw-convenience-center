@@ -15,7 +15,7 @@ public interface ActivityVoteMapper {
 
     List<ActivityVote> getVoteByPage(@Param("page")Integer page ,@Param("pageSize")Integer pageSize) throws Exception;
 
-    int updateById(ActivityVote record) throws Exception;
+    int updateById(int id) throws Exception;
     
     int queryCount() throws Exception;
     
@@ -23,5 +23,7 @@ public interface ActivityVoteMapper {
     
     int queryCountSum() throws Exception;
     
-    List<ActivityVote> selectByName(@Param("name")String name,@Param("page")int page ,@Param("pageSize")int pageSize) throws Exception;
+    ActivityVote selectByName(@Param("name")String name) throws Exception;
+    
+    int selectRank(int count)throws Exception;
 }

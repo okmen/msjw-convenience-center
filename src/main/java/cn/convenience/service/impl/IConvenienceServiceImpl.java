@@ -553,10 +553,6 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		return activityVoteDao.getVoteByPage(page ,pageSize);
 	}
 	@Override
-	public int updateById(ActivityVote record) throws Exception {
-		return activityVoteDao.updateById(record);
-	}
-	@Override
 	public int queryCount() throws Exception {
 		return activityVoteDao.queryCount();
 	}
@@ -603,8 +599,17 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		return activityVoteDao.queryCountSum();
 	}
 	@Override
-	public List<ActivityVote> selectByName(String name,int page ,int pageSize) throws Exception {
-		return activityVoteDao.selectByName(name,page,pageSize);
+	public int updateById(int id) throws Exception {
+		return activityVoteDao.updateById(id);
 	}
+	@Override
+	public ActivityVote selectByName(String name) throws Exception {
+		return activityVoteDao.selectByName(name);
+	}
+	@Override
+	public int selectRank(int count) throws Exception {
+		return activityVoteDao.selectRank(count);
+	}
+
 	
 }

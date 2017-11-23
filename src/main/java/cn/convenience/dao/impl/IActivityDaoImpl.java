@@ -33,11 +33,6 @@ public class IActivityDaoImpl implements IActivityVoteDao{
 	}
 
 	@Override
-	public int updateById(ActivityVote record) throws Exception{
-		return activityVoteMapper.updateById(record);
-	}
-
-	@Override
 	public int queryCount() throws Exception{
 		return activityVoteMapper.queryCount();
 	}
@@ -53,8 +48,20 @@ public class IActivityDaoImpl implements IActivityVoteDao{
 	}
 
 	@Override
-	public List<ActivityVote> selectByName(String name,int page ,int pageSize) throws Exception {
-		return activityVoteMapper.selectByName(name,page ,pageSize);
+	public int updateById(int id) throws Exception {
+		return activityVoteMapper.updateById(id);
 	}
+
+	@Override
+	public ActivityVote selectByName(String name) throws Exception {
+		return activityVoteMapper.selectByName(name);
+	}
+
+	@Override
+	public int selectRank(int count) throws Exception {
+		return activityVoteMapper.selectRank(count);
+	}
+
+
 	
 }

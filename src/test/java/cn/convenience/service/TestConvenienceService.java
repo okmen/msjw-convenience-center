@@ -1,5 +1,5 @@
 package cn.convenience.service;
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +17,8 @@ import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.util.DateUtil;
+import cn.sdk.util.DateUtil2;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:junit-test.xml" })
@@ -25,17 +27,18 @@ public class TestConvenienceService {
 	@Autowired
 	@Qualifier("convenienceService")
 	private IConvenienceService convenienceService;
-	@Test
+	/*@Test
 	public void testinsert()throws Exception{
 		ActivityVote activityVote = new ActivityVote();
 		activityVote.setImgUrl("zzz");
 		activityVote.setName("至糕之勇");
 		activityVote.setNumber(111);
 		activityVote.setSecurityDeclaration("小声点");
-		activityVote.setCount(0);
-		int insert = convenienceService.insert(activityVote);
-		System.out.println(insert);
-	}
+		for (int i = 0; i < 400; i++) {
+			activityVote.setCount(0);
+			int insert = convenienceService.insert(activityVote);
+		}
+	}*/
 	
 	@Test
 	public void testgetVoteByPage()throws Exception{
@@ -62,10 +65,8 @@ public class TestConvenienceService {
 	
 	@Test
 	public void testselectByName()throws Exception{
-		List<ActivityVote> selectByName = convenienceService.selectByName("小",0,10);
-		for (ActivityVote activityVote : selectByName) {
-			System.out.println(activityVote.getName()+"的票数是"+activityVote.getCount()+"排名是第"+activityVote.getRank()+"名");
-		}
+		ActivityVote selectByName = convenienceService.selectByName("宁敏");
+		System.out.println(selectByName.getName());
 	}
 	
 	@Test
@@ -80,10 +81,13 @@ public class TestConvenienceService {
 	}
 	@Test
 	public void testVote()throws Exception{
-		ActivityVote record = new ActivityVote();
-		record.setId(10);
-		record.setCount(2);
-		int updateById = convenienceService.updateById(record);
+		int updateById = convenienceService.updateById(1);
+		System.out.println(updateById);
+	}
+	
+	@Test
+	public void testVote1()throws Exception{
+		int updateById = convenienceService.selectRank(2);
 		System.out.println(updateById);
 	}
 	
@@ -525,4 +529,23 @@ public class TestConvenienceService {
 		System.out.println(convenienceService.getEbikeInfoByFileNo("440300000004"));
 	}
 
+	@Test
+	public void testGetEbikeInfoByFileNo1() throws Exception{
+		//Date date = DateUtil.parseFromFormats("2017-11-28");
+		String str="2017-11-29 00:00:00";
+		String dataStr=DateUtil2.date2str(DateUtil2.dayStr2date(str));
+		Date date=DateUtil2.dayStr2date("2017-11-28 59:59:59");
+	    boolean ret=date.before(DateUtil2.dayStr2date(str));
+		System.out.println(ret);
+	/*	System.out.println(date);
+		long time = DateUtil.getEndOfDay(date).getTime();
+		DateUtil.getEndOfDay(new Date()).getTime();
+
+		System.out.println(time);
+		System.out.println(System.currentTimeMillis());
+		long a = time - System.currentTimeMillis();
+		System.out.println(a);
+		System.out.println("1510930799999");*/
+	}
+	
 }

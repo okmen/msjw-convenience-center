@@ -24,137 +24,59 @@
   </insert>
   <update id="updateById" parameterType="cn.convenience.bean.ActivityVote">
     update activity_vote
-    set count = #{count}
+    set count = count + 1
     where id = #{id}
   </update>
   <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-   	  obj_.id,
-	  obj_.name,
-	  obj_.number,
-	  obj_.img_url,
-	  obj_.security_declaration,
-	  obj_.count,
-	  obj_.rownum
-    from (
-    	 SELECT
-             obj.id,
-    		 obj.name,
-             obj.number,
-             obj.img_url,
-             obj.security_declaration,
-             obj.count,
-             @rownum := @rownum + 1 AS rownum
-        FROM
-            (
-               select 
-	               id, 
-	               number, 
-	               name, 
-	               img_url, 
-	               security_declaration, 
-	               count
-	    		   from activity_vote
-    		    ORDER BY count DESC
-            ) AS obj,
-            ( SELECT @rownum := 0) r
-    )AS obj_
-    where obj_.id = #{id}
+       select 
+       id, 
+       number, 
+       name, 
+       img_url, 
+       security_declaration, 
+       count
+ 	   from activity_vote
+      where id = #{id}
   </select>
-  <select id="selectByName"  resultMap="BaseResultMap">
-    select 
-   	  obj_.id,
-	  obj_.name,
-	  obj_.number,
-	  obj_.img_url,
-	  obj_.security_declaration,
-	  obj_.count,
-	  obj_.rownum
-    from (
-    	 SELECT
-             obj.id,
-    		 obj.name,
-             obj.number,
-             obj.img_url,
-             obj.security_declaration,
-             obj.count,
-             @rownum := @rownum + 1 AS rownum
-        FROM
-            (
-               select 
-	               id, 
-	               number, 
-	               name, 
-	               img_url, 
-	               security_declaration, 
-	               count
-	    		   from activity_vote
-    		    ORDER BY count DESC
-            ) AS obj,
-            ( SELECT @rownum := 0) r
-    )AS obj_
-    where obj_.name like CONCAT('%', #{name}, '%')
-    limit #{page},#{pageSize}
+  <select id="selectRank" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+       select count(number) from activity_vote where count > #{count}
+       
+  </select>
+  <select id="selectByName"  parameterType="java.lang.String" resultMap="BaseResultMap">
+       select 
+        id, 
+        number, 
+        name, 
+        img_url, 
+        security_declaration, 
+        count
+        from activity_vote
+      where name = #{name}
   </select>
   <select id="getVoteByPage" resultMap="BaseResultMap">
-  select 
-   	  obj_.id,
-	  obj_.name,
-	  obj_.number,
-	  obj_.img_url,
-	  obj_.security_declaration,
-	  obj_.count,
-	  obj_.rownum
-    from (
-    	 SELECT
-             obj.id,
-    		 obj.name,
-             obj.number,
-             obj.img_url,
-             obj.security_declaration,
-             obj.count,
-             @rownum := @rownum + 1 AS rownum
-        FROM
-            (
-               select 
-	               id, 
-	               number, 
-	               name, 
-	               img_url, 
-	               security_declaration, 
-	               count
-	    		   from activity_vote
-    		    ORDER BY count DESC
-            ) AS obj,
-            ( SELECT @rownum := 0) r
-    )AS obj_
-    ORDER BY obj_.id ASC
-    limit #{page},#{pageSize}
+         select 
+         id, 
+         number, 
+         name, 
+         img_url, 
+         security_declaration, 
+         count
+         from activity_vote
+         ORDER BY id
+        limit #{page},#{pageSize}
   </select>
    <select id="getFrontVote" resultMap="BaseResultMap">
-        SELECT
-             obj.id,
-    		 obj.name,
-             obj.number,
-             obj.img_url,
-             obj.security_declaration,
-             obj.count,
-             @rownum := @rownum + 1 AS rownum
-        FROM
-            (
-               select 
-	               id, 
-	               number, 
-	               name, 
-	               img_url, 
-	               security_declaration, 
-	               count
-	    		   from activity_vote
-	    		    where count != 0
-    		    ORDER BY count DESC
-            ) AS obj,
-            ( SELECT @rownum := 0) r
-      limit 0,#{total}
+           select 
+          id, 
+          number, 
+          name, 
+         img_url, 
+          security_declaration, 
+          count
+  		 from activity_vote
+  		 where count != 0
+ 		 ORDER BY count DESC
+        limit 0,#{total}
   </select>
   <select id="queryCount" resultType="java.lang.Integer">
     select count(id)
