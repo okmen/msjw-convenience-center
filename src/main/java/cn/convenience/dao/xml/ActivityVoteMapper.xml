@@ -93,7 +93,7 @@
             ) AS obj,
             ( SELECT @rownum := 0) r
     )AS obj_
-    ORDER BY id ASC
+    ORDER BY obj_.id ASC
     limit #{page},#{pageSize}
   </select>
    <select id="getFrontVote" resultMap="BaseResultMap">
