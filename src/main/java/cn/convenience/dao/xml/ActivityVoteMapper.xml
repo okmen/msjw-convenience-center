@@ -61,6 +61,40 @@
     )AS obj_
     where obj_.id = #{id}
   </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+   	  obj_.id,
+	  obj_.name,
+	  obj_.number,
+	  obj_.img_url,
+	  obj_.security_declaration,
+	  obj_.count,
+	  obj_.rownum
+    from (
+    	 SELECT
+             obj.id,
+    		 obj.name,
+             obj.number,
+             obj.img_url,
+             obj.security_declaration,
+             obj.count,
+             @rownum := @rownum + 1 AS rownum
+        FROM
+            (
+               select 
+	               id, 
+	               number, 
+	               name, 
+	               img_url, 
+	               security_declaration, 
+	               count
+	    		   from activity_vote
+    		    ORDER BY count DESC
+            ) AS obj,
+            ( SELECT @rownum := 0) r
+    )AS obj_
+    where obj_.name like CONCAT('%', #{Name}, '%')
+  </select>
   <select id="getVoteByPage" resultMap="BaseResultMap">
   select 
    	  obj_.id,

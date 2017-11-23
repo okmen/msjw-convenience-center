@@ -22,4 +22,6 @@ public interface ActivityVoteMapper {
     List<ActivityVote> getFrontVote(Integer total) throws Exception;
     
     int queryCountSum() throws Exception;
+    
+    List<ActivityVote> selectByName(String name) throws Exception;
 }

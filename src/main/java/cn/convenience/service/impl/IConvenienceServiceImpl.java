@@ -602,5 +602,9 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	public int queryCountSum() throws Exception {
 		return activityVoteDao.queryCountSum();
 	}
+	@Override
+	public List<ActivityVote> selectByName(String name) throws Exception {
+		return activityVoteDao.selectByName(name);
+	}
 	
 }

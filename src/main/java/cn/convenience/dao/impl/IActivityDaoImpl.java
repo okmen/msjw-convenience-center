@@ -51,5 +51,10 @@ public class IActivityDaoImpl implements IActivityVoteDao{
 	public int queryCountSum() throws Exception {
 		return activityVoteMapper.queryCountSum();
 	}
+
+	@Override
+	public List<ActivityVote> selectByName(String name) throws Exception {
+		return activityVoteMapper.selectByName(name);
+	}
 	
 }

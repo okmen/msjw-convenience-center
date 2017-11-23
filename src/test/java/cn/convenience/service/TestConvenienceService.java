@@ -61,6 +61,14 @@ public class TestConvenienceService {
 	}
 	
 	@Test
+	public void testselectByName()throws Exception{
+		List<ActivityVote> selectByName = convenienceService.selectByName("小");
+		for (ActivityVote activityVote : selectByName) {
+			System.out.println(activityVote.getName()+"的票数是"+activityVote.getCount()+"排名是第"+activityVote.getRank()+"名");
+		}
+	}
+	
+	@Test
 	public void testqueryCountSum()throws Exception{
 		int count = convenienceService.queryCountSum();
 		System.out.println(count);
