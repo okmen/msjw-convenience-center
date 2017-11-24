@@ -23,7 +23,7 @@ public interface ActivityVoteMapper {
     
     int queryCountSum() throws Exception;
     
-    ActivityVote selectByName(@Param("name")String name) throws Exception;
+    List<ActivityVote> selectByName(@Param("name")String name) throws Exception;
     
     int selectRank(int count)throws Exception;
 }

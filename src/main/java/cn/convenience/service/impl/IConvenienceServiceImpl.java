@@ -603,7 +603,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 		return activityVoteDao.updateById(id);
 	}
 	@Override
-	public ActivityVote selectByName(String name) throws Exception {
+	public List<ActivityVote> selectByName(String name) throws Exception {
 		return activityVoteDao.selectByName(name);
 	}
 	@Override

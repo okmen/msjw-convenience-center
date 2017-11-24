@@ -53,7 +53,7 @@ public class IActivityDaoImpl implements IActivityVoteDao{
 	}
 
 	@Override
-	public ActivityVote selectByName(String name) throws Exception {
+	public List<ActivityVote> selectByName(String name) throws Exception {
 		return activityVoteMapper.selectByName(name);
 	}
 
