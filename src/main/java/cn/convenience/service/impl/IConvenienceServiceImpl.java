@@ -572,15 +572,15 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	
 	
 	@Override
-	public void GoodCarOwnerWechat() throws Exception {
+	public void goodCarOwnerWechat() throws Exception {
 		//dubbo监控统计投票页面浏览量
 	}
 	@Override
-	public void GoodCarOwnerAlipay() throws Exception {
+	public void goodCarOwnerAlipay() throws Exception {
 		//dubbo监控统计投票页面浏览量
 	}
 	@Override
-	public void GoodCarOwnerPingan() throws Exception {
+	public void goodCarOwnerPingan() throws Exception {
 		//dubbo监控统计投票页面浏览量
 	}
 	@Override
