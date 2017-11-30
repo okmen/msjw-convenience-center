@@ -1,5 +1,4 @@
 package cn.convenience.service;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,13 +10,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.alibaba.fastjson.JSON;
+
 import cn.convenience.bean.ActivityVote;
 import cn.convenience.bean.ActivityVoteRecord;
 import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.sdk.bean.BaseBean;
-import cn.sdk.util.DateUtil;
 import cn.sdk.util.DateUtil2;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +27,15 @@ public class TestConvenienceService {
 	@Autowired
 	@Qualifier("convenienceService")
 	private IConvenienceService convenienceService;
+	
+	@Test
+	public void testgetMSJWinfo()throws Exception{
+		String identityCard = "445222199209020034";
+		String sourceOfCertification = "M";
+		BaseBean baseBean = convenienceService.getMSJWinfo(identityCard, sourceOfCertification);
+		System.out.println(JSON.toJSONString(baseBean));
+	}
+	
 	/*@Test
 	public void testinsert()throws Exception{
 		ActivityVote activityVote = new ActivityVote();
@@ -63,11 +72,11 @@ public class TestConvenienceService {
 		}
 	}
 	
-	@Test
+	/*@Test
 	public void testselectByName()throws Exception{
 		ActivityVote selectByName = convenienceService.selectByName("宁敏");
 		System.out.println(selectByName.getName());
-	}
+	}*/
 	
 	@Test
 	public void testqueryCountSum()throws Exception{

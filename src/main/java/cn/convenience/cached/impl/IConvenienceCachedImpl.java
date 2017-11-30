@@ -117,6 +117,21 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
     @Value("${keyAlipay}")
     private String keyAlipay;
     
+    /**
+     * 民生警务参数
+     */
+    @Value("${useridMsjw}")
+    private String useridMsjw;
+    @Value("${userpwdMsjw}")
+    private String userpwdMsjw;
+    @Value("${urlMsjw}")
+    private String urlMsjw;
+    @Value("${methodMsjw}")
+    private String methodMsjw;
+    @Value("${keyMsjw}")
+    private String keyMsjw;
+    
+    
     @Value("${urlEbike}")
     private String urlEbike;
     
@@ -249,6 +264,8 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 			string = useridAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = useridApp;
+		}else if("M".equals(sourceOfCertification)){
+			string = useridMsjw;
 		}else {
 			string = userid;
 		}
@@ -264,6 +281,8 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 			string = userpwdAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = userpwdApp;
+		}else if("M".equals(sourceOfCertification)){
+			string = userpwdMsjw;
 		}else {
 			string = userpwd;
 		}
@@ -279,6 +298,8 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 			string = urlAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = urlApp;
+		}else if("M".equals(sourceOfCertification)){
+			string = urlMsjw;
 		}else {
 			string = url;
 		}
@@ -293,6 +314,8 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 			string = methodAlipay;
 		}else  if("A".equals(sourceOfCertification)){
 			string = methodApp;
+		}else  if("M".equals(sourceOfCertification)){
+			string = methodMsjw;
 		}else {
 			string = method;
 		}
@@ -308,6 +331,8 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 			string = keyAlipay;
 		}else if("A".equals(sourceOfCertification)){
 			string = keyApp;
+		}else if("M".equals(sourceOfCertification)){
+			string = keyMsjw;
 		}else {
 			string = key;
 		}

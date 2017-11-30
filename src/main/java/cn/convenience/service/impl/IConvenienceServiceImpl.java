@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.convenience.bean.ActivityVote;
@@ -19,6 +20,9 @@ import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.EbikeInfoBean;
 import cn.convenience.bean.FeedbackResultBean;
+import cn.convenience.bean.MSJWinfo;
+import cn.convenience.bean.MSJWinfo.DriverLicenceInfo;
+import cn.convenience.bean.MSJWinfo.VehicleInfo;
 import cn.convenience.bean.UserInfoBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
@@ -620,4 +624,134 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	}
 
 	
+	/**
+	 * 民生警务个人信息
+	 * @param identityCard 身份证
+	 * @param sourceOfCertification 认证来源
+	 * @return
+	 * @throws Exception
+	 */
+	public BaseBean getMSJWinfo(String identityCard, String sourceOfCertification) throws Exception {
+		logger.info("【民生警务】getMSJWinfo请求参数，identityCard = " + identityCard + ",sourceOfCertification = " + sourceOfCertification);
+		BaseBean baseBean = new BaseBean();
+		String jkId = "MSJW01";
+		StringBuffer sb = new StringBuffer();
+		try {
+			 String url = convenienceCache.getUrl(sourceOfCertification); //webservice请求url
+			 String method = convenienceCache.getMethod(sourceOfCertification); //webservice请求方法名称
+			 String userId = convenienceCache.getUserid(sourceOfCertification); //webservice登录账号
+			 String userPwd = convenienceCache.getUserpwd(sourceOfCertification); //webservice登录密码
+			 String key = convenienceCache.getKey(sourceOfCertification); //秘钥
+			 /*String url = "http://123.56.180.216:19002/xxfbpt/services/xxfbptservice"; //webservice请求url
+			 String method = "xxptSchuding"; //webservice请求方法名称
+			 String userId = "msjwpt"; //webservice登录账号
+			 String userPwd = "msjw@2017"; //webservice登录密码
+			 String key = "ZG20YD14WFJB2013XXLRJK89"; //秘钥
+*/			 
+			 sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?><REQUEST>")
+			 .append("<SFZMHM>").append(identityCard).append("</SFZMHM>")
+			 .append("<RZLY>").append(sourceOfCertification).append("</RZLY>")
+			 .append("</REQUEST>");
+			 
+			 @SuppressWarnings("static-access")
+			 JSONObject json = WebServiceClient.getInstance().requestWebService(url, method, jkId, sb.toString(), userId, userPwd, key);
+			 
+			 String CODE = json.getString("CODE");
+			 String MSG = json.getString("MSG");
+			 if(MsgCode.success.equals(CODE)){
+				 MSJWinfo info = new MSJWinfo();
+				 
+				 //个人信息
+				 JSONObject BODY = json.getJSONObject("BODY");
+				 info.setName(BODY.getString("LOGIN_TRUENAME"));//真实姓名
+				 info.setIdentityCard(BODY.getString("SFZMHM"));//身份证明号码
+				 info.setUserRole(BODY.getString("YHJS"));//用户角色
+				 info.setUserStatus(BODY.getString("ZT"));//状态  1-机动车状态
+				 info.setMobilephone(BODY.getString("YDDH"));//移动电话
+				 info.setPlaceOfDomicile(BODY.getString("SFSH"));//是否深户
+				 info.setAddress(BODY.getString("TXDZ"));//通讯地址
+				 info.setCertTime(BODY.getString("SHSJ"));//认证时间
+				 
+				 //用户是否已绑定驾驶证0-未绑定，1-已绑定
+				 String BDDRV = BODY.getString("BDDRV");
+				 info.setBindDriverLicence(BDDRV);
+				 //已绑定驾驶证
+				 if("1".equals(BDDRV)){
+					 //驾驶证信息
+					 Object driverObj = BODY.get("ROWDRV");
+					 ArrayList<MSJWinfo.DriverLicenceInfo> driverLicenceInfoList = new ArrayList<>();
+					 if(driverObj instanceof JSONArray){
+						 JSONArray arr = (JSONArray) driverObj;
+						 for(int i = 0; i < arr.size(); i++){
+							 JSONObject ROWDRV = arr.getJSONObject(i);
+							 DriverLicenceInfo driverLicenceInfo = new MSJWinfo.DriverLicenceInfo();
+							 driverLicenceInfo.setDriverLicenceNo(ROWDRV.getString("JSZHM"));//驾驶证号码
+							 driverLicenceInfo.setFileNo(ROWDRV.getString("DABH"));//驾驶证档案编号
+							 driverLicenceInfoList.add(driverLicenceInfo);
+						 }
+					 }else if(driverObj instanceof JSONObject){
+						 JSONObject ROWDRV = (JSONObject) driverObj;
+						 DriverLicenceInfo driverLicenceInfo = new MSJWinfo.DriverLicenceInfo();
+						 driverLicenceInfo.setDriverLicenceNo(ROWDRV.getString("JSZHM"));//驾驶证号码
+						 driverLicenceInfo.setFileNo(ROWDRV.getString("DABH"));//驾驶证档案编号
+						 driverLicenceInfoList.add(driverLicenceInfo);
+					 }
+					 info.setDriverLicenceInfoList(driverLicenceInfoList);
+				 }
+				 
+				 //用户是否已绑定车辆 0-未绑定，1-已绑定
+				 String BDVEH = BODY.getString("BDVEH");
+				 info.setBindVehicle(BDVEH);
+				 //已绑定车辆
+				 if("1".equals(BDVEH)){
+					 Object vehicleObj = BODY.get("ROWVEH");
+					 ArrayList<MSJWinfo.VehicleInfo> vehicleInfoList = new ArrayList<>();
+					 Map<String, String> vehicleStatusMap = Constants.listToMap(cn.convenience.utils.Constants.VEHICLE_STATUS_LIST);
+					 if(vehicleObj instanceof JSONArray){
+						 JSONArray arr = (JSONArray) vehicleObj;
+						 for(int i = 0; i < arr.size(); i++){
+							 JSONObject ROWVEH = arr.getJSONObject(i);
+							 VehicleInfo vehicleInfo = new MSJWinfo.VehicleInfo();
+							 vehicleInfo.setPlateNo(ROWVEH.getString("HPHM"));//号牌号码
+							 vehicleInfo.setPlateType(ROWVEH.getString("HPZL"));//号牌种类
+							 vehicleInfo.setInspectDate(ROWVEH.getString("SYRQ"));//审验日期
+							 vehicleInfo.setVinLast4(ROWVEH.getString("CJH4"));//车架后4位
+							 vehicleInfo.setCarOwnerName(ROWVEH.getString("CZXM"));//车主姓名
+							 vehicleInfo.setCarOwnerIdCard(ROWVEH.getString("CZSFZMHM"));//车主身份证明号码
+							 vehicleInfo.setIsMyVehicle(ROWVEH.getString("SFBR"));//是否本人
+							 vehicleInfo.setBindDepartment(ROWVEH.getString("BIND_DEPARTMENT"));//A app C微信 Z支付宝 E邮政W外网星火
+							 vehicleInfo.setVehicleStatus(vehicleStatusMap.get(ROWVEH.getString("ZT")));//状态提醒 A正常B转出C被盗抢D停驶E注销G违法未处理H海关监管I事故未处理J嫌疑车K查封L暂扣M强制注销N事故逃逸O锁定P到达报废标准公告牌证作废Q逾期未检验
+							 vehicleInfo.setForceScrapDate(ROWVEH.getString("QZBFQZ"));//强制报废期止提醒
+							 vehicleInfoList.add(vehicleInfo);
+						 }
+					 }else if(vehicleObj instanceof JSONObject){
+						 JSONObject ROWVEH = (JSONObject) vehicleObj;
+						 VehicleInfo vehicleInfo = new MSJWinfo.VehicleInfo();
+						 vehicleInfo.setPlateNo(ROWVEH.getString("HPHM"));//号牌号码
+						 vehicleInfo.setPlateType(ROWVEH.getString("HPZL"));//号牌种类
+						 vehicleInfo.setInspectDate(ROWVEH.getString("SYRQ"));//审验日期
+						 vehicleInfo.setVinLast4(ROWVEH.getString("CJH4"));//车架后4位
+						 vehicleInfo.setCarOwnerName(ROWVEH.getString("CZXM"));//车主姓名
+						 vehicleInfo.setCarOwnerIdCard(ROWVEH.getString("CZSFZMHM"));//车主身份证明号码
+						 vehicleInfo.setIsMyVehicle(ROWVEH.getString("SFBR"));//是否本人
+						 vehicleInfo.setBindDepartment(ROWVEH.getString("BIND_DEPARTMENT"));//A app C微信 Z支付宝 E邮政W外网星火
+						 vehicleInfo.setVehicleStatus(vehicleStatusMap.get(ROWVEH.getString("ZT")));//状态提醒 A正常B转出C被盗抢D停驶E注销G违法未处理H海关监管I事故未处理J嫌疑车K查封L暂扣M强制注销N事故逃逸O锁定P到达报废标准公告牌证作废Q逾期未检验
+						 vehicleInfo.setForceScrapDate(ROWVEH.getString("QZBFQZ"));//强制报废期止提醒
+						 vehicleInfoList.add(vehicleInfo);
+					 }
+					 info.setVehicleInfoList(vehicleInfoList);
+				 }
+				 
+				 baseBean.setData(info);
+			 }
+			 
+			 baseBean.setCode(CODE);
+			 baseBean.setMsg(MSG);
+			 
+		} catch (Exception e) {
+			logger.error("【民生警务】getMSJWinfo出错，identityCard="+ identityCard + ",sourceOfCertification=" + sourceOfCertification, e);
+			throw e;
+		}
+		return baseBean;
+	}
 }
