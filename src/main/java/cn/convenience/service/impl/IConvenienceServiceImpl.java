@@ -715,7 +715,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 							 vehicleInfo.setBehindTheFrame4Digits(ROWVEH.getString("CJH4"));//车架后4位
 							 vehicleInfo.setName(ROWVEH.getString("CZXM"));//车主姓名
 							 vehicleInfo.setIdentityCard(ROWVEH.getString("CZSFZMHM"));//车主身份证明号码
-							 vehicleInfo.setIsMySelf(ROWVEH.getString("SFBR"));//是否本人
+							 vehicleInfo.setIsMySelf("本人".equals(ROWVEH.getString("SFBR")) ? "0" : "1");//是否本人 0-本人 1-非本人
 							 vehicleInfo.setBindDepartment(ROWVEH.getString("BIND_DEPARTMENT"));//A app C微信 Z支付宝 E邮政W外网星火
 							 vehicleInfo.setVehicleStatus(vehicleStatusMap.get(ROWVEH.getString("ZT")));//状态提醒 A正常B转出C被盗抢D停驶E注销G违法未处理H海关监管I事故未处理J嫌疑车K查封L暂扣M强制注销N事故逃逸O锁定P到达报废标准公告牌证作废Q逾期未检验
 							 vehicleInfo.setForceScrapDate(ROWVEH.getString("QZBFQZ"));//强制报废期止提醒
@@ -730,7 +730,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 						 vehicleInfo.setBehindTheFrame4Digits(ROWVEH.getString("CJH4"));//车架后4位
 						 vehicleInfo.setName(ROWVEH.getString("CZXM"));//车主姓名
 						 vehicleInfo.setIdentityCard(ROWVEH.getString("CZSFZMHM"));//车主身份证明号码
-						 vehicleInfo.setIsMySelf(ROWVEH.getString("SFBR"));//是否本人
+						 vehicleInfo.setIsMySelf("本人".equals(ROWVEH.getString("SFBR")) ? "0" : "1");//是否本人 0-本人 1-非本人
 						 vehicleInfo.setBindDepartment(ROWVEH.getString("BIND_DEPARTMENT"));//A app C微信 Z支付宝 E邮政W外网星火
 						 vehicleInfo.setVehicleStatus(vehicleStatusMap.get(ROWVEH.getString("ZT")));//状态提醒 A正常B转出C被盗抢D停驶E注销G违法未处理H海关监管I事故未处理J嫌疑车K查封L暂扣M强制注销N事故逃逸O锁定P到达报废标准公告牌证作废Q逾期未检验
 						 vehicleInfo.setForceScrapDate(ROWVEH.getString("QZBFQZ"));//强制报废期止提醒
