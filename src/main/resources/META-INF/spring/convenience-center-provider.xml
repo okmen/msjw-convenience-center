@@ -23,4 +23,7 @@
     
     <!-- 微信刷脸获取用户基本信息接口 -->
 	<dubbo:service interface="cn.convenience.service.IFaceautonymService" ref="faceautonymService" />
+    
+    <!-- 民生警务相关接口 -->
+	<dubbo:service interface="cn.convenience.service.IMsjwService" ref="msjwService" />
 </beans>

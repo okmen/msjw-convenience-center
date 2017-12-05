@@ -198,6 +198,11 @@
 				<jiaojing.url.msjw>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.msjw>
 				<jiaojing.method.msjw>xxptSchuding</jiaojing.method.msjw>
 				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
+				
+				<!-- 民生警务-微信用户验证接口url -->
+				<msjw.url.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.url.checkuser>
+				<!-- 民生警务平台提供的token -->
+				<msjw.token.wechat>f7ffc8ad-03a0-4ec0-9e5d-9da3500e4fbe</msjw.token.wechat>
 			</properties>
 		</profile>
 
@@ -287,6 +292,11 @@
 				<jiaojing.url.msjw>http://123.56.180.216:19002/xxfbpt/services/xxfbptservice</jiaojing.url.msjw>
 				<jiaojing.method.msjw>xxptSchuding</jiaojing.method.msjw>
 				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
+				
+				<!-- 民生警务-微信用户验证接口url -->
+				<msjw.url.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.url.checkuser>
+				<!-- 民生警务平台提供的token -->
+				<msjw.token.wechat>f7ffc8ad-03a0-4ec0-9e5d-9da3500e4fbe</msjw.token.wechat>
 			</properties>
 		</profile>
 		
@@ -374,6 +384,11 @@
 				<jiaojing.url.msjw>http://api.szjj.me:9080/xxfbpt/services/xxfbptservice</jiaojing.url.msjw>
 				<jiaojing.method.msjw>xxptSchuding</jiaojing.method.msjw>
 				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
+				
+				<!-- 民生警务-微信用户验证接口url -->
+				<msjw.url.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.url.checkuser>
+				<!-- 民生警务平台提供的token -->
+				<msjw.token.wechat>f7ffc8ad-03a0-4ec0-9e5d-9da3500e4fbe</msjw.token.wechat>
 			</properties>
 		</profile>
 	</profiles>

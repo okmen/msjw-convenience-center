@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import cn.convenience.bean.ActivityVote;
 import cn.convenience.bean.ActivityVoteRecord;
@@ -28,12 +29,24 @@ public class TestConvenienceService {
 	@Qualifier("convenienceService")
 	private IConvenienceService convenienceService;
 	
+	@Autowired
+	@Qualifier("msjwService")
+	private IMsjwService msjwService;
+	
 	@Test
 	public void testgetMSJWinfo()throws Exception{
 		String identityCard = "445222199209020034";
 		String sourceOfCertification = "M";
-		BaseBean baseBean = convenienceService.getMSJWinfo(identityCard, sourceOfCertification);
+		BaseBean baseBean = msjwService.getMSJWinfo(identityCard, sourceOfCertification);
 		System.out.println(JSON.toJSONString(baseBean));
+	}
+	
+	@Test
+	public void testcheckIsValidUser()throws Exception{
+		String identityCard = "441581199109196019";
+		String openId = "oIhY6wTec3CccUd6gw0ILooqjV9Y";
+		JSONObject json = msjwService.checkIsValidUser(openId, identityCard);
+		System.out.println(json);
 	}
 	
 	/*@Test

@@ -130,9 +130,20 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
     private String methodMsjw;
     @Value("${keyMsjw}")
     private String keyMsjw;
+    @Value("${checkuserUrl}")
+    private String checkuserUrl;
+    @Value("${msjwToken}")
+    private String msjwToken;
     
-    
-    @Value("${urlEbike}")
+    public String getCheckuserUrl() {
+		return checkuserUrl;
+	}
+	public String getMsjwToken() {
+		return msjwToken;
+	}
+
+
+	@Value("${urlEbike}")
     private String urlEbike;
     
     public String getUrlEbike() {
