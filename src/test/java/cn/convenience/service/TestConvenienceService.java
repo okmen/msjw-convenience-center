@@ -18,6 +18,7 @@ import cn.convenience.bean.ActivityVoteRecord;
 import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.WechatUserInfoBean;
+import cn.convenience.utils.Constants;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.DateUtil2;
 
@@ -46,6 +47,51 @@ public class TestConvenienceService {
 		String identityCard = "441581199109196019";
 		String openId = "oIhY6wTec3CccUd6gw0ILooqjV9Y";
 		JSONObject json = msjwService.checkIsValidUser(openId, identityCard);
+		System.out.println(json);
+	}
+	
+	@Test
+	public void testsendTemplateMsg2Msjw()throws Exception{
+		JSONObject templateData = new JSONObject();
+		templateData.put("openid", "oIhY6wTec3CccUd6gw0ILooqjV9Y");
+		
+		//办理类
+		/*templateData.put("templateId", Constants.TEST_HANDLE_BUSINESS_TEMPLATE_ID);
+		templateData.put("firstData", "您好，您的业务办理申请已提交，具体信息如下：");
+		templateData.put("keyword1Data", "申请机动车临牌");
+		templateData.put("keyword1Color", "#212121");
+		templateData.put("keyword2Data", "待受理");
+		templateData.put("keyword2Color", "#212121");
+		templateData.put("keyword3Data", DateUtil2.date2dayStr(new Date()));
+		templateData.put("keyword3Color", "#212121");
+		templateData.put("remarkData", "更多信息请点击详情查看");
+		templateData.put("redirectUrl", "http://testh5.chudaokeji.com/h5/#/submitSuccess?type=1&title=applyCarTemporaryLicence&bidDate="+DateUtil2.date2str(new Date()));
+		*/
+		
+		//预约类
+		templateData.put("templateId", Constants.TEST_BOOK_BUSINESS_TEMPLATE_ID);
+		templateData.put("firstData", "您好，您的业务办理预约申请已成功提交，具体信息如下：");
+		templateData.put("keyword1Data", "机动车在线预约-抵押/解押登记现场办理");
+		templateData.put("keyword1Color", "#212121");
+		templateData.put("keyword2Data", "lsh123123");
+		templateData.put("keyword2Color", "#212121");
+		templateData.put("keyword3Data", "2017-12-07 13:00-17:00");
+		templateData.put("keyword3Color", "#212121");
+		templateData.put("keyword4Data", "深圳市车管所");
+		templateData.put("keyword4Color", "#212121");
+		templateData.put("remarkData", "更多信息请点击详情查看");
+		templateData.put("redirectUrl", "http://testh5.chudaokeji.com/h5/#/submitSuccess?type=2&title=createVehicleInfo_JD37&waterNumber=lsh123123&numberPlate=粤B12345&bidDate="+DateUtil2.date2str(new Date()));
+		
+		String params = templateData.toJSONString();
+		System.out.println(params);
+		JSONObject json = msjwService.sendTemplateMsg2Msjw(params);
+		System.out.println(json);
+	}
+	
+	@Test
+	public void testqueryTemplateMsgSendResult()throws Exception{
+		String msgId = "50909767928954881";
+		JSONObject json = msjwService.queryTemplateMsgSendResult(msgId);
 		System.out.println(json);
 	}
 	

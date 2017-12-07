@@ -200,7 +200,9 @@
 				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
 				
 				<!-- 民生警务-微信用户验证接口url -->
-				<msjw.url.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.url.checkuser>
+				<msjw.intfUrl.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.intfUrl.checkuser>
+				<!-- 民生警务-用户中心服务url -->
+				<msjw.govnetUri>https://msjwt.szga.gov.cn</msjw.govnetUri>
 				<!-- 民生警务平台提供的token -->
 				<msjw.token.wechat>f7ffc8ad-03a0-4ec0-9e5d-9da3500e4fbe</msjw.token.wechat>
 			</properties>
@@ -294,7 +296,9 @@
 				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
 				
 				<!-- 民生警务-微信用户验证接口url -->
-				<msjw.url.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.url.checkuser>
+				<msjw.intfUrl.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.intfUrl.checkuser>
+				<!-- 民生警务-用户中心服务url -->
+				<msjw.govnetUri>https://msjwt.szga.gov.cn</msjw.govnetUri>
 				<!-- 民生警务平台提供的token -->
 				<msjw.token.wechat>f7ffc8ad-03a0-4ec0-9e5d-9da3500e4fbe</msjw.token.wechat>
 			</properties>
@@ -386,7 +390,9 @@
 				<jiaojing.key.msjw>ZG20YD14WFJB2013XXLRJK89</jiaojing.key.msjw>
 				
 				<!-- 民生警务-微信用户验证接口url -->
-				<msjw.url.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.url.checkuser>
+				<msjw.intfUrl.checkuser>http://139.199.219.97:8082/govnetUserAuthProvider/services/userCenter/userSession/</msjw.intfUrl.checkuser>
+				<!-- 民生警务-用户中心服务url -->
+				<msjw.govnetUri>https://msjwt.szga.gov.cn</msjw.govnetUri>
 				<!-- 民生警务平台提供的token -->
 				<msjw.token.wechat>f7ffc8ad-03a0-4ec0-9e5d-9da3500e4fbe</msjw.token.wechat>
 			</properties>

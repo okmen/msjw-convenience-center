@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.convenience.bean.MSJWinfo;
-import cn.convenience.bean.MSJWinfo.AuthenticationBasicInformation;
-import cn.convenience.bean.MSJWinfo.DriverLicenceInfo;
-import cn.convenience.bean.MSJWinfo.VehicleInfo;
+import cn.convenience.bean.MsjwInfo;
+import cn.convenience.bean.MsjwInfo.AuthenticationBasicInformation;
+import cn.convenience.bean.MsjwInfo.DriverLicenceInfo;
+import cn.convenience.bean.MsjwInfo.VehicleInfo;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.service.IMsjwService;
+import cn.convenience.utils.HttpRequest;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.Constants;
 import cn.sdk.util.HttpClientUtil;
@@ -59,8 +60,8 @@ public class IMsjwServiceImpl implements IMsjwService {
 			 String CODE = json.getString("CODE");
 			 String MSG = json.getString("MSG");
 			 if(MsgCode.success.equals(CODE)){
-				 MSJWinfo info = new MSJWinfo();
-				 AuthenticationBasicInformation baseInfo = new MSJWinfo.AuthenticationBasicInformation();
+				 MsjwInfo info = new MsjwInfo();
+				 AuthenticationBasicInformation baseInfo = new MsjwInfo.AuthenticationBasicInformation();
 				 
 				 //个人信息
 				 JSONObject BODY = json.getJSONObject("BODY");
@@ -80,19 +81,19 @@ public class IMsjwServiceImpl implements IMsjwService {
 				 if("1".equals(BDDRV)){
 					 //驾驶证信息
 					 Object driverObj = BODY.get("ROWDRV");
-					 ArrayList<MSJWinfo.DriverLicenceInfo> driverLicenceInfoList = new ArrayList<>();
+					 ArrayList<MsjwInfo.DriverLicenceInfo> driverLicenceInfoList = new ArrayList<>();
 					 if(driverObj instanceof JSONArray){
 						 JSONArray arr = (JSONArray) driverObj;
 						 for(int i = 0; i < arr.size(); i++){
 							 JSONObject ROWDRV = arr.getJSONObject(i);
-							 DriverLicenceInfo driverLicenceInfo = new MSJWinfo.DriverLicenceInfo();
+							 DriverLicenceInfo driverLicenceInfo = new MsjwInfo.DriverLicenceInfo();
 							 driverLicenceInfo.setDriverLicenceNo(ROWDRV.getString("JSZHM"));//驾驶证号码
 							 driverLicenceInfo.setFileNumber(ROWDRV.getString("DABH"));//驾驶证档案编号
 							 driverLicenceInfoList.add(driverLicenceInfo);
 						 }
 					 }else if(driverObj instanceof JSONObject){
 						 JSONObject ROWDRV = (JSONObject) driverObj;
-						 DriverLicenceInfo driverLicenceInfo = new MSJWinfo.DriverLicenceInfo();
+						 DriverLicenceInfo driverLicenceInfo = new MsjwInfo.DriverLicenceInfo();
 						 driverLicenceInfo.setDriverLicenceNo(ROWDRV.getString("JSZHM"));//驾驶证号码
 						 driverLicenceInfo.setFileNumber(ROWDRV.getString("DABH"));//驾驶证档案编号
 						 driverLicenceInfoList.add(driverLicenceInfo);
@@ -106,13 +107,13 @@ public class IMsjwServiceImpl implements IMsjwService {
 				 //已绑定车辆
 				 if("1".equals(BDVEH)){
 					 Object vehicleObj = BODY.get("ROWVEH");
-					 ArrayList<MSJWinfo.VehicleInfo> cars = new ArrayList<>();
+					 ArrayList<MsjwInfo.VehicleInfo> cars = new ArrayList<>();
 					 Map<String, String> vehicleStatusMap = Constants.listToMap(cn.convenience.utils.Constants.VEHICLE_STATUS_LIST);
 					 if(vehicleObj instanceof JSONArray){
 						 JSONArray arr = (JSONArray) vehicleObj;
 						 for(int i = 0; i < arr.size(); i++){
 							 JSONObject ROWVEH = arr.getJSONObject(i);
-							 VehicleInfo vehicleInfo = new MSJWinfo.VehicleInfo();
+							 VehicleInfo vehicleInfo = new MsjwInfo.VehicleInfo();
 							 vehicleInfo.setMyNumberPlate(ROWVEH.getString("HPHM"));//号牌号码
 							 vehicleInfo.setPlateType(ROWVEH.getString("HPZL"));//号牌种类
 							 vehicleInfo.setInspectDate(ROWVEH.getString("SYRQ"));//审验日期
@@ -127,7 +128,7 @@ public class IMsjwServiceImpl implements IMsjwService {
 						 }
 					 }else if(vehicleObj instanceof JSONObject){
 						 JSONObject ROWVEH = (JSONObject) vehicleObj;
-						 VehicleInfo vehicleInfo = new MSJWinfo.VehicleInfo();
+						 VehicleInfo vehicleInfo = new MsjwInfo.VehicleInfo();
 						 vehicleInfo.setMyNumberPlate(ROWVEH.getString("HPHM"));//号牌号码
 						 vehicleInfo.setPlateType(ROWVEH.getString("HPZL"));//号牌种类
 						 vehicleInfo.setInspectDate(ROWVEH.getString("SYRQ"));//审验日期
@@ -156,7 +157,12 @@ public class IMsjwServiceImpl implements IMsjwService {
 		return baseBean;
 	}
 
-	@Override
+	/**
+	 * 校验是否为民生警务平台合法用户
+	 * @param openId 民生警务平台公众号openId
+	 * @param identityCard 身份证号
+	 * @return
+	 */
 	public JSONObject checkIsValidUser(String openId, String identityCard) {
 		JSONObject json = new JSONObject();
 		
@@ -187,6 +193,71 @@ public class IMsjwServiceImpl implements IMsjwService {
 			}
 		} catch (Exception e) {
 			logger.error("【民生警务】checkIsValidUser接口异常，url="+url+",identityCard="+identityCard, e);
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	/**
+	 * 发送模板消息到民生警务平台
+	 * @param params 模板消息内容json格式字符串
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject sendTemplateMsg2Msjw(String params) throws Exception {
+		logger.info("【民生警务】民生警务-发送微信消息，内容参数：params=" + params);
+		JSONObject json = new JSONObject();
+		
+		String url = convenienceCache.getGovnetUri() + "/bmswx/weixin/component/sendTemplate";
+		try {
+			String respStr = HttpRequest.sendPost(url, params, null, "application/json");
+			logger.info("【民生警务】民生警务-发送微信消息返回结果：" + respStr);
+			
+			json = JSONObject.parseObject(respStr);
+			
+		} catch (Exception e) {
+			logger.error("【民生警务】sendTemplate2Msjw接口异常，url="+url+",params="+params, e);
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	
+	
+	
+	/**
+	 * 查询消息推送结果
+	 * @param msgId 微信消息id
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject queryTemplateMsgSendResult(String msgId) throws Exception {
+		logger.info("【民生警务】民生警务-查询消息推送结果请求参数：msgId="+msgId);
+		JSONObject json = new JSONObject();
+		
+		String token = convenienceCache.getMsjwToken();//民生警务平台提供的token
+		String url = convenienceCache.getGovnetUri() + "/govnetProvider/services/tmpMsg/getStatus/" + msgId + "?token=" + token;
+		try {
+			String respStr = HttpClientUtil.get(url);
+			logger.info("【民生警务】民生警务-查询消息推送返回结果：" + respStr);
+			
+			json = JSONObject.parseObject(respStr);
+			String code = json.getString("code");
+			if("200".equals(code)){
+				String status = json.getJSONArray("datas").getString(0);
+				if(status.contains("1")){
+					json.put("statusDesc", "发送中");
+				}else if(status.contains("2")){
+					json.put("statusDesc", "已发送");
+				}else if(status.contains("3")){
+					json.put("statusDesc", "发送失败");
+				}else if(status.contains("4")){
+					json.put("statusDesc", "用户拒绝接收");
+				}
+			}
+			
+		} catch (Exception e) {
+			logger.error("【民生警务】queryTemplateMsgSendResult接口异常，url="+url+",msgId="+msgId, e);
 			e.printStackTrace();
 		}
 		return json;

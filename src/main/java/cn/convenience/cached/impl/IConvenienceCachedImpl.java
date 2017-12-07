@@ -132,11 +132,16 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
     private String keyMsjw;
     @Value("${checkuserUrl}")
     private String checkuserUrl;
+    @Value("${govnetUri}")
+    private String govnetUri;
     @Value("${msjwToken}")
     private String msjwToken;
     
     public String getCheckuserUrl() {
 		return checkuserUrl;
+	}
+	public String getGovnetUri() {
+		return govnetUri;
 	}
 	public String getMsjwToken() {
 		return msjwToken;
