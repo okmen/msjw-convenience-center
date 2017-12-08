@@ -158,12 +158,11 @@ public class IMsjwServiceImpl implements IMsjwService {
 	}
 
 	/**
-	 * 校验是否为民生警务平台合法用户
+	 * 根据openid获取民生警务平台用户信息
 	 * @param openId 民生警务平台公众号openId
-	 * @param identityCard 身份证号
 	 * @return
 	 */
-	public JSONObject checkIsValidUser(String openId, String identityCard) {
+	public JSONObject getUserInfoFromMsjw(String openId) {
 		JSONObject json = new JSONObject();
 		
 		String token = convenienceCache.getMsjwToken();//民生警务平台提供的token
@@ -174,25 +173,13 @@ public class IMsjwServiceImpl implements IMsjwService {
 			logger.info("【民生警务】民生警务-用户验证接口返回结果：" + respStr);
 			if(respStr != null){
 				json = JSONObject.parseObject(respStr);
-				String code = json.getString("code");
-		    	//用户已登录时返回结果
-		    	if("200".equals(code)){
-		    		JSONArray jsonArray = json.getJSONArray("datas");
-		    		String identityId = jsonArray.getJSONObject(0).getString("identityId");
-		    		if(!identityCard.equals(identityId)){
-		    			JSONObject jsonObj = new JSONObject();
-		    			jsonObj.put("code", MsgCode.paramsError);
-		    			jsonObj.put("message", "身份证号与登录用户不相符");
-		    			return jsonObj;
-		    		}
-		    	}
 			}else{
 				json.put("code", MsgCode.businessError);
 				json.put("message", "用户验证接口异常");
-				logger.info("【民生警务】民生警务-用户验证接口返回结果异常，url="+url+",identityCard="+identityCard);
+				logger.info("【民生警务】民生警务-用户验证接口返回结果异常，url="+url);
 			}
 		} catch (Exception e) {
-			logger.error("【民生警务】checkIsValidUser接口异常，url="+url+",identityCard="+identityCard, e);
+			logger.error("【民生警务】getUserInfoFromMsjw接口异常，url="+url, e);
 			e.printStackTrace();
 		}
 		return json;

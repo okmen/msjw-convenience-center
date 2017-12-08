@@ -10,17 +10,6 @@ import cn.sdk.bean.DownValue;
 public class Constants {
 	
 	/**
-	 * （测试公众号）民生警务-办理类业务消息推送模板id
-	 */
-	public final static String TEST_HANDLE_BUSINESS_TEMPLATE_ID = "PkGXcDpXPWOQRRcSoIkbrDVidGUDt-WmDxFVpOgZ5t0";
-	
-	/**
-	 * （测试公众号）民生警务-预约类业务消息推送模板id
-	 */
-	public final static String TEST_BOOK_BUSINESS_TEMPLATE_ID = "Q3Zz5NpKlPKiw0LX6uaJ2xifSfOtdcJhaftEkqJB55U";
-	
-	
-	/**
 	 * 车辆状态 A正常
 	 */
 	public final static String VEHICLE_STATUS_A_CODE = "A";

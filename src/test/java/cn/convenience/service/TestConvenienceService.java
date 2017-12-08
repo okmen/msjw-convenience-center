@@ -18,8 +18,8 @@ import cn.convenience.bean.ActivityVoteRecord;
 import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.WechatUserInfoBean;
-import cn.convenience.utils.Constants;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.util.Constants;
 import cn.sdk.util.DateUtil2;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,10 +43,9 @@ public class TestConvenienceService {
 	}
 	
 	@Test
-	public void testcheckIsValidUser()throws Exception{
-		String identityCard = "441581199109196019";
+	public void testgetUserInfoFromMsjw()throws Exception{
 		String openId = "oIhY6wTec3CccUd6gw0ILooqjV9Y";
-		JSONObject json = msjwService.checkIsValidUser(openId, identityCard);
+		JSONObject json = msjwService.getUserInfoFromMsjw(openId);
 		System.out.println(json);
 	}
 	
