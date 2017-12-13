@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.convenience.dao.mapper.MsjwApplyingRecordMapper">
+
+	<insert id="addMsjwFinishedRecord" parameterType="cn.convenience.bean.MsjwApplyingRecordVo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO msjw_finished_record 
+			(id, 
+			tylsbh, 
+			applyman, 
+			eventname, 
+			showstatus, 
+			insdate, 
+			lastupddate, 
+			liststatus, 
+			openid, 
+			applyingUrlWx, 
+			jinduUrlWx, 
+			showtype, 
+			source, 
+			identityId, 
+			status
+			)
+		VALUES
+			(#{id}, 
+			#{tylsbh}, 
+			#{applyman}, 
+			#{eventname}, 
+			#{showstatus}, 
+			#{insdate}, 
+			#{lastupddate}, 
+			#{liststatus}, 
+			#{openid}, 
+			#{applyingUrlWx}, 
+			#{jinduUrlWx}, 
+			#{showtype}, 
+			#{source}, 
+			#{identityId}, 
+			#{status}
+			);
+	</insert>
+
+	<resultMap type="cn.convenience.bean.MsjwApplyingRecordVo" id="commonInfo">
+		<id property="id" column="id" />
+		<result property="tylsbh" column="tylsbh" />
+		<result property="applyman" column="applyman" />
+		<result property="eventname" column="eventname" />
+		<result property="showstatus" column="showstatus" />
+		<result property="insdate" column="insdate" />
+		<result property="lastupddate" column="lastupddate" />
+		<result property="liststatus" column="liststatus" />
+		<result property="openid" column="openid" />
+		<result property="applyingUrlWx" column="applyingUrlWx" />
+		<result property="jinduUrlWx" column="jinduUrlWx" />
+		<result property="showtype" column="showtype" />
+		<result property="source" column="source" />
+		<result property="identityId" column="identityId" />
+		<result property="status" column="status" />
+	</resultMap>
+	
+	<sql id="sql4all">
+		id, 
+		tylsbh, 
+		applyman, 
+		eventname, 
+		showstatus, 
+		insdate, 
+		lastupddate, 
+		liststatus, 
+		openid, 
+		applyingUrlWx, 
+		jinduUrlWx, 
+		showtype, 
+		source, 
+		identityId, 
+		status
+	</sql>
+
+	<select id="selectMsjwApplyingRecordByTylsbh" resultMap="commonInfo">
+		SELECT 	
+			<include refid="sql4all"></include>
+		FROM 
+			msjw_applying_record
+		WHERE
+			tylsbh = #{tylsbh};
+	</select>
+	
+	
+	<select id="selectIdentityIdAll" resultType="String">
+		SELECT 	
+			DISTINCT identityId
+		FROM 
+			msjw_applying_record 
+	</select>
+
+	<insert id="insertMsjwApplyingRecord" parameterType="cn.convenience.bean.MsjwApplyingRecordVo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO msjw_applying_record 
+			(id, 
+			tylsbh, 
+			applyman, 
+			eventname, 
+			showstatus, 
+			insdate, 
+			lastupddate, 
+			liststatus, 
+			openid, 
+			applyingUrlWx, 
+			jinduUrlWx, 
+			showtype, 
+			source, 
+			identityId, 
+			status
+			)
+		VALUES
+			(#{id}, 
+			#{tylsbh}, 
+			#{applyman}, 
+			#{eventname}, 
+			#{showstatus}, 
+			#{insdate}, 
+			#{lastupddate}, 
+			#{liststatus}, 
+			#{openid}, 
+			#{applyingUrlWx}, 
+			#{jinduUrlWx}, 
+			#{showtype}, 
+			#{source}, 
+			#{identityId}, 
+			#{status}
+			);
+	</insert>
+	
+	<update id="updateMsjwApplyingRecordById" parameterType="cn.convenience.bean.MsjwApplyingRecordVo">
+		UPDATE msjw_applying_record 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="showstatus != null and showstatus != ''">
+				showstatus = #{showstatus} , 
+			</if>
+			<if test="lastupddate != null and lastupddate != ''">
+				lastupddate = #{lastupddate} , 
+			</if>
+			<if test="status != null and status != ''">
+				status = #{status}
+			</if>
+		</trim>
+		WHERE
+			id = #{id} ;
+	</update>
+	
+	<delete id="deleteMsjwApplyingRecordById" parameterType="Integer">
+		DELETE FROM msjw_applying_record 
+		WHERE
+			id = #{id} ;
+	</delete>
+	
+</mapper>

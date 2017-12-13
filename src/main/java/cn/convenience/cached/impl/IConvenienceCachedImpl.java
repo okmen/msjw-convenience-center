@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import cn.convenience.bean.Token;
 import cn.convenience.bean.UserRegInfo;
 import cn.convenience.bean.WechatUserInfoBean;
+import cn.convenience.cached.ICacheKey;
 import cn.convenience.cached.IConvenienceCached;
 import cn.convenience.config.IConfig;
 import cn.sdk.cache.ICacheManger;
@@ -147,6 +148,13 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 		return msjwToken;
 	}
 
+	public void setMsjwUserInfo(String openId, String userInfo){
+		objectcacheManger.set(ICacheKey.MSJW_USER_INFO_KEY + openId, userInfo, ICacheKey.oneDayExpireTime);
+	}
+	public Object getMsjwUserInfo(String openId){
+		return objectcacheManger.get(ICacheKey.MSJW_USER_INFO_KEY + openId);
+	}
+	
 
 	@Value("${urlEbike}")
     private String urlEbike;

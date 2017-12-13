@@ -1,24 +1,32 @@
 package cn.convenience.service.impl;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.convenience.bean.MsjwApplyingBusinessVo;
+import cn.convenience.bean.MsjwApplyingRecordVo;
 import cn.convenience.bean.MsjwInfo;
 import cn.convenience.bean.MsjwInfo.AuthenticationBasicInformation;
 import cn.convenience.bean.MsjwInfo.DriverLicenceInfo;
 import cn.convenience.bean.MsjwInfo.VehicleInfo;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
+import cn.convenience.dao.IMsjwApplyingRecordDao;
 import cn.convenience.service.IMsjwService;
 import cn.convenience.utils.HttpRequest;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.Constants;
+import cn.sdk.util.DateUtil2;
 import cn.sdk.util.HttpClientUtil;
 import cn.sdk.util.MsgCode;
 import cn.sdk.webservice.WebServiceClient;
@@ -29,6 +37,9 @@ public class IMsjwServiceImpl implements IMsjwService {
 
 	@Autowired
 	private IConvenienceCachedImpl convenienceCache;
+	
+	@Autowired
+	private IMsjwApplyingRecordDao msjwApplyingRecordDao;
 	
 	/**
 	 * 民生警务个人信息
@@ -173,6 +184,10 @@ public class IMsjwServiceImpl implements IMsjwService {
 			logger.info("【民生警务】民生警务-用户验证接口返回结果：" + respStr);
 			if(respStr != null){
 				json = JSONObject.parseObject(respStr);
+				//存入缓存一天
+				if("200".equals(json.getString("code"))){
+					convenienceCache.setMsjwUserInfo(openId, JSON.toJSONString(json));
+				}
 			}else{
 				json.put("code", MsgCode.businessError);
 				json.put("message", "用户验证接口异常");
@@ -209,9 +224,6 @@ public class IMsjwServiceImpl implements IMsjwService {
 		return json;
 	}
 
-	
-	
-	
 	/**
 	 * 查询消息推送结果
 	 * @param msgId 微信消息id
@@ -248,5 +260,194 @@ public class IMsjwServiceImpl implements IMsjwService {
 			e.printStackTrace();
 		}
 		return json;
+	}
+
+	/**
+	 * 新增在办业务到民生警务平台
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject addApplyingBusiness(MsjwApplyingBusinessVo vo) throws Exception {
+		JSONObject json = new JSONObject();
+		if(vo != null){
+			//设置默认信息
+			vo.setInsdate(DateUtil2.date2str(new Date()));//新增时间
+			vo.setLastupddate(DateUtil2.date2str(new Date()));//修改时间
+			vo.setListstatus("02");//02-显示到在办业务，进度查询
+			vo.setSource("101");//101-微信端
+			vo.setShowstatus("待初审");//状态说明
+			vo.setShowtype("1");//1-只在微信个人中心显示
+			
+			//先从缓存中获取用户信息
+			JSONObject obj = null;
+			Object userInfo = convenienceCache.getMsjwUserInfo(vo.getOpenid());
+			if(userInfo != null){
+				obj = (JSONObject) userInfo;
+			}else{
+				//调msjw接口获取
+				obj = getUserInfoFromMsjw(vo.getOpenid());
+			}
+			
+			//获取用户信息，设置用户唯一标识
+			String code = obj.getString("code");
+			if("200".equals(code)){
+				JSONArray jsonArray = obj.getJSONArray("datas");
+				for(int i = 0; i < jsonArray.size(); i++){
+					JSONObject jsonObject = jsonArray.getJSONObject(i);
+					String loginType = jsonObject.getString("loginType");//个人用户信息(loginType=1)
+					if("1".equals(loginType)){
+						String useraccount = jsonObject.getString("useraccount");
+						vo.setApplyman(useraccount);
+						
+						//办理业务写入数据库
+						MsjwApplyingRecordVo msjwApplyingRecordVo = new MsjwApplyingRecordVo();
+						String identityId = jsonObject.getString("identityId");
+						BeanUtils.copyProperties(msjwApplyingRecordVo, vo);
+						msjwApplyingRecordVo.setStatus("0");//0-待初审
+						msjwApplyingRecordVo.setIdentityId(identityId);
+						try {
+							msjwApplyingRecordDao.insertMsjwApplyingRecord(msjwApplyingRecordVo);
+						} catch (Exception e) {
+							logger.error("【民生警务】办理业务写入数据库异常：msjwApplyingRecordVo=" + msjwApplyingRecordVo);
+							e.printStackTrace();
+						}
+					}
+				}
+			}else{
+				json.put("code", code);
+				json.put("msg", obj.getString("message"));
+				return json;
+			}
+		}else{
+			json.put("code", MsgCode.paramsError);
+			json.put("msg", "MsjwHandleRecordVo不能为空！");
+			return json;
+		}
+		String params = JSON.toJSONString(vo);
+		logger.info("【民生警务】民生警务-新增业务数据，内容参数：params=" + params);
+		
+		String token = convenienceCache.getMsjwToken();//民生警务平台提供的token
+		String url = convenienceCache.getGovnetUri() + "/govnetProvider/services/dataApply/insertData?token=" + token;
+		try {
+			String respStr = HttpRequest.sendPost(url, params, null, "application/json");
+			logger.info("【民生警务】民生警务-新增业务数据返回结果：" + respStr);
+			
+			json = JSONObject.parseObject(respStr);
+			
+		} catch (Exception e) {
+			logger.error("【民生警务】addApplyingBusiness接口异常，url="+url+",params="+params, e);
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	/**
+	 * 修改在办业务到民生警务平台
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject updateApplyingBusiness(MsjwApplyingBusinessVo vo) throws Exception {
+		JSONObject json = new JSONObject();
+		vo.setInsdate("");
+		vo.setLastupddate(DateUtil2.date2str(new Date()));
+		vo.setSource("101");
+		String params = JSON.toJSONString(vo);
+		logger.info("【民生警务】民生警务-修改业务数据，内容参数：params=" + params);
+		
+		String token = convenienceCache.getMsjwToken();//民生警务平台提供的token
+		String url = convenienceCache.getGovnetUri() + "/govnetProvider/services/dataApply/updateData?token=" + token;
+		try {
+			String respStr = HttpRequest.sendPost(url, params, null, "application/json");
+			logger.info("【民生警务】民生警务-修改业务数据返回结果：" + respStr);
+			
+			json = JSONObject.parseObject(respStr);
+			
+		} catch (Exception e) {
+			logger.error("【民生警务】updateApplyingBusiness接口异常，url="+url+",params="+params, e);
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	/**
+	 * 删除在办业务到民生警务平台
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject deleteApplyingBusiness(String tylsbh) throws Exception {
+		logger.info("【民生警务】民生警务-删除业务数据请求参数：tylsbh="+tylsbh);
+		JSONObject json = new JSONObject();
+		
+		String token = convenienceCache.getMsjwToken();//民生警务平台提供的token
+		String url = convenienceCache.getGovnetUri() + "/govnetProvider/services/dataApply/deleteData/" + tylsbh + "?token=" + token;
+		try {
+			String respStr = HttpClientUtil.get(url);
+			logger.info("【民生警务】民生警务-删除业务数据返回结果：" + respStr);
+			
+			json = JSONObject.parseObject(respStr);
+			
+		} catch (Exception e) {
+			logger.error("【民生警务】deleteApplyingBusiness接口异常，tylsbh="+tylsbh, e);
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@Override
+	public int updateMsjwApplyingRecordById(MsjwApplyingRecordVo msjwApplyingRecordVo) throws Exception {
+		int count = 0;
+		try {
+			msjwApplyingRecordVo.setLastupddate(DateUtil2.date2str(new Date()));//更新时间
+			count =  msjwApplyingRecordDao.updateMsjwApplyingRecordById(msjwApplyingRecordVo);
+		} catch (Exception e) {
+			logger.error("【民生警务】updateMsjwApplyingRecordById接口异常，msjwApplyingRecordVo="+msjwApplyingRecordVo);
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public int deleteMsjwApplyingRecordById(Integer id) throws Exception {
+		int count = 0;
+		try {
+			count = msjwApplyingRecordDao.deleteMsjwApplyingRecordById(id);
+		} catch (Exception e) {
+			logger.error("【民生警务】deleteMsjwApplyingRecordById接口异常，id="+id);
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public List<String> selectIdentityIdAll() throws Exception {
+		return msjwApplyingRecordDao.selectIdentityIdAll();
+	}
+
+	@Override
+	public MsjwApplyingRecordVo selectMsjwApplyingRecordByTylsbh(String tylsbh) throws Exception {
+		MsjwApplyingRecordVo vo = null;
+		try {
+			vo = msjwApplyingRecordDao.selectMsjwApplyingRecordByTylsbh(tylsbh);
+		} catch (Exception e) {
+			logger.error("【民生警务】selectMsjwApplyingRecordByTylsbh接口异常，tylsbh="+tylsbh);
+			e.printStackTrace();
+		}
+		return vo;
+	}
+
+	@Override
+	public int addMsjwFinishedRecord(MsjwApplyingRecordVo msjwApplyingRecordVo) throws Exception {
+		int count = 0;
+		try {
+			msjwApplyingRecordVo.setLastupddate(DateUtil2.date2str(new Date()));
+			count = msjwApplyingRecordDao.addMsjwFinishedRecord(msjwApplyingRecordVo);
+		} catch (Exception e) {
+			logger.error("【民生警务】addMsjwFinishedRecord接口异常，msjwApplyingRecordVo="+msjwApplyingRecordVo);
+			e.printStackTrace();
+		}
+		return count;
 	}
 }

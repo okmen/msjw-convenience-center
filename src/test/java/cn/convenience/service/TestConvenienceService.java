@@ -2,6 +2,7 @@ package cn.convenience.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import cn.convenience.bean.ActivityVote;
 import cn.convenience.bean.ActivityVoteRecord;
 import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
+import cn.convenience.bean.MsjwApplyingBusinessVo;
+import cn.convenience.bean.MsjwApplyingRecordVo;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.Constants;
@@ -33,6 +36,102 @@ public class TestConvenienceService {
 	@Autowired
 	@Qualifier("msjwService")
 	private IMsjwService msjwService;
+	
+	@Test
+	public void testapplying()throws Exception{
+		String ZHCLZT = "1";
+		String WWLSH = "ceshi123456789";
+		//根据流水号查询数据库
+		MsjwApplyingRecordVo msjwApplyingRecordVo = msjwService.selectMsjwApplyingRecordByTylsbh(WWLSH);
+		if(msjwApplyingRecordVo != null){
+			//数据库的状态
+			String status = msjwApplyingRecordVo.getStatus();
+			//查询的状态与数据库状态不一样
+			if(!ZHCLZT.equals(status)){
+				String showstatus = "";//0待初审，3待初审，1初审通过，待制证
+				if("0".equals(ZHCLZT)){
+					showstatus = "待初审";
+				}else if("3".equals(ZHCLZT)){
+					showstatus = "待初审";
+				}else if("1".equals(ZHCLZT)){
+					showstatus = "初审通过，待制证";
+					MsjwApplyingBusinessVo businessVo = new MsjwApplyingBusinessVo();
+					BeanUtils.copyProperties(businessVo, msjwApplyingRecordVo);
+					//修改msjw平台状态说明
+					businessVo.setShowstatus(showstatus);
+					msjwService.updateApplyingBusiness(businessVo);
+				}
+				
+				//修改数据库状态
+				msjwApplyingRecordVo.setStatus(ZHCLZT);//业务状态
+				msjwApplyingRecordVo.setShowstatus(showstatus);//状态说明
+				msjwService.updateMsjwApplyingRecordById(msjwApplyingRecordVo);
+			}
+		}
+	}
+	
+	@Test
+	public void testfinished()throws Exception{
+		String ZHCLZT = "TB";
+		String WWLSH = "ceshi123456789";
+		String showstatus = "2".equals(ZHCLZT) ? "车管已制证" : "退办";
+		//根据流水号查询数据库
+		MsjwApplyingRecordVo msjwApplyingRecordVo = msjwService.selectMsjwApplyingRecordByTylsbh(WWLSH);
+		//MsjwApplyingRecord表中有记录，修改状态并移除记录
+		if(msjwApplyingRecordVo != null){
+			MsjwApplyingBusinessVo businessVo = new MsjwApplyingBusinessVo();
+			BeanUtils.copyProperties(businessVo, msjwApplyingRecordVo);
+			//修改msjw平台状态和显示
+			businessVo.setShowstatus(showstatus);
+			businessVo.setListstatus("04");//只在msjw平台进度查询中显示
+			msjwService.updateApplyingBusiness(businessVo);
+			
+			//从MsjwApplyingRecord表中根据id删除数据
+			msjwService.deleteMsjwApplyingRecordById(msjwApplyingRecordVo.getId());
+			
+			//新增到MsjwFinishedRecord
+			msjwApplyingRecordVo.setShowstatus(showstatus);
+			msjwApplyingRecordVo.setListstatus("04");
+			msjwApplyingRecordVo.setStatus(ZHCLZT);
+			msjwService.addMsjwFinishedRecord(msjwApplyingRecordVo);
+		}
+	}
+	
+	@Test
+	public void testdeleteApplyingBusiness()throws Exception{
+		String tylsbh = "ceshi1234567891011";
+		JSONObject json = msjwService.deleteApplyingBusiness(tylsbh);
+		System.out.println(json);
+	}
+	
+	@Test
+	public void testupdateApplyingBusiness()throws Exception{
+		MsjwApplyingBusinessVo vo = new MsjwApplyingBusinessVo();
+		vo.setTylsbh("ceshi12345678");
+		vo.setOpenid("oIhY6wTec3CccUd6gw0ILooqjV9Y");
+		vo.setEventname("驾驶证年审");
+		vo.setApplyman("PUAUTH20171205000002");
+		vo.setApplyingUrlWx("http://testh5.chudaokeji.com/h5/#/submitSuccess?type=2&title=createVehicleInfo_JD37&waterNumber=lsh123123");//微信在办跳转地址
+		vo.setJinduUrlWx("http://testh5.chudaokeji.com/h5/#/submitSuccess?type=2&title=createVehicleInfo_JD37&waterNumber=lsh123123");
+		vo.setListstatus("04");//02、在办业务***********
+		vo.setShowstatus("退办啦");//*************
+		
+		JSONObject json = msjwService.updateApplyingBusiness(vo);
+		System.out.println(json);
+	}
+	
+	@Test
+	public void testaddApplyingBusiness()throws Exception{
+		MsjwApplyingBusinessVo vo = new MsjwApplyingBusinessVo();
+		vo.setTylsbh("ceshi1234567891011");
+		vo.setOpenid("oIhY6wTec3CccUd6gw0ILooqjV9Y");
+		vo.setEventname("驾驶证换证");
+		vo.setApplyingUrlWx("http://testh5.chudaokeji.com/h5/#/submitSuccess?type=2&title=createVehicleInfo_JD37&waterNumber=lsh123123");//微信在办跳转地址
+		vo.setJinduUrlWx("http://testh5.chudaokeji.com/h5/#/submitSuccess?type=2&title=createVehicleInfo_JD37&waterNumber=lsh123123");
+		
+		JSONObject json = msjwService.addApplyingBusiness(vo);
+		System.out.println(json);
+	}
 	
 	@Test
 	public void testgetMSJWinfo()throws Exception{

@@ -10,4 +10,7 @@ public interface ICacheKey {
 	public static String USER_WECHAT_INFO_REDIS_KEY = cachePrefix + "wechat_";
 	
 	public static String RANK15_VOTE_LIST_KEY = "RANK15_VOTE_LIST_KEY";
+	
+	public int oneDayExpireTime = 1 * 24 * 3600;//一天过期时间
+	public static String MSJW_USER_INFO_KEY = "MSJW_USER_INFO_KEY_";
 }
