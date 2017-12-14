@@ -281,9 +281,9 @@ public class IMsjwServiceImpl implements IMsjwService {
 			
 			//先从缓存中获取用户信息
 			JSONObject obj = null;
-			Object userInfo = convenienceCache.getMsjwUserInfo(vo.getOpenid());
+			String userInfo = convenienceCache.getMsjwUserInfo(vo.getOpenid());
 			if(userInfo != null){
-				obj = (JSONObject) userInfo;
+				obj = JSONObject.parseObject(userInfo);
 			}else{
 				//调msjw接口获取
 				obj = getUserInfoFromMsjw(vo.getOpenid());

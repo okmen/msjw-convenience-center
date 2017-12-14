@@ -151,8 +151,8 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	public void setMsjwUserInfo(String openId, String userInfo){
 		objectcacheManger.set(ICacheKey.MSJW_USER_INFO_KEY + openId, userInfo, ICacheKey.oneDayExpireTime);
 	}
-	public Object getMsjwUserInfo(String openId){
-		return objectcacheManger.get(ICacheKey.MSJW_USER_INFO_KEY + openId);
+	public String getMsjwUserInfo(String openId){
+		return (String) objectcacheManger.get(ICacheKey.MSJW_USER_INFO_KEY + openId);
 	}
 	
 

@@ -123,11 +123,11 @@ public class TestConvenienceService {
 	@Test
 	public void testaddApplyingBusiness()throws Exception{
 		MsjwApplyingBusinessVo vo = new MsjwApplyingBusinessVo();
-		vo.setTylsbh("ceshi1234567891011");
+		vo.setTylsbh("1117121451542");
 		vo.setOpenid("oIhY6wTec3CccUd6gw0ILooqjV9Y");
-		vo.setEventname("驾驶证换证");
-		vo.setApplyingUrlWx("http://testh5.chudaokeji.com/h5/#/submitSuccess?type=2&title=createVehicleInfo_JD37&waterNumber=lsh123123");//微信在办跳转地址
-		vo.setJinduUrlWx("http://testh5.chudaokeji.com/h5/#/submitSuccess?type=2&title=createVehicleInfo_JD37&waterNumber=lsh123123");
+		vo.setEventname("申请机动车临牌");
+		vo.setApplyingUrlWx("http://szjjmsjw.chudaokeji.com/#/submitSuccess?source=M&type=1&title=applyCarTemporaryLicence&waterNumber=1117121451542");//微信在办跳转地址
+		vo.setJinduUrlWx("http://szjjmsjw.chudaokeji.com/#/submitSuccess?source=M&type=1&title=applyCarTemporaryLicence&waterNumber=1117121451542");
 		
 		JSONObject json = msjwService.addApplyingBusiness(vo);
 		System.out.println(json);
