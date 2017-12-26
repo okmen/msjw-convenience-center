@@ -20,8 +20,10 @@ import cn.convenience.bean.MsjwInfo;
 import cn.convenience.bean.MsjwInfo.AuthenticationBasicInformation;
 import cn.convenience.bean.MsjwInfo.DriverLicenceInfo;
 import cn.convenience.bean.MsjwInfo.VehicleInfo;
+import cn.convenience.bean.MsjwVehicleInspectionVo;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IMsjwApplyingRecordDao;
+import cn.convenience.dao.IMsjwVehicleInspectionDao;
 import cn.convenience.service.IMsjwService;
 import cn.convenience.utils.HttpRequest;
 import cn.sdk.bean.BaseBean;
@@ -40,6 +42,9 @@ public class IMsjwServiceImpl implements IMsjwService {
 	
 	@Autowired
 	private IMsjwApplyingRecordDao msjwApplyingRecordDao;
+	
+	@Autowired
+	private IMsjwVehicleInspectionDao msjwVehicleInspectionDao;
 	
 	/**
 	 * 民生警务个人信息
@@ -449,5 +454,128 @@ public class IMsjwServiceImpl implements IMsjwService {
 			e.printStackTrace();
 		}
 		return count;
+	}
+
+	@Override
+	public int addMsjwVehicleInspection(MsjwVehicleInspectionVo msjwVehicleInspectionVo) {
+		int count = 0;
+		try {
+			count = msjwVehicleInspectionDao.addMsjwVehicleInspection(msjwVehicleInspectionVo);
+		} catch (Exception e) {
+			logger.error("【民生警务】addMsjwVehicleInspection接口异常，msjwVehicleInspectionVo="+msjwVehicleInspectionVo);
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public List<MsjwVehicleInspectionVo> selectMsjwVehicleInspectionStatusZero(Integer page, Integer pageSize) {
+		List<MsjwVehicleInspectionVo> list = null;
+		try {
+			list = msjwVehicleInspectionDao.selectMsjwVehicleInspectionStatusZero(page, pageSize);
+		} catch (Exception e) {
+			logger.error("【民生警务】selectMsjwVehicleInspectionStatusZero接口异常，page="+page+"，pageSize="+pageSize);
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public int updateMsjwVehicleInspection(MsjwVehicleInspectionVo msjwVehicleInspectionVo) {
+		int count = 0;
+		try {
+			count = msjwVehicleInspectionDao.updateMsjwVehicleInspection(msjwVehicleInspectionVo);
+		} catch (Exception e) {
+			logger.error("【民生警务】updateMsjwVehicleInspection接口异常，msjwVehicleInspectionVo="+msjwVehicleInspectionVo);
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public int deleteMsjwVehicleInspection(String tylsbh, String platNumber) {
+		int count = 0;
+		try {
+			count = msjwVehicleInspectionDao.deleteMsjwVehicleInspection(tylsbh, platNumber);
+		} catch (Exception e) {
+			logger.error("【民生警务】deleteMsjwVehicleInspection接口异常，tylsbh="+tylsbh+"，platNumber="+platNumber);
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public JSONObject addVehicleInspectionBusiness(MsjwVehicleInspectionVo vo) throws Exception {
+		JSONObject json = new JSONObject();
+		if(vo != null){
+			//设置信息
+			vo.setInsdate(DateUtil2.date2str(new Date()));//新增时间
+			vo.setLastupddate(DateUtil2.date2str(new Date()));//修改时间
+			vo.setListstatus("02");//02-显示到在办业务，进度查询
+			vo.setSource("101");//101-微信端
+			vo.setShowstatus("待审核");//状态说明
+			vo.setShowtype("1");//1-只在微信个人中心显示
+			vo.setApproveState("0");//审核状态  0-待审核
+			
+			//先从缓存中获取用户信息
+			JSONObject obj = null;
+			String userInfo = convenienceCache.getMsjwUserInfo(vo.getOpenid());
+			if(userInfo != null){
+				obj = JSONObject.parseObject(userInfo);
+			}else{
+				//调msjw接口获取
+				obj = getUserInfoFromMsjw(vo.getOpenid());
+			}
+			
+			//获取用户信息，设置用户唯一标识
+			String code = obj.getString("code");
+			if("200".equals(code)){
+				JSONArray jsonArray = obj.getJSONArray("datas");
+				for(int i = 0; i < jsonArray.size(); i++){
+					JSONObject jsonObject = jsonArray.getJSONObject(i);
+					String loginType = jsonObject.getString("loginType");//个人用户信息(loginType=1)
+					if("1".equals(loginType)){
+						String useraccount = jsonObject.getString("useraccount");
+						vo.setApplyman(useraccount);
+						String identityId = jsonObject.getString("identityId");
+						vo.setIdentityId(identityId);
+						//写入数据库
+						try {
+							msjwVehicleInspectionDao.addMsjwVehicleInspection(vo);
+						} catch (Exception e) {
+							logger.error("【民生警务】六年免检写入数据库异常：MsjwVehicleInspectionVo=" + vo);
+							e.printStackTrace();
+						}
+					}
+				}
+			}else{
+				json.put("code", code);
+				json.put("msg", obj.getString("message"));
+				return json;
+			}
+		}else{
+			json.put("code", MsgCode.paramsError);
+			json.put("msg", "MsjwHandleRecordVo不能为空！");
+			return json;
+		}
+		//msjw在办业务数据
+		MsjwApplyingBusinessVo businessVo = new MsjwApplyingBusinessVo();
+		BeanUtils.copyProperties(businessVo, vo);
+		String params = JSON.toJSONString(businessVo);
+		logger.info("【民生警务】民生警务-新增业务数据，内容参数：params=" + params);
+		
+		String token = convenienceCache.getMsjwToken();//民生警务平台提供的token
+		String url = convenienceCache.getGovnetUri() + "/govnetProvider/services/dataApply/insertData?token=" + token;
+		try {
+			String respStr = HttpRequest.sendPost(url, params, null, "application/json");
+			logger.info("【民生警务】民生警务-新增业务数据返回结果：" + respStr);
+			
+			json = JSONObject.parseObject(respStr);
+			
+		} catch (Exception e) {
+			logger.error("【民生警务】addVehicleInspectionBusiness接口异常，url="+url+",params="+params, e);
+			e.printStackTrace();
+		}
+		return json;
 	}
 }

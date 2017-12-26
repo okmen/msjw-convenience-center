@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.convenience.dao.mapper.MsjwVehicleInspectionMapper">
+
+	<resultMap type="cn.convenience.bean.MsjwVehicleInspectionVo" id="commonInfo">
+		<id property="id" column="id" />
+		<result property="tylsbh" column="tylsbh" />
+		<result property="applyman" column="applyman" />
+		<result property="eventname" column="eventname" />
+		<result property="showstatus" column="showstatus" />
+		<result property="insdate" column="insdate" />
+		<result property="lastupddate" column="lastupddate" />
+		<result property="liststatus" column="liststatus" />
+		<result property="openid" column="openid" />
+		<result property="applyingUrlWx" column="applyingUrlWx" />
+		<result property="jinduUrlWx" column="jinduUrlWx" />
+		<result property="showtype" column="showtype" />
+		<result property="source" column="source" />
+		<result property="identityId" column="identityId" />
+		<result property="platNumber" column="platNumber" />
+		<result property="approveState" column="approveState" />
+	</resultMap>
+	
+	<insert id="addMsjwVehicleInspection" parameterType="cn.convenience.bean.MsjwVehicleInspectionVo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO msjw_vehicle_inspection 
+			(id, 
+			tylsbh, 
+			applyman, 
+			eventname, 
+			showstatus, 
+			insdate, 
+			lastupddate, 
+			liststatus, 
+			openid, 
+			applyingUrlWx, 
+			jinduUrlWx, 
+			showtype, 
+			source, 
+			identityId, 
+			platNumber,
+			approveState
+			)
+		VALUES
+			(#{id}, 
+			#{tylsbh}, 
+			#{applyman}, 
+			#{eventname}, 
+			#{showstatus}, 
+			#{insdate}, 
+			#{lastupddate}, 
+			#{liststatus}, 
+			#{openid}, 
+			#{applyingUrlWx}, 
+			#{jinduUrlWx}, 
+			#{showtype}, 
+			#{source}, 
+			#{identityId}, 
+			#{platNumber},
+			#{approveState}
+			);
+	</insert>
+	
+	<sql id="sql4all">
+		id, 
+		tylsbh, 
+		applyman, 
+		eventname, 
+		showstatus, 
+		insdate, 
+		lastupddate, 
+		liststatus, 
+		openid, 
+		applyingUrlWx, 
+		jinduUrlWx, 
+		showtype, 
+		source, 
+		identityId, 
+		platNumber,
+		approveState
+	</sql>
+
+	<select id="selectMsjwVehicleInspectionStatusZero" resultMap="commonInfo">
+		SELECT 	
+			<include refid="sql4all"></include>
+		FROM 
+			msjw_vehicle_inspection
+		WHERE
+			approveState = '0'
+		<if test="page != null and pageSize != null">
+			LIMIT #{page},#{pageSize};
+		</if>
+	</select>
+	
+	<update id="updateMsjwVehicleInspection" parameterType="cn.convenience.bean.MsjwVehicleInspectionVo">
+		UPDATE msjw_vehicle_inspection 
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="showstatus != null and showstatus != ''">
+				showstatus = #{showstatus} , 
+			</if>
+			<if test="lastupddate != null and lastupddate != ''">
+				lastupddate = #{lastupddate} , 
+			</if>
+			<if test="liststatus != null and liststatus != ''">
+				liststatus = #{liststatus} , 
+			</if>
+			<if test="applyingUrlWx != null and applyingUrlWx != ''">
+				applyingUrlWx = #{applyingUrlWx} , 
+			</if>
+			<if test="jinduUrlWx != null and jinduUrlWx != ''">
+				jinduUrlWx = #{jinduUrlWx} , 
+			</if>
+			<if test="approveState != null and approveState != ''">
+				approveState = #{approveState}
+			</if>
+		</trim>
+		WHERE
+			tylsbh = #{tylsbh} and platNumber = #{platNumber};
+	</update>
+	
+	<delete id="deleteMsjwVehicleInspection" parameterType="String">
+		DELETE FROM msjw_vehicle_inspection 
+		WHERE
+			tylsbh = #{tylsbh} and platNumber = #{platNumber};
+	</delete>
+	
+</mapper>
