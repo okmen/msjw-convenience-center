@@ -266,7 +266,85 @@ public class IMsjwServiceImpl implements IMsjwService {
 		}
 		return json;
 	}
-
+	/**
+	 * 新增在办业务到民生警务平台
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONObject addCarMortgageBusiness(MsjwApplyingBusinessVo vo) throws Exception {
+		JSONObject json = new JSONObject();
+		if(vo != null){
+			//设置默认信息
+			vo.setInsdate(DateUtil2.date2str(new Date()));//新增时间
+			vo.setLastupddate(DateUtil2.date2str(new Date()));//修改时间
+			vo.setListstatus("02");//02-显示到在办业务，进度查询
+			vo.setSource("101");//101-微信端
+			vo.setShowstatus("待审");//状态说明
+			vo.setShowtype("1");//1-只在微信个人中心显示
+			
+			//先从缓存中获取用户信息
+			JSONObject obj = null;
+			String userInfo = convenienceCache.getMsjwUserInfo(vo.getOpenid());
+			if(userInfo != null){
+				obj = JSONObject.parseObject(userInfo);
+			}else{
+				//调msjw接口获取
+				obj = getUserInfoFromMsjw(vo.getOpenid());
+			}
+			
+			//获取用户信息，设置用户唯一标识
+			String code = obj.getString("code");
+			if("200".equals(code)){
+				JSONArray jsonArray = obj.getJSONArray("datas");
+				for(int i = 0; i < jsonArray.size(); i++){
+					JSONObject jsonObject = jsonArray.getJSONObject(i);
+					String loginType = jsonObject.getString("loginType");//个人用户信息(loginType=1)
+					if("1".equals(loginType)){
+						String useraccount = jsonObject.getString("useraccount");
+						vo.setApplyman(useraccount);
+						
+						//办理业务写入数据库
+						MsjwApplyingRecordVo msjwApplyingRecordVo = new MsjwApplyingRecordVo();
+						String identityId = jsonObject.getString("identityId");
+						BeanUtils.copyProperties(msjwApplyingRecordVo, vo);
+						msjwApplyingRecordVo.setStatus("待审");//0-待初审
+						msjwApplyingRecordVo.setIdentityId(identityId);
+						try {
+							msjwApplyingRecordDao.insertMsjwApplyingRecord(msjwApplyingRecordVo);
+						} catch (Exception e) {
+							logger.error("【民生警务】办理业务写入数据库异常：msjwApplyingRecordVo=" + msjwApplyingRecordVo);
+							e.printStackTrace();
+						}
+					}
+				}
+			}else{
+				json.put("code", code);
+				json.put("msg", obj.getString("message"));
+				return json;
+			}
+		}else{
+			json.put("code", MsgCode.paramsError);
+			json.put("msg", "MsjwHandleRecordVo不能为空！");
+			return json;
+		}
+		String params = JSON.toJSONString(vo);
+		logger.info("【民生警务】民生警务-新增业务数据，内容参数：params=" + params);
+		
+		String token = convenienceCache.getMsjwToken();//民生警务平台提供的token
+		String url = convenienceCache.getGovnetUri() + "/govnetProvider/services/dataApply/insertData?token=" + token;
+		try {
+			String respStr = HttpRequest.sendPost(url, params, null, "application/json");
+			logger.info("【民生警务】民生警务-新增业务数据返回结果：" + respStr);
+			
+			json = JSONObject.parseObject(respStr);
+			
+		} catch (Exception e) {
+			logger.error("【民生警务】addApplyingBusiness接口异常，url="+url+",params="+params, e);
+			e.printStackTrace();
+		}
+		return json;
+	}
 	/**
 	 * 新增在办业务到民生警务平台
 	 * @param vo
