@@ -8,10 +8,14 @@
     <result column="count" jdbcType="INTEGER" property="count" />
   </resultMap>
 
-  <update id="updateById" >
-    update szjj_vote
-    set count = count + 1
-    where id = #{id}
+  <update id="updateById" parameterType="java.util.List">
+             update szjj_vote
+    		 set count = count + 1
+   			 where id in 
+  	<foreach collection="list" item="id" index="index"
+            open="(" close=")" separator=",">
+   			 #{id}
+    </foreach>
   </update>
 
    <select id="getAllVote" resultMap="BaseResultMap">

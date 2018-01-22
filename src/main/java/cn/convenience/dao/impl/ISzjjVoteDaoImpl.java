@@ -1,5 +1,6 @@
 package cn.convenience.dao.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,9 @@ public class ISzjjVoteDaoImpl implements ISzjjVoteDao{
 	private SzjjVoteMapper szjjVoteMapper;
 	
 	@Override
-	public int updateById(int id) throws Exception {
-		return szjjVoteMapper.updateById(id);
+	public int updateById(String [] voteIds) throws Exception {
+		List<String> asList = Arrays.asList(voteIds);
+		return szjjVoteMapper.updateById(asList);
 	}
 
 	@Override

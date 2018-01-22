@@ -6,7 +6,7 @@ import cn.convenience.bean.SzjjVote;
 
 public interface SzjjVoteMapper {
 
-    int updateById(int id) throws Exception;
+    int updateById(List<String> voteIds) throws Exception;
     
     List<SzjjVote> getAllVote() throws Exception;
 }

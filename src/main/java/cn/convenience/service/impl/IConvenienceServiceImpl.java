@@ -634,14 +634,15 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	}
 	@Override
 	public int updateBySzjjId(String [] voteIds) throws Exception {
-		int result = 1;
+	/*	int result = 1;
 		for (String id : voteIds) {
 			int updateById = szjjVoteDao.updateById(Integer.parseInt(id));
 			if (!(updateById > 0)) {
 				result = 0;
 			}
 		}
-		return result;
+		return result;*/
+		return szjjVoteDao.updateById(voteIds);
 	}
 	@Override
 	public List<SzjjVote> getAllVote() throws Exception {
