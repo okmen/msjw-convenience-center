@@ -20,6 +20,8 @@ import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.MsjwApplyingBusinessVo;
 import cn.convenience.bean.MsjwApplyingRecordVo;
+import cn.convenience.bean.SzjjVote;
+import cn.convenience.bean.SzjjVoteRecord;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.Constants;
@@ -37,6 +39,30 @@ public class TestConvenienceService {
 	@Qualifier("msjwService")
 	private IMsjwService msjwService;
 	
+	
+	@Test
+	public void testGetAllSzjjVote() throws Exception{
+		List<SzjjVote> allVote = convenienceService.getAllVote();
+		System.out.println(allVote);
+	}
+	
+	@Test
+	public void testSzjjVote() throws Exception{
+		String[] ids = {"1","3","20"};
+		int updateBySzjjId = convenienceService.updateBySzjjId(ids);
+		System.out.println(updateBySzjjId);
+	}
+	
+	@Test
+	public void testaddrecord() throws Exception{
+		SzjjVoteRecord sv = new SzjjVoteRecord();
+		sv.setIp("123");
+		sv.setOpenId("123");
+		sv.setVoteDate(new Date());
+		sv.setVoteId("1,2,3");
+		int addSzjjVoteRecord = convenienceService.addSzjjVoteRecord(sv);
+		System.err.println(addSzjjVoteRecord);
+	}
 	@Test
 	public void testapplying()throws Exception{
 		String ZHCLZT = "1";

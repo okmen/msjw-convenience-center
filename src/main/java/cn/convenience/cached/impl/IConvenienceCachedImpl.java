@@ -428,6 +428,9 @@ public class IConvenienceCachedImpl implements IConvenienceCached{
 	public boolean exists(String key) {
 		return objectcacheManger.exists(key);
 	}
+	public Object get(String key) {
+		return objectcacheManger.get(key);
+	}
     public Object getFront15(){
     	return objectcacheManger.get(RANK15_VOTE_LIST_KEY);
     }

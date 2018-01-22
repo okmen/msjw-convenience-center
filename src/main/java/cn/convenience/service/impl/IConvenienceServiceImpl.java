@@ -24,12 +24,16 @@ import cn.convenience.bean.MsjwInfo;
 import cn.convenience.bean.MsjwInfo.AuthenticationBasicInformation;
 import cn.convenience.bean.MsjwInfo.DriverLicenceInfo;
 import cn.convenience.bean.MsjwInfo.VehicleInfo;
+import cn.convenience.bean.SzjjVote;
+import cn.convenience.bean.SzjjVoteRecord;
 import cn.convenience.bean.UserInfoBean;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
 import cn.convenience.dao.IActivityVoteDao;
 import cn.convenience.dao.IActivityVoteRecordDao;
 import cn.convenience.dao.IConvenienceDao;
+import cn.convenience.dao.ISzjjVoteDao;
+import cn.convenience.dao.ISzjjVoteRecordDao;
 import cn.convenience.service.IConvenienceService;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.Constants;
@@ -50,6 +54,11 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	@Autowired
 	private IActivityVoteRecordDao activityVoteRecordDao;
 
+	@Autowired
+	private ISzjjVoteDao szjjVoteDao;
+	@Autowired
+	private ISzjjVoteRecordDao szjjVoteRecordDao;
+	
 	@Autowired
 	private IConvenienceCachedImpl convenienceCache;
 	
@@ -622,6 +631,39 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 	@Override
 	public Object getFront15() {
 		return convenienceCache.getFront15();
+	}
+	@Override
+	public int updateBySzjjId(String [] voteIds) throws Exception {
+		int result = 1;
+		for (String id : voteIds) {
+			int updateById = szjjVoteDao.updateById(Integer.parseInt(id));
+			if (!(updateById > 0)) {
+				result = 0;
+			}
+		}
+		return result;
+	}
+	@Override
+	public List<SzjjVote> getAllVote() throws Exception {
+		return szjjVoteDao.getAllVote();
+	}
+	@Override
+	public int addSzjjVoteRecord(SzjjVoteRecord record) throws Exception {
+		return szjjVoteRecordDao.addSzjjVoteRecord(record);
+	}
+	@Override
+	public void setSzjjVoteKey(String key, int voteCount,int seconds) throws Exception {
+		convenienceCache.setKey(key, voteCount);
+		convenienceCache.expire(key, seconds);
+		
+	}
+	@Override
+	public boolean existsSzjjVoteKey(String key) {
+		return convenienceCache.exists(key);
+	}
+	@Override
+	public int getSzjjVote(String key) {
+		return (int) convenienceCache.get(key);
 	}
 
 }
