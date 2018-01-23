@@ -21,7 +21,7 @@
    <select id="getAllVote" resultMap="BaseResultMap">
          select *
   		 from szjj_vote
- 		 ORDER BY count DESC
+ 		 ORDER BY id
   </select>
 
 </mapper>

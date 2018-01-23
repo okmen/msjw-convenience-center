@@ -1,6 +1,8 @@
 package cn.convenience.service;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Assert;
@@ -26,6 +28,7 @@ import cn.convenience.bean.WechatUserInfoBean;
 import cn.sdk.bean.BaseBean;
 import cn.sdk.util.Constants;
 import cn.sdk.util.DateUtil2;
+import cn.sdk.util.HttpClientUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:junit-test.xml" })
@@ -44,6 +47,10 @@ public class TestConvenienceService {
 	public void testGetAllSzjjVote() throws Exception{
 		List<SzjjVote> allVote = convenienceService.getAllVote();
 		System.out.println(allVote);
+	/*	Map<String, String> map = new HashMap<>();
+		map.put("openId", "213");
+		String post = HttpClientUtil.post("http://gzh.stc.gov.cn/api/wechat/setAuthOpenid.html", map, null);
+		System.out.println(post);*/
 	}
 	
 	@Test
