@@ -408,7 +408,7 @@ public class IConvenienceServiceImpl implements IConvenienceService {
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第二期办理情况通报（2017年2月3日至2017年2月13日）","http://szjj.u-road.com/szjjpro/assets/doc/20170203-20170213.doc"));
 			list.add(new FeedbackResultBean("深圳交警民意云2017年第一期办理情况通报（2017年1月13日至2017年2月5日）","http://szjj.u-road.com/szjjpro/assets/doc/20170113-20170205.docx"));
 			
-			logger.info("【民意云】办理情况通报信息采集结果:"+JSON.toJSONString(list));
+			//logger.info("【民意云】办理情况通报信息采集结果:"+JSON.toJSONString(list));
 		} catch (Exception e) {
 			logger.error("【民意云】办理请款通报信息采集失败！",e);
 			throw e;
