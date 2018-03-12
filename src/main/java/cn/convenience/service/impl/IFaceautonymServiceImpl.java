@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import cn.convenience.bean.SzjjToken;
 import cn.convenience.cached.impl.IConvenienceCachedImpl;
+import cn.convenience.dao.ISzjjTokenDao;
 import cn.convenience.service.IFaceautonymService;
 import cn.convenience.utils.AES;
 import cn.convenience.utils.HttpRequest;
@@ -33,7 +35,8 @@ private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IConvenienceCachedImpl convenienceCache;
 	
-	
+	@Autowired
+	private ISzjjTokenDao szjjTokenDao;
 	/**
 	 * 获取用户信息
 	 * @throws Exception 
@@ -65,6 +68,18 @@ private final Logger logger = LoggerFactory.getLogger(getClass());
 			 baen.setData(json);
 		}
 		return baen;
+	}
+
+
+	@Override
+	public int insertSzjjToken(SzjjToken szjjToken) throws Exception {
+		return szjjTokenDao.insert(szjjToken);
+	}
+
+
+	@Override
+	public SzjjToken querySzjjToken(String identityCard) throws Exception {
+		return szjjTokenDao.selectByIdentityCard(identityCard);
 	}
 
 }

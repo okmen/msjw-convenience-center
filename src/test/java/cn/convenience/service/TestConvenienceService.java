@@ -22,10 +22,12 @@ import cn.convenience.bean.ApplyForPAGoodCarOwners;
 import cn.convenience.bean.ConvenienceBean;
 import cn.convenience.bean.MsjwApplyingBusinessVo;
 import cn.convenience.bean.MsjwApplyingRecordVo;
+import cn.convenience.bean.SzjjToken;
 import cn.convenience.bean.SzjjVote;
 import cn.convenience.bean.SzjjVoteRecord;
 import cn.convenience.bean.WechatUserInfoBean;
 import cn.sdk.bean.BaseBean;
+import cn.sdk.exception.DaoException;
 import cn.sdk.util.Constants;
 import cn.sdk.util.DateUtil2;
 import cn.sdk.util.HttpClientUtil;
@@ -42,11 +44,36 @@ public class TestConvenienceService {
 	@Qualifier("msjwService")
 	private IMsjwService msjwService;
 	
+	@Autowired
+	@Qualifier("faceautonymService")
+	private IFaceautonymService faceautonymService;
 	
+	@Test
+	public void testinsertToken() throws Exception{
+		SzjjToken st = new SzjjToken();
+		st.setIdentityCard("2134");
+		st.setName("八小戒");
+		st.setToken("2134");
+		st.setOpenId("123");
+		st.setPhone("123456");
+		st.setCreateTime(new Date());
+		st.setSource("C");
+		int result = faceautonymService.insertSzjjToken(st);
+		System.out.println(result);
+	};
+	
+	@Test
+	public void testgetToken() throws Exception{
+		SzjjToken querySzjjToken = faceautonymService.querySzjjToken("2134");
+		System.out.println(querySzjjToken.toString());
+	}
+
 	@Test
 	public void testGetAllSzjjVote() throws Exception{
 		List<SzjjVote> allVote = convenienceService.getAllVote();
-		System.out.println(allVote);
+		for (SzjjVote szjjVote : allVote) {
+			System.out.println(szjjVote.getId()+"--------"+szjjVote.getName());
+		}
 	/*	Map<String, String> map = new HashMap<>();
 		map.put("openId", "213");
 		String post = HttpClientUtil.post("http://gzh.stc.gov.cn/api/wechat/setAuthOpenid.html", map, null);
